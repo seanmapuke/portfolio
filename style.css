@@ -1,3 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #f7f4ef;
+  font-family: 'IBM Plex Sans', sans-serif;
+  min-height: 100vh;
+}
+
 /* Nav */
 nav {
   display: flex;
@@ -37,7 +49,64 @@ nav {
   opacity: 1;
 }
 
-/* Page */
+/* Hero */
+.hero {
+  height: calc(100vh - 97px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.static {
+  font-size: 64px;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: -6px;
+  -webkit-text-stroke: 1.5px #111;
+}
+
+.title-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.ghost {
+  font-size: 64px;
+  font-weight: 700;
+  color: transparent;
+  white-space: nowrap;
+  visibility: hidden;
+  text-transform: uppercase;
+  letter-spacing: -6px;
+  -webkit-text-stroke: 1.5px #111;
+}
+
+#title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  text-align: center;
+  font-size: 64px;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: -6px;
+  -webkit-text-stroke: 1.5px #111;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Pages */
 .page-content {
   padding: 48px;
 }
