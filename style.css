@@ -1,48 +1,52 @@
-/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Page layout */
 body {
   background: #f7f4ef;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   height: 100vh;
-  margin: 0;
-
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
-/* THIS is the key */
-.hero {
-  width: fit-content;   /* shrink to content */
+.hero-inner {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
 }
 
-/* Keep text left-aligned */
-h1 {
-  font-size: center;
+.static {
+  font-size: 64px;
   font-weight: 500;
-  line-height: 1.2;
   color: #111;
-
   white-space: nowrap;
-  text-align: left;
 }
 
-/* Your locked animation box */
-#title {
+.title-wrapper {
+  position: relative;
   display: inline-block;
-  width: 22ch;
-  font-weight: 700;
-  white-space: nowrap;
-
-  transition: opacity 0.3s ease, transform 0.3s ease;
 }
-/* Optional subtle polish */
-h1 span {
-  letter-spacing: -0.5px;
+
+.ghost {
+  font-size: 64px;
+  font-weight: 700;
+  color: transparent;
+  white-space: nowrap;
+  visibility: hidden;
+}
+
+#title {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 64px;
+  font-weight: 700;
+  color: #111;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
