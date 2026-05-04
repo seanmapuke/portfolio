@@ -9,14 +9,20 @@
 body {
   background: #f7f4ef;
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-
   height: 100vh;
+  margin: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* Main heading */
+/* THIS is the key */
+.hero {
+  width: fit-content;   /* shrink to content */
+}
+
+/* Keep text left-aligned */
 h1 {
   font-size: clamp(20px, 5vw, 64px);
   font-weight: 500;
@@ -27,8 +33,7 @@ h1 {
   text-align: left;
 }
 
-
-/* Animated word */
+/* Your locked animation box */
 #title {
   display: inline-block;
   width: 22ch;
@@ -37,7 +42,6 @@ h1 {
 
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
-
 /* Optional subtle polish */
 h1 span {
   letter-spacing: -0.5px;
