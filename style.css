@@ -1,29 +1,40 @@
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Page layout */
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #ffffff;
-  color: #111;
-}
+  background: #f7f4ef;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 
-.container {
   height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+/* Main heading */
 h1 {
-  font-size: 3rem;
-  font-weight: 600;
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 500;
+  line-height: 1.2;
+  color: #111;
+  text-align: center;
+  max-width: 900px;
 }
 
-p {
-  margin-top: 0.5rem;
-  color: #666;
+/* Animated word */
+#title {
+  font-weight: 700;
+  display: inline-block;
+
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Optional subtle polish */
+h1 span {
+  letter-spacing: -0.5px;
 }
