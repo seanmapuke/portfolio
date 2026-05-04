@@ -24,7 +24,7 @@ body {
 
 /* Keep text left-aligned */
 h1 {
-  font-size: clamp(20px, 5vw, 64px);
+  font-size: center;
   font-weight: 500;
   line-height: 1.2;
   color: #111;
