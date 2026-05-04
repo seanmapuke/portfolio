@@ -28,11 +28,11 @@ h1 {
 
 /* Animated word */
 #title {
-  font-weight: 700;
   display: inline-block;
-  min-width: 520px;
-  text-align: left;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  width: 20ch;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 /* Optional subtle polish */
