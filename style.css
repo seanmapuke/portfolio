@@ -4,10 +4,13 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
 body {
-  background: #f7f4ef;
   font-family: 'IBM Plex Sans', sans-serif;
-  min-height: 100vh;
 }
 
 /* Nav */
@@ -15,11 +18,16 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 48px;
+  padding: 24px 48px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
 }
 
 .nav-logo {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: #111;
   text-decoration: none;
@@ -30,11 +38,11 @@ nav {
 
 .nav-links {
   display: flex;
-  gap: 32px;
+  gap: 28px;
 }
 
 .nav-links a {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: #111;
   text-decoration: none;
@@ -44,19 +52,36 @@ nav {
   transition: opacity 0.2s;
 }
 
-.nav-links a:hover,
-.nav-links a.active {
+.nav-links a:hover {
   opacity: 1;
 }
 
-/* Hero */
-.hero {
-  height: calc(100vh - 97px);
+/* Sections */
+.section {
+  height: 100vh;
+  scroll-snap-align: start;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  padding: 48px;
 }
 
+.section-home {
+  background: #f7f4ef;
+}
+
+.section-dark {
+  background: #111;
+  align-items: flex-start;
+}
+
+.section-mid {
+  background: #1a1a1a;
+  align-items: flex-start;
+}
+
+/* Hero */
 .hero-inner {
   display: flex;
   flex-direction: column;
@@ -65,7 +90,7 @@ nav {
 }
 
 .static {
-  font-size: 64px;
+  font-size: 72px;
   font-weight: 700;
   color: #111;
   white-space: nowrap;
@@ -80,14 +105,13 @@ nav {
 }
 
 .ghost {
-  font-size: 64px;
+  font-size: 72px;
   font-weight: 700;
   color: transparent;
   white-space: nowrap;
   visibility: hidden;
   text-transform: uppercase;
   letter-spacing: -6px;
-  -webkit-text-stroke: 1.5px #111;
 }
 
 #title {
@@ -96,7 +120,7 @@ nav {
   top: 0;
   right: 0;
   text-align: center;
-  font-size: 64px;
+  font-size: 72px;
   font-weight: 700;
   color: #111;
   white-space: nowrap;
@@ -106,54 +130,51 @@ nav {
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Pages */
-.page-content {
-  padding: 48px;
-}
-
+/* Page heading (projects + contact) */
 .page-heading {
-  font-size: 80px;
+  font-size: 72px;
   font-weight: 700;
-  color: #111;
+  color: #fff;
   text-transform: uppercase;
   letter-spacing: -6px;
-  -webkit-text-stroke: 1.5px #111;
+  -webkit-text-stroke: 1.5px #fff;
   line-height: 1;
+  margin-bottom: 32px;
 }
 
 /* Projects */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2px;
-  margin-top: 48px;
+  width: 100%;
 }
 
 .project-card {
-  background: #111;
+  background: #2a2a2a;
   aspect-ratio: 4/3;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 24px;
+  padding: 16px;
   cursor: pointer;
   transition: opacity 0.2s;
 }
 
-.project-card:hover { opacity: 0.85; }
-.project-card:nth-child(even) { background: #2a2a2a; }
+.project-card:hover { opacity: 0.75; }
+.project-card:nth-child(odd) { background: #222; }
 
 .project-tag {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.35);
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 .project-title {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
   color: #fff;
   text-transform: uppercase;
@@ -163,9 +184,9 @@ nav {
 }
 
 .project-year {
-  font-size: 11px;
-  color: rgba(255,255,255,0.3);
-  margin-top: 8px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  margin-top: 4px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -173,30 +194,30 @@ nav {
 /* Contact */
 .contact-wrap {
   max-width: 600px;
-  margin-top: 64px;
+  width: 100%;
 }
 
 .contact-item {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 28px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .contact-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  color: #999;
+  color: rgba(255,255,255,0.35);
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
 .contact-value {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
-  color: #111;
+  color: #fff;
   text-transform: uppercase;
   letter-spacing: -2px;
-  -webkit-text-stroke: 0.5px #111;
+  -webkit-text-stroke: 0.5px #fff;
 }
