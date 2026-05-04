@@ -221,3 +221,14 @@ nav {
   letter-spacing: -2px;
   -webkit-text-stroke: 0.5px #fff;
 }
+
+.contact-value a,
+a.contact-value {
+  text-decoration: none;
+  color: #fff;
+  transition: opacity 0.2s;
+}
+
+a.contact-value:hover {
+  opacity: 0.5;
+}
