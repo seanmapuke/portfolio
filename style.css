@@ -18,19 +18,20 @@ body {
 
 /* Main heading */
 h1 {
-  font-size: clamp(20px, 5vw, 64px); /* scales down on small screens */
+  font-size: clamp(20px, 5vw, 64px);
   font-weight: 500;
   line-height: 1.2;
   color: #111;
-  text-align: center;
 
-  white-space: nowrap;     /* forces one line */
-  overflow: hidden;        /* prevents overflow */
+  white-space: nowrap;
+  text-align: left;
 }
+
 
 /* Animated word */
 #title {
   display: inline-block;
+  width: 22ch;
   font-weight: 700;
   white-space: nowrap;
 
