@@ -11,79 +11,57 @@ html {
 
 body {
   font-family: 'IBM Plex Sans', sans-serif;
-  background: #c8cdd6;
+  background: #e0e2e6;
   overflow-x: hidden;
 }
 
 /* ─────────────────────────────────────────
-   GRADIENT — scroll-reactive, whole site
+   GRADIENT — studio backdrop radial
 ───────────────────────────────────────── */
 .gradient-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-image:
-    linear-gradient(135deg,
-      #a8adb8 0%,
-      #adb2bc 5%,
-      #b2b7c2 10%,
-      #b8bdc8 15%,
-      #bdc2cd 20%,
-      #c2c7d2 25%,
-      #c8cdd6 30%,
-      #cdd2da 35%,
-      #d2d6de 40%,
-      #d8dce4 45%,
-      #dde0e6 50%,
-      #d8dce4 55%,
-      #d2d6de 60%,
-      #cdd2da 65%,
-      #c8cdd6 70%,
-      #c2c7d2 75%,
-      #bcc1cc 80%,
-      #b8bcc6 85%,
-      #b4b9c4 90%,
-      #b0b5c0 95%,
-      #a8adb8 100%
-    );
-  background-size: 300% 300%;
-  background-position: 0% 0%;
+  background: radial-gradient(ellipse 80% 80% at 50% 40%,
+    #f0f0f0 0%,
+    #e0e2e6 30%,
+    #c8cad0 60%,
+    #b0b4bc 80%,
+    #9ca0a8 100%
+  );
   pointer-events: none;
-  transition: background-position 0.08s linear;
-  image-rendering: auto;
 }
 
-/* grain layer — eliminates gradient banding on all screens */
 .gradient-bg::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
   pointer-events: none;
-  opacity: 1;
-  mix-blend-mode: overlay;
+  opacity: 0.25;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
 }
+
 
 .edge-l {
   position: fixed; inset: 0;
-  background: linear-gradient(90deg, rgba(80,90,110,0.38) 0%, transparent 40%);
+  background: linear-gradient(90deg, rgba(60,65,75,0.28) 0%, transparent 45%);
   pointer-events: none; z-index: 0;
 }
 .edge-r {
   position: fixed; inset: 0;
-  background: linear-gradient(270deg, rgba(80,90,110,0.38) 0%, transparent 40%);
+  background: linear-gradient(270deg, rgba(60,65,75,0.28) 0%, transparent 45%);
   pointer-events: none; z-index: 0;
 }
 .edge-t {
   position: fixed; inset: 0;
-  background: linear-gradient(180deg, rgba(60,70,90,0.45) 0%, transparent 22%);
+  background: linear-gradient(180deg, rgba(50,55,65,0.22) 0%, transparent 25%);
   pointer-events: none; z-index: 0;
 }
 .edge-b {
   position: fixed; inset: 0;
-  background: linear-gradient(0deg, rgba(60,70,90,0.48) 0%, transparent 28%);
+  background: linear-gradient(0deg, rgba(50,55,65,0.25) 0%, transparent 30%);
   pointer-events: none; z-index: 0;
 }
 
@@ -117,10 +95,10 @@ section {
 .s-static {
   font-size: 80px;
   font-weight: 700;
-  color: #1c2030;
+  color: #000;
   text-transform: uppercase;
   letter-spacing: -6px;
-  -webkit-text-stroke: 1.5px #1c2030;
+  -webkit-text-stroke: 1.5px #000;
   line-height: 1;
 }
 
@@ -143,10 +121,10 @@ section {
   text-align: center;
   font-size: 80px;
   font-weight: 700;
-  color: #1c2030;
+  color: #000;
   text-transform: uppercase;
   letter-spacing: -6px;
-  -webkit-text-stroke: 1.5px #1c2030;
+  -webkit-text-stroke: 1.5px #000;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
@@ -232,7 +210,7 @@ section {
 .ptag {
   font-size: 9px;
   font-weight: 700;
-  color: rgba(28,32,48,0.4);
+  color: rgba(0,0,0,0.4);
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 3px;
@@ -241,28 +219,31 @@ section {
 .ptitle {
   font-size: 18px;
   font-weight: 700;
-  color: #1c2030;
+  color: #000;
   text-transform: uppercase;
   letter-spacing: -1px;
-  -webkit-text-stroke: 0.5px #1c2030;
+  -webkit-text-stroke: 0.5px #000;
   line-height: 1.1;
 }
 
 .pyear {
   font-size: 9px;
-  color: rgba(28,32,48,0.3);
+  color: rgba(0,0,0,0.3);
   margin-top: 3px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
-/* arch */
+/* arch — absolutely centered in stage */
 .arch-col {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  position: relative;
   z-index: 2;
 }
 
@@ -299,7 +280,7 @@ section {
 .arch-label {
   font-size: 9px;
   font-weight: 700;
-  color: rgba(28,32,48,0.35);
+  color: rgba(0,0,0,0.35);
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -319,20 +300,20 @@ section {
 
 .contact-eyebrow {
   font-size: 10px;
-  font-weight: 700;
-  color: rgba(28,32,48,0.35);
-  text-transform: uppercase;
-  letter-spacing: 4px;
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(0,0,0,0.35);
+  letter-spacing: 1px;
   text-align: center;
 }
 
 .contact-headline {
   font-size: 80px;
   font-weight: 700;
-  color: #1c2030;
+  color: #000;
   text-transform: uppercase;
   letter-spacing: -6px;
-  -webkit-text-stroke: 1.5px #1c2030;
+  -webkit-text-stroke: 1.5px #000;
   line-height: 0.92;
   text-align: center;
 }
@@ -351,7 +332,7 @@ section {
   align-items: baseline;
   width: 100%;
   padding: 16px 0;
-  border-bottom: 0.5px solid rgba(28,32,48,0.1);
+  border-bottom: 0.5px solid rgba(0,0,0,0.1);
   text-decoration: none;
   transition: opacity 0.2s;
 }
@@ -359,20 +340,20 @@ section {
 a.contact-row:hover { opacity: 0.45; }
 
 .contact-row-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: rgba(28,32,48,0.35);
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  font-size: 8px;
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(0,0,0,0.4);
+  letter-spacing: 0.5px;
 }
 
 .contact-row-value {
   font-size: 14px;
   font-weight: 700;
-  color: #1c2030;
+  color: #000;
   text-transform: uppercase;
   letter-spacing: -0.5px;
-  -webkit-text-stroke: 0.3px #1c2030;
+  -webkit-text-stroke: 0.3px #000;
 }
 
 .contact-location {
@@ -381,7 +362,7 @@ a.contact-row:hover { opacity: 0.45; }
   gap: 6px;
   font-size: 10px;
   font-weight: 700;
-  color: rgba(28,32,48,0.3);
+  color: rgba(0,0,0,0.3);
   text-transform: uppercase;
   letter-spacing: 2px;
 }

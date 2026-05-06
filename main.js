@@ -1,14 +1,3 @@
-// ── Scroll-reactive gradient
-const gradientBg = document.getElementById("gradient-bg");
-
-window.addEventListener("scroll", () => {
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  const p = max > 0 ? window.scrollY / max : 0;
-  const x = p * 100;
-  const y = p * 100;
-  gradientBg.style.backgroundPosition = `${x}% ${y}%`;
-}, { passive: true });
-
 // ── Rotating hero title
 const titles = ["Sean", "a designer", "a developer", "a creative", "a human"];
 let index = 0;
@@ -25,23 +14,18 @@ setInterval(() => {
   }, 300);
 }, 1800);
 
-// ── Project hover — updates label + triggers video look-around
-const items = document.querySelectorAll(".proj-item");
+// ── Project hover
+const items = document.querySelectorAll(".credit");
 const label = document.getElementById("arch-label");
 // const video = document.getElementById("sean-video");
-
-// Timestamps (seconds) for each project's video look direction
 const videoTimestamps = [0, 3, 6, 9];
 
 items.forEach(item => {
   item.addEventListener("mouseenter", () => {
     items.forEach(i => i.classList.remove("active"));
     item.classList.add("active");
-
     const idx = parseInt(item.dataset.index);
-    label.textContent = item.querySelector(".ptitle").textContent;
-
-    // Uncomment when video is ready:
+    label.textContent = item.querySelector(".credit-name").textContent;
     // if (video) video.currentTime = videoTimestamps[idx];
   });
 });
