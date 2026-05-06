@@ -265,7 +265,7 @@ section {
 .contact-eyebrow {
   font-size: 10px;
   font-weight: 400;
-  font-style: italic;
+  font-style: none;
   color: rgba(0,0,0,0.35);
   letter-spacing: 1px;
 }
@@ -303,7 +303,7 @@ section {
 .crow-label {
   font-size: 8px;
   font-weight: 400;
-  font-style: italic;
+  font-style: none;
   color: rgba(0,0,0,0.4);
   letter-spacing: 0.5px;
 }
@@ -322,7 +322,7 @@ section {
   gap: 7px;
   font-size: 9px;
   font-weight: 400;
-  font-style: italic;
+  font-style: none;
   color: rgba(0,0,0,0.3);
   letter-spacing: 0.5px;
 }
