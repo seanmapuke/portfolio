@@ -15,17 +15,16 @@ setInterval(() => {
 }, 1800);
 
 // ── Project hover
-const items = document.querySelectorAll(".credit");
-const label = document.getElementById("arch-label");
+const credits = document.querySelectorAll(".credit");
+const archLabel = document.getElementById("arch-label");
 // const video = document.getElementById("sean-video");
-const videoTimestamps = [0, 3, 6, 9];
+const timestamps = [0, 3, 6, 9, 12, 15, 18, 21];
 
-items.forEach(item => {
+credits.forEach(item => {
   item.addEventListener("mouseenter", () => {
-    items.forEach(i => i.classList.remove("active"));
+    credits.forEach(c => c.classList.remove("active"));
     item.classList.add("active");
-    const idx = parseInt(item.dataset.index);
-    label.textContent = item.querySelector(".credit-name").textContent;
-    // if (video) video.currentTime = videoTimestamps[idx];
+    archLabel.textContent = item.querySelector(".cname").textContent;
+    // if (video) video.currentTime = timestamps[parseInt(item.dataset.index)];
   });
 });

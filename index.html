@@ -5,18 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sean</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Fixed gradient — scroll-reactive -->
   <div class="gradient-bg" id="gradient-bg"></div>
   <div class="edge-l"></div>
   <div class="edge-r"></div>
   <div class="edge-t"></div>
   <div class="edge-b"></div>
 
-  <!-- ── HERO ── -->
+  <!-- HERO -->
   <section class="s-hero">
     <div class="hero-inner">
       <span class="s-static">Hi, I'm</span>
@@ -27,76 +26,88 @@
     </div>
   </section>
 
-  <!-- ── PROJECTS ── -->
+  <!-- PROJECTS -->
   <section class="s-projects">
-    <div class="proj-stage">
-      <div class="spotlight-radial"></div>
+    <div class="spotlight"></div>
+    <div class="stage">
 
-      <!-- LEFT -->
-      <div class="proj-col proj-col-left">
-        <div class="proj-item active" data-index="0">
-          <div class="ptag">Web Design</div>
-          <div class="ptitle">Project One</div>
-          <div class="pyear">2024</div>
-        </div>
-        <div class="proj-item" data-index="1">
-          <div class="ptag">Development</div>
-          <div class="ptitle">Project Two</div>
-          <div class="pyear">2024</div>
-        </div>
+      <div class="credit c1 active" data-index="0">
+        <span class="clabel">Web Design</span>
+        <span class="cname">Project One</span>
+        <span class="cyear">2024</span>
+      </div>
+      <div class="credit c2" data-index="1">
+        <span class="clabel">Development</span>
+        <span class="cname">Project Two</span>
+        <span class="cyear">2024</span>
+      </div>
+      <div class="credit c3" data-index="2">
+        <span class="clabel">Branding</span>
+        <span class="cname">Project Three</span>
+        <span class="cyear">2023</span>
+      </div>
+      <div class="credit c4" data-index="3">
+        <span class="clabel">Creative</span>
+        <span class="cname">Project Four</span>
+        <span class="cyear">2023</span>
+      </div>
+      <div class="credit c5" data-index="4">
+        <span class="clabel">Motion</span>
+        <span class="cname">Project Five</span>
+        <span class="cyear">2023</span>
+      </div>
+      <div class="credit c6" data-index="5">
+        <span class="clabel">Strategy</span>
+        <span class="cname">Project Six</span>
+        <span class="cyear">2022</span>
+      </div>
+      <div class="credit c7" data-index="6">
+        <span class="clabel">Research</span>
+        <span class="cname">Project Seven</span>
+        <span class="cyear">2022</span>
+      </div>
+      <div class="credit c8" data-index="7">
+        <span class="clabel">Visual</span>
+        <span class="cname">Project Eight</span>
+        <span class="cyear">2022</span>
       </div>
 
-      <!-- CENTER arch -->
       <div class="arch-col">
         <div class="arch">
-          <!-- Replace with: <video src="sean.mp4" autoplay muted playsinline id="sean-video"></video> -->
+          <!-- swap for: <video src="sean.mp4" id="sean-video" autoplay muted playsinline></video> -->
           <div class="arch-placeholder">
-            <svg width="22" height="22" fill="none" stroke="#9aa0ad" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15 10l4.553-2.277A1 1 0 0121 8.723v6.554a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+            <svg width="20" height="20" fill="none" stroke="#aaa" stroke-width="1.5" viewBox="0 0 24 24">
+              <path d="M15 10l4.553-2.277A1 1 0 0121 8.723v6.554a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
+            </svg>
             <span>your video</span>
           </div>
         </div>
         <span class="arch-label" id="arch-label">Project One</span>
       </div>
 
-      <!-- RIGHT -->
-      <div class="proj-col proj-col-right">
-        <div class="proj-item" data-index="2">
-          <div class="ptag">Branding</div>
-          <div class="ptitle">Project Three</div>
-          <div class="pyear">2023</div>
-        </div>
-        <div class="proj-item" data-index="3">
-          <div class="ptag">Creative</div>
-          <div class="ptitle">Project Four</div>
-          <div class="pyear">2023</div>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- ── CONTACT ── -->
+  <!-- CONTACT -->
   <section class="s-contact">
-    <div class="contact-eyebrow">Let's talk</div>
-
-    <div class="contact-headline">Get<br>in touch</div>
-
+    <p class="contact-eyebrow">Let's talk</p>
+    <h2 class="contact-headline">Get<br>in touch</h2>
     <div class="contact-links">
       <a class="contact-row" href="mailto:seanmapuke1@gmail.com">
-        <span class="contact-row-label">Email</span>
-        <span class="contact-row-value">seanmapuke1@gmail.com</span>
+        <span class="crow-label">Email</span>
+        <span class="crow-value">seanmapuke1@gmail.com</span>
       </a>
       <a class="contact-row" href="https://github.com/seanmapuke" target="_blank">
-        <span class="contact-row-label">GitHub</span>
-        <span class="contact-row-value">seanmapuke</span>
+        <span class="crow-label">GitHub</span>
+        <span class="crow-value">seanmapuke</span>
       </a>
       <a class="contact-row" href="https://linkedin.com/in/seanmapuke" target="_blank">
-        <span class="contact-row-label">LinkedIn</span>
-        <span class="contact-row-value">in/seanmapuke</span>
+        <span class="crow-label">LinkedIn</span>
+        <span class="crow-value">in/seanmapuke</span>
       </a>
     </div>
-
-    <div class="contact-location">
-      <div class="location-dot"></div>
+    <div class="contact-loc">
+      <div class="loc-dot"></div>
       Dallas, TX
     </div>
   </section>
