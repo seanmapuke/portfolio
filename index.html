@@ -11,10 +11,8 @@
 </head>
 <body>
 
-  <!-- Custom cursor -->
   <div id="cursor"></div>
 
-  <!-- Loader -->
   <div id="loader">
     <div id="loader-name">Sean</div>
     <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
@@ -22,60 +20,62 @@
 
   <!-- ══ ROOM HERO ══ -->
   <section class="s-room">
-    <img id="room-img" src="Untitled.png" alt="Sean's Room" />
+
+    <!-- Image sits naturally — no object-fit crop -->
+    <div class="room-img-wrap">
+      <img id="room-img" src="Untitled.png" alt="Sean's Room" />
+
+      <!-- Dots are INSIDE room-img-wrap, positioned % of image -->
+      <!-- data-x and data-y = % across/down the actual image -->
+      <!-- CALIBRATE: open in browser, run the console snippet in main.js comments, click each object -->
+
+      <!-- 1. Phone on nightstand → contact.html -->
+      <div class="dot-wrap" data-x="79.5" data-y="47" data-href="contact.html" data-label="Contact">
+        <div class="dot"></div>
+        <div class="dot-label">Contact</div>
+      </div>
+
+      <!-- 2. Clothes pile → mnyfces.com -->
+      <div class="dot-wrap" data-x="51" data-y="77" data-href="https://mnyfces.com" data-external="true" data-label="mnyfces.com">
+        <div class="dot"></div>
+        <div class="dot-label">mnyfces.com</div>
+      </div>
+
+      <!-- 3. Monitor → projects.html -->
+      <div class="dot-wrap" data-x="21.5" data-y="38" data-href="projects.html" data-label="Projects">
+        <div class="dot"></div>
+        <div class="dot-label">Projects</div>
+      </div>
+
+      <!-- 4. Vinyl player → Spotify -->
+      <div class="dot-wrap" data-x="58.5" data-y="32" data-type="spotify" data-label="Now Playing">
+        <div class="dot"></div>
+        <div class="dot-label">Now Playing</div>
+      </div>
+
+      <!-- 5. Orange hard drive → artistic projects -->
+      <div class="dot-wrap" data-x="33" data-y="42" data-href="projects.html#art" data-label="Artistic Projects">
+        <div class="dot"></div>
+        <div class="dot-label">Artistic Projects</div>
+      </div>
+
+    </div><!-- /room-img-wrap -->
+
     <div class="room-vignette"></div>
 
-    <!-- Name tag -->
     <div class="room-header">
       <h1 class="room-title">Sean</h1>
       <p class="room-sub">Portfolio</p>
     </div>
 
-    <!-- Hint -->
     <div class="room-hint">explore the room</div>
-
-    <!-- ── DOT HOTSPOTS ──
-         Positions are % of section width/height, calibrated to the room render.
-         Adjust left/top values here if needed after viewing in browser.
-    -->
-
-    <!-- 1. Phone on nightstand → contact.html -->
-    <div class="dot-wrap" style="left:79.5%; top:47%;" data-href="contact.html" data-label="Contact">
-      <div class="dot"></div>
-      <div class="dot-label">Contact</div>
-    </div>
-
-    <!-- 2. Clothes pile on floor → mnyfces.com -->
-    <div class="dot-wrap" style="left:51%; top:77%;" data-href="https://mnyfces.com" data-label="mnyfces.com" data-external="true">
-      <div class="dot"></div>
-      <div class="dot-label">mnyfces.com</div>
-    </div>
-
-    <!-- 3. Monitor → projects.html -->
-    <div class="dot-wrap" style="left:21.5%; top:38%;" data-href="projects.html" data-label="Projects">
-      <div class="dot"></div>
-      <div class="dot-label">Projects</div>
-    </div>
-
-    <!-- 4. Vinyl player → Spotify now playing -->
-    <div class="dot-wrap" style="left:58.5%; top:32%;" data-type="spotify" data-label="Now Playing">
-      <div class="dot"></div>
-      <div class="dot-label">Now Playing</div>
-    </div>
-
-    <!-- 5. Orange hard drive on desk → artistic projects -->
-    <div class="dot-wrap" style="left:33%; top:42%;" data-href="projects.html#art" data-label="Artistic Projects">
-      <div class="dot"></div>
-      <div class="dot-label">Artistic Projects</div>
-    </div>
 
   </section>
 
-  <!-- ══ PROJECTS PREVIEW ══ -->
+  <!-- ══ PROJECTS ══ -->
   <section class="s-projects">
     <div class="spotlight"></div>
     <div class="stage">
-
       <div class="credit c1 active" data-index="0">
         <span class="clabel">Web Design</span>
         <span class="cname">Project One</span>
@@ -116,7 +116,6 @@
         <span class="cname">Project Eight</span>
         <span class="cyear">2022</span>
       </div>
-
       <div class="arch-col">
         <div class="arch">
           <div class="arch-placeholder">
@@ -128,7 +127,6 @@
         </div>
         <span class="arch-label" id="arch-label">Project One</span>
       </div>
-
     </div>
   </section>
 
@@ -155,7 +153,6 @@
     </div>
   </section>
 
-  <!-- ══ SPOTIFY PANEL ══ -->
   <div id="spotify-panel">
     <div class="sp-close" id="sp-close">[ close ]</div>
     <div class="sp-header">Now Playing</div>
