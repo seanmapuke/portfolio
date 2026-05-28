@@ -70,11 +70,11 @@ body {
 #loader.done { opacity: 0; visibility: hidden; }
 
 #loader-name {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: 2.2rem;
-  font-weight: 300;
+  font-weight: 400;
   color: var(--warm-white);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.18em;
   opacity: 0;
   transform: translateY(-8px);
   animation: fadeUp 0.7s 0.2s forwards;
@@ -202,11 +202,11 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
   animation: fadeUp 0.8s 1.3s forwards;
 }
 .room-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(1.8rem, 3vw, 2.8rem);
-  font-weight: 300;
+  font-weight: 400;
   color: var(--warm-white);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
   line-height: 1;
 }
 .room-sub {
@@ -407,9 +407,9 @@ nav.nav-home {
   border-bottom: none;
 }
 nav.nav-home .nav-logo {
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.1rem; font-weight:300; color: var(--warm-white);
-  text-decoration:none; letter-spacing:0.06em;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem; font-weight: 400; color: var(--warm-white);
+  text-decoration: none; letter-spacing: 0.1em;
   opacity: 0;
   animation: fadeUp 0.7s 1.4s forwards;
 }
@@ -433,14 +433,13 @@ nav {
   position: fixed; top:0; left:0; right:0; z-index:200;
   display:flex; align-items:center; justify-content:space-between;
   padding: 22px 40px;
-  background: rgba(216,218,223,0.88);
-  backdrop-filter: blur(10px);
+  background: rgba(216,218,223,0.95);
   border-bottom: 0.5px solid rgba(0,0,0,0.08);
 }
 .nav-logo {
-  font-family:'Cormorant Garamond',serif;
-  font-size:1.1rem; font-weight:300; color:#000;
-  text-decoration:none; letter-spacing:0.06em;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size:1.3rem; font-weight:400; color:#000;
+  text-decoration:none; letter-spacing:0.1em;
 }
 .nav-links { display:flex; gap:28px; }
 .nav-links a {
