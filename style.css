@@ -32,22 +32,26 @@ body {
   position: fixed;
   top: 0; left: 0;
   width: 10px; height: 10px;
-  background: #000;
+  background: var(--warm-white);
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
   transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, background 0.2s, transform 0.15s;
-  mix-blend-mode: difference;
+  transition: width 0.2s, height 0.2s, background 0.2s;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.25);
 }
 #cursor.hovering {
   width: 26px; height: 26px;
   background: var(--amber);
-  mix-blend-mode: normal;
+  box-shadow: none;
 }
-/* cursor goes dark on light sections */
-.s-projects #cursor,
-.s-contact #cursor { background: #000; }
+#cursor.on-light {
+  background: #111;
+  box-shadow: none;
+}
+#cursor.on-light.hovering {
+  background: var(--amber);
+}
 
 /* ────────────────────────────────────────────
    LOADER

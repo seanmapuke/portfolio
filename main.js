@@ -22,6 +22,13 @@ if (cursor) {
     });
   };
   attachCursorHover();
+
+  // Switch cursor dark when over light sections
+  document.addEventListener('mousemove', e => {
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const inLight = el?.closest('.s-projects, .s-contact, .page-content, nav');
+    cursor.classList.toggle('on-light', !!inLight);
+  });
 }
 
 /* ── Loader ───────────────────────────────── */
