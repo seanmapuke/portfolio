@@ -7,28 +7,33 @@
 /* ── Custom cursor ────────────────────────── */
 const cursor = document.getElementById('cursor');
 if (cursor) {
+  let mx = -100, my = -100;
+
   document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top  = e.clientY  + 'px';
+    mx = e.clientX;
+    my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+
+    // Switch cursor dark when over light sections
+    const el = document.elementFromPoint(mx, my);
+    const inLight = el?.closest('.s-projects, .s-contact, .page-content, nav');
+    cursor.classList.toggle('on-light', !!inLight);
   });
 
-  const hoverEls = () => document.querySelectorAll(
-    '.dot-wrap, .contact-row, .credit, .project-card, .contact-value, .nav-links a, .nav-logo, #sp-close, a'
-  );
+  // Hide until mouse enters window
+  document.addEventListener('mouseleave', () => cursor.style.opacity = '0');
+  document.addEventListener('mouseenter', () => cursor.style.opacity = '1');
+
   const attachCursorHover = () => {
-    hoverEls().forEach(el => {
+    document.querySelectorAll(
+      '.dot-wrap, .contact-row, .credit, .project-card, .contact-value, .nav-links a, .nav-logo, #sp-close, a'
+    ).forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
     });
   };
   attachCursorHover();
-
-  // Switch cursor dark when over light sections
-  document.addEventListener('mousemove', e => {
-    const el = document.elementFromPoint(e.clientX, e.clientY);
-    const inLight = el?.closest('.s-projects, .s-contact, .page-content, nav');
-    cursor.classList.toggle('on-light', !!inLight);
-  });
 }
 
 /* ── Loader ───────────────────────────────── */

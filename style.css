@@ -3,7 +3,7 @@
    Merged: original site styles + room hero
 ════════════════════════════════════════════ */
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
 
 :root {
   --amber:      #c8845a;
@@ -37,20 +37,23 @@ body {
   pointer-events: none;
   z-index: 99999;
   transform: translate(-50%, -50%);
-  transition: width 0.2s, height 0.2s, background 0.2s;
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.25);
+  transition: width 0.15s, height 0.15s, background 0.15s;
+  outline: 1.5px solid rgba(0,0,0,0.3);
+  outline-offset: 0px;
+  will-change: left, top;
 }
 #cursor.hovering {
   width: 26px; height: 26px;
   background: var(--amber);
-  box-shadow: none;
+  outline: none;
 }
 #cursor.on-light {
   background: #111;
-  box-shadow: none;
+  outline: none;
 }
 #cursor.on-light.hovering {
   background: var(--amber);
+  outline: none;
 }
 
 /* ────────────────────────────────────────────
