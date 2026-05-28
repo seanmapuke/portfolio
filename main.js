@@ -103,7 +103,7 @@ if (spClose) {
 ──────────────────────────────────────────── */
 const DEMO_MODE     = false;
 const CLIENT_ID     = '4e66114e764044b4a42eae803d34c038';
-const CLIENT_SECRET = '2d32078a13474280aceeea22bd158d87';
+const CLIENT_SECRET = '038568c332a8407db12386838fb84702';
 const REFRESH_TOKEN = 'AQC-gqWdGlCHePqP6rHvLzFq1RpWPR_BfzVHrFN0EQpCtt0I5Ir-yM4PYewaxHTADqhuxqy_6MjfM6DZkbzzdVdK9hJez-LHnB7ymHJqgEwBS2JGOb-KnqRG6GEl0yDU4jY';
 
 let spotifyOpen = false;
