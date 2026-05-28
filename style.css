@@ -397,6 +397,36 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 .loc-dot { width:4px; height:4px; border-radius:50%; background:rgba(0,0,0,0.2); flex-shrink:0; }
 
 /* ────────────────────────────────────────────
+   NAV — HOME (dark/transparent overlay)
+──────────────────────────────────────────── */
+nav.nav-home {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 22px 40px;
+  background: transparent;
+  border-bottom: none;
+}
+nav.nav-home .nav-logo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem; font-weight:300; color: var(--warm-white);
+  text-decoration:none; letter-spacing:0.06em;
+  opacity: 0;
+  animation: fadeUp 0.7s 1.4s forwards;
+}
+nav.nav-home .nav-links {
+  display:flex; gap:28px;
+  opacity: 0;
+  animation: fadeUp 0.7s 1.5s forwards;
+}
+nav.nav-home .nav-links a {
+  font-family:'DM Mono',monospace;
+  font-size:0.6rem; letter-spacing:0.16em;
+  text-transform:uppercase; color: rgba(245,237,228,0.55);
+  text-decoration:none; transition:color 0.2s;
+}
+nav.nav-home .nav-links a:hover { color: var(--warm-white); }
+
+/* ────────────────────────────────────────────
    NAV (inner pages)
 ──────────────────────────────────────────── */
 nav {

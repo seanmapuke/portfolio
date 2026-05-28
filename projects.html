@@ -8,9 +8,201 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    /* ── PROJECTS PAGE OVERRIDES ── */
+    body { background: #f0ede8; }
+
+    nav {
+      background: rgba(240,237,232,0.9);
+      border-bottom: 0.5px solid rgba(0,0,0,0.07);
+    }
+
+    .proj-page { padding: 0; min-height: 100vh; background: #f0ede8; }
+
+    /* ── HERO ── */
+    .proj-hero {
+      padding: 160px 64px 80px;
+      border-bottom: 0.5px solid rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .proj-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.3);
+      margin-bottom: 18px;
+    }
+    .proj-hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(64px, 9vw, 128px);
+      font-weight: 300;
+      color: #0d0c0b;
+      letter-spacing: -0.02em;
+      line-height: 0.9;
+      margin: 0;
+    }
+    .proj-hero-title em {
+      font-style: italic;
+      font-weight: 300;
+    }
+    .proj-hero-meta {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: 40px;
+    }
+    .proj-count {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      color: rgba(0,0,0,0.28);
+      letter-spacing: 0.16em;
+    }
+    .proj-filter-row {
+      display: flex;
+      gap: 20px;
+    }
+    .proj-filter {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.3);
+      background: none;
+      border: none;
+      padding: 0;
+      transition: color 0.2s;
+      cursor: none;
+    }
+    .proj-filter:hover, .proj-filter.active { color: #0d0c0b; }
+    .proj-filter.active { border-bottom: 0.5px solid #0d0c0b; }
+
+    /* ── LIST VIEW ── */
+    .proj-list { width: 100%; }
+    .proj-list-item {
+      display: grid;
+      grid-template-columns: 56px 1fr 120px 80px;
+      align-items: center;
+      gap: 0 32px;
+      padding: 20px 64px;
+      border-bottom: 0.5px solid rgba(0,0,0,0.08);
+      text-decoration: none;
+      transition: background 0.2s;
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    .proj-list-item.visible {
+      animation: rowIn 0.55s forwards;
+    }
+    @keyframes rowIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .proj-list-item:hover { background: rgba(0,0,0,0.025); }
+    .proj-list-item:hover .proj-list-num { color: #0d0c0b; }
+    .proj-list-item:hover .proj-list-title { letter-spacing: 0.04em; }
+
+    .proj-list-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      color: rgba(0,0,0,0.2);
+      letter-spacing: 0.1em;
+      transition: color 0.2s;
+    }
+    .proj-list-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 2.2vw, 28px);
+      font-weight: 300;
+      color: #0d0c0b;
+      letter-spacing: 0.01em;
+      transition: letter-spacing 0.4s;
+    }
+    .proj-list-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.3);
+      text-align: right;
+    }
+    .proj-list-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      color: rgba(0,0,0,0.22);
+      letter-spacing: 0.08em;
+      text-align: right;
+    }
+
+    /* ── SECTION DIVIDER ── */
+    .proj-section-label {
+      padding: 32px 64px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.22);
+      border-bottom: 0.5px solid rgba(0,0,0,0.06);
+    }
+
+    /* ── FOOTER LINE ── */
+    .proj-footer {
+      padding: 48px 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .proj-footer-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: rgba(0,0,0,0.25);
+      letter-spacing: 0.04em;
+    }
+    .proj-footer-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.4);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .proj-footer-link:hover { color: #0d0c0b; }
+
+    /* ── HOVER PREVIEW ── */
+    .proj-preview {
+      position: fixed;
+      right: 64px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 200px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 50;
+    }
+    .proj-preview.show { opacity: 1; }
+    .proj-preview-box {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: rgba(0,0,0,0.06);
+      border: 0.5px solid rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .proj-preview-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.45rem;
+      letter-spacing: 0.16em;
+      color: rgba(0,0,0,0.2);
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-
   <div id="cursor"></div>
 
   <nav>
@@ -22,42 +214,125 @@
     </div>
   </nav>
 
-  <div class="page-content">
-    <div class="page-heading">Projects</div>
-    <div class="projects-grid">
-      <div class="project-card">
-        <div class="project-tag">Web Design</div>
-        <div class="project-title">Project One</div>
-        <div class="project-year">2024</div>
+  <div class="proj-page">
+
+    <!-- Hero -->
+    <div class="proj-hero">
+      <div class="proj-eyebrow">Selected Work</div>
+      <h1 class="proj-hero-title">Pro<em>jects</em></h1>
+      <div class="proj-hero-meta">
+        <span class="proj-count">— 08 works</span>
+        <div class="proj-filter-row">
+          <button class="proj-filter active" data-filter="all">All</button>
+          <button class="proj-filter" data-filter="professional">Professional</button>
+          <button class="proj-filter" data-filter="artistic">Artistic</button>
+        </div>
       </div>
-      <div class="project-card">
-        <div class="project-tag">Development</div>
-        <div class="project-title">Project Two</div>
-        <div class="project-year">2024</div>
-      </div>
-      <div class="project-card">
-        <div class="project-tag">Branding</div>
-        <div class="project-title">Project Three</div>
-        <div class="project-year">2023</div>
-      </div>
-      <div class="project-card">
-        <div class="project-tag">Creative</div>
-        <div class="project-title">Project Four</div>
-        <div class="project-year">2023</div>
-      </div>
-      <div class="project-card" id="art">
-        <div class="project-tag">Artistic</div>
-        <div class="project-title">Art Project One</div>
-        <div class="project-year">2024</div>
-      </div>
-      <div class="project-card">
-        <div class="project-tag">Artistic</div>
-        <div class="project-title">Art Project Two</div>
-        <div class="project-year">2023</div>
-      </div>
+    </div>
+
+    <!-- Professional Work -->
+    <div class="proj-section-label" data-category="professional">Professional</div>
+    <div class="proj-list">
+      <a href="#" class="proj-list-item" data-category="professional">
+        <span class="proj-list-num">01</span>
+        <span class="proj-list-title">Project One</span>
+        <span class="proj-list-tag">Web Design</span>
+        <span class="proj-list-year">2024</span>
+      </a>
+      <a href="#" class="proj-list-item" data-category="professional">
+        <span class="proj-list-num">02</span>
+        <span class="proj-list-title">Project Two</span>
+        <span class="proj-list-tag">Development</span>
+        <span class="proj-list-year">2024</span>
+      </a>
+      <a href="#" class="proj-list-item" data-category="professional">
+        <span class="proj-list-num">03</span>
+        <span class="proj-list-title">Project Three</span>
+        <span class="proj-list-tag">Branding</span>
+        <span class="proj-list-year">2023</span>
+      </a>
+      <a href="#" class="proj-list-item" data-category="professional">
+        <span class="proj-list-num">04</span>
+        <span class="proj-list-title">Project Four</span>
+        <span class="proj-list-tag">Creative</span>
+        <span class="proj-list-year">2023</span>
+      </a>
+      <a href="#" class="proj-list-item" data-category="professional">
+        <span class="proj-list-num">05</span>
+        <span class="proj-list-title">Project Five</span>
+        <span class="proj-list-tag">Motion</span>
+        <span class="proj-list-year">2023</span>
+      </a>
+      <a href="#" class="proj-list-item" data-category="professional">
+        <span class="proj-list-num">06</span>
+        <span class="proj-list-title">Project Six</span>
+        <span class="proj-list-tag">Strategy</span>
+        <span class="proj-list-year">2022</span>
+      </a>
+    </div>
+
+    <!-- Artistic Work -->
+    <div class="proj-section-label" data-category="artistic" id="art">Artistic</div>
+    <div class="proj-list">
+      <a href="#" class="proj-list-item" data-category="artistic">
+        <span class="proj-list-num">07</span>
+        <span class="proj-list-title">Art Project One</span>
+        <span class="proj-list-tag">Visual</span>
+        <span class="proj-list-year">2024</span>
+      </a>
+      <a href="#" class="proj-list-item" data-category="artistic">
+        <span class="proj-list-num">08</span>
+        <span class="proj-list-title">Art Project Two</span>
+        <span class="proj-list-tag">Visual</span>
+        <span class="proj-list-year">2023</span>
+      </a>
+    </div>
+
+    <!-- Footer -->
+    <div class="proj-footer">
+      <span class="proj-footer-text">Ongoing, Dallas TX</span>
+      <a href="contact.html" class="proj-footer-link">Get in touch →</a>
     </div>
   </div>
 
+  <!-- Hover preview (for future use with real images) -->
+  <div class="proj-preview" id="proj-preview">
+    <div class="proj-preview-box"></div>
+    <div class="proj-preview-label">Preview</div>
+  </div>
+
   <script src="main.js"></script>
+  <script>
+    // Filter
+    const filters = document.querySelectorAll('.proj-filter');
+    filters.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filters.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.filter;
+        document.querySelectorAll('.proj-list-item').forEach(item => {
+          const show = cat === 'all' || item.dataset.category === cat;
+          item.style.display = show ? 'grid' : 'none';
+        });
+        document.querySelectorAll('.proj-section-label').forEach(label => {
+          const show = cat === 'all' || label.dataset.category === cat;
+          label.style.display = show ? 'block' : 'none';
+        });
+      });
+    });
+
+    // Stagger rows in on load
+    const items = document.querySelectorAll('.proj-list-item');
+    items.forEach((item, i) => {
+      setTimeout(() => item.classList.add('visible'), 200 + i * 60);
+    });
+
+    // Hover preview
+    const preview = document.getElementById('proj-preview');
+    items.forEach(item => {
+      item.addEventListener('mouseenter', () => preview.classList.add('show'));
+      item.addEventListener('mouseleave', () => preview.classList.remove('show'));
+    });
+  </script>
 </body>
 </html>
