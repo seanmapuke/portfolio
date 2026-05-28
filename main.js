@@ -58,7 +58,19 @@ const spotifyPanel = document.getElementById('spotify-panel');
 const spClose      = document.getElementById('sp-close');
 
 document.querySelectorAll('.dot-wrap').forEach(dot => {
-  dot.addEventListener('click', () => {
+  // Mobile: tap once to show label, tap again to follow link
+  dot.addEventListener('click', (e) => {
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+    if (isMobile && !dot.classList.contains('tapped')) {
+      // First tap — show label, don't navigate
+      document.querySelectorAll('.dot-wrap').forEach(d => d.classList.remove('tapped'));
+      dot.classList.add('tapped');
+      return;
+    }
+
+    // Desktop or second tap — navigate
+    dot.classList.remove('tapped');
     if (dot.dataset.type === 'spotify') { toggleSpotify(); return; }
     const href = dot.dataset.href;
     if (href) {
@@ -67,6 +79,13 @@ document.querySelectorAll('.dot-wrap').forEach(dot => {
         : window.location.href = href;
     }
   });
+});
+
+// Tap anywhere else to dismiss labels
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.dot-wrap')) {
+    document.querySelectorAll('.dot-wrap').forEach(d => d.classList.remove('tapped'));
+  }
 });
 
 if (spClose) {
