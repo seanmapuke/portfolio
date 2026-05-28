@@ -40,7 +40,7 @@ body {
   will-change: left, top;
 }
 #cursor.hovering {
-  width: 26px; height: 26px;
+  width: 16px; height: 16px;
   background: var(--amber);
   outline: none;
 }
@@ -167,18 +167,17 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
   transform: translateY(-50%) translateX(-4px);
   white-space: nowrap;
   font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--warm-white);
-  background: rgba(14,11,9,0.75);
+  background: rgba(14,11,9,0.82);
   border: 1px solid rgba(245,237,228,0.16);
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 2px;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.2s, transform 0.2s;
-  backdrop-filter: blur(8px);
 }
 .dot-wrap:hover .dot-label {
   opacity: 1;
