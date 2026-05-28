@@ -98,11 +98,8 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 
 .s-room {
   width: 100%;
-  min-height: 100vh;
   background: var(--dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   overflow: hidden;
   position: relative;
 }
@@ -111,7 +108,7 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 .room-img-wrap {
   position: relative;
   width: 100%;
-  line-height: 0; /* kill inline gap */
+  line-height: 0;
 }
 
 #room-img {
