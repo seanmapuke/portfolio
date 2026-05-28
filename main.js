@@ -43,35 +43,14 @@ if (loader && loaderBar) {
 }
 
 /* ── Dot positioning ────────────────────────
-   Dots sit inside .room-img-wrap.
-   data-x / data-y are % of the IMAGE dimensions.
-   We convert to px so they stay locked regardless
-   of screen size or scroll position.
+   Dots sit inside .room-img-wrap which is width:100% height:auto
+   matching the image exactly. left/top % on each dot is set
+   directly in HTML as inline style — no JS needed.
+   The CSS transform: translate(-50%,-50%) centres each dot
+   on its coordinate. Recalculation on resize is automatic.
 ──────────────────────────────────────────── */
-function positionDots() {
-  const wrap = document.querySelector('.room-img-wrap');
-  const img  = document.getElementById('room-img');
-  if (!wrap || !img) return;
 
-  const w = img.offsetWidth;
-  const h = img.offsetHeight;
-
-  document.querySelectorAll('.dot-wrap').forEach(dot => {
-    const x = parseFloat(dot.dataset.x);
-    const y = parseFloat(dot.dataset.y);
-    dot.style.left = (w * x / 100) + 'px';
-    dot.style.top  = (h * y / 100) + 'px';
-  });
-}
-
-/* Run on load and every resize */
-window.addEventListener('resize', positionDots);
-if (roomImg) {
-  roomImg.addEventListener('load', positionDots);
-  if (roomImg.complete) positionDots();
-} else {
-  positionDots();
-}
+// Nothing to do — CSS % handles it natively.
 
 /* ── Dot clicks ─────────────────────────── */
 const spotifyPanel = document.getElementById('spotify-panel');
