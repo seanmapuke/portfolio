@@ -5,28 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sean</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <div class="gradient-bg" id="gradient-bg"></div>
-  <div class="edge-l"></div>
-  <div class="edge-r"></div>
-  <div class="edge-t"></div>
-  <div class="edge-b"></div>
+  <!-- Custom cursor -->
+  <div id="cursor"></div>
 
-  <!-- HERO -->
-  <section class="s-hero">
-    <div class="hero-inner">
-      <span class="s-static">Hi, I'm</span>
-      <span class="title-wrapper">
-        <span class="ghost">a developer</span>
-        <span id="title">Sean</span>
-      </span>
+  <!-- Loader -->
+  <div id="loader">
+    <div id="loader-name">Sean</div>
+    <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
+  </div>
+
+  <!-- ══ ROOM HERO ══ -->
+  <section class="s-room">
+    <img id="room-img" src="Untitled.png" alt="Sean's Room" />
+    <div class="room-vignette"></div>
+
+    <!-- Name tag -->
+    <div class="room-header">
+      <h1 class="room-title">Sean</h1>
+      <p class="room-sub">Portfolio</p>
     </div>
+
+    <!-- Hint -->
+    <div class="room-hint">explore the room</div>
+
+    <!-- ── DOT HOTSPOTS ──
+         Positions are % of section width/height, calibrated to the room render.
+         Adjust left/top values here if needed after viewing in browser.
+    -->
+
+    <!-- 1. Phone on nightstand → contact.html -->
+    <div class="dot-wrap" style="left:79.5%; top:47%;" data-href="contact.html" data-label="Contact">
+      <div class="dot"></div>
+      <div class="dot-label">Contact</div>
+    </div>
+
+    <!-- 2. Clothes pile on floor → mnyfces.com -->
+    <div class="dot-wrap" style="left:51%; top:77%;" data-href="https://mnyfces.com" data-label="mnyfces.com" data-external="true">
+      <div class="dot"></div>
+      <div class="dot-label">mnyfces.com</div>
+    </div>
+
+    <!-- 3. Monitor → projects.html -->
+    <div class="dot-wrap" style="left:21.5%; top:38%;" data-href="projects.html" data-label="Projects">
+      <div class="dot"></div>
+      <div class="dot-label">Projects</div>
+    </div>
+
+    <!-- 4. Vinyl player → Spotify now playing -->
+    <div class="dot-wrap" style="left:58.5%; top:32%;" data-type="spotify" data-label="Now Playing">
+      <div class="dot"></div>
+      <div class="dot-label">Now Playing</div>
+    </div>
+
+    <!-- 5. Orange hard drive on desk → artistic projects -->
+    <div class="dot-wrap" style="left:33%; top:42%;" data-href="projects.html#art" data-label="Artistic Projects">
+      <div class="dot"></div>
+      <div class="dot-label">Artistic Projects</div>
+    </div>
+
   </section>
 
-  <!-- PROJECTS -->
+  <!-- ══ PROJECTS PREVIEW ══ -->
   <section class="s-projects">
     <div class="spotlight"></div>
     <div class="stage">
@@ -74,7 +119,6 @@
 
       <div class="arch-col">
         <div class="arch">
-          <!-- swap for: <video src="sean.mp4" id="sean-video" autoplay muted playsinline></video> -->
           <div class="arch-placeholder">
             <svg width="20" height="20" fill="none" stroke="#aaa" stroke-width="1.5" viewBox="0 0 24 24">
               <path d="M15 10l4.553-2.277A1 1 0 0121 8.723v6.554a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
@@ -88,7 +132,7 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
+  <!-- ══ CONTACT ══ -->
   <section class="s-contact">
     <h2 class="contact-headline">Get<br>in touch</h2>
     <div class="contact-links">
@@ -110,6 +154,13 @@
       Dallas, TX
     </div>
   </section>
+
+  <!-- ══ SPOTIFY PANEL ══ -->
+  <div id="spotify-panel">
+    <div class="sp-close" id="sp-close">[ close ]</div>
+    <div class="sp-header">Now Playing</div>
+    <div id="sp-content"></div>
+  </div>
 
   <script src="main.js"></script>
 </body>
