@@ -27,8 +27,9 @@ const loader    = document.getElementById('loader');
 const loaderBar = document.getElementById('loader-bar');
 const roomImg   = document.getElementById('room-img');
 
-if (loader && loaderBar) {
-  setTimeout(() => { loaderBar.style.width = '100%'; }, 80);
+if (loader) {
+  if (loaderBar) setTimeout(() => { loaderBar.style.width = '100%'; }, 80);
+
   const dismissLoader = () => setTimeout(() => {
     loader.classList.add('done');
     if (roomImg) roomImg.classList.add('loaded');
