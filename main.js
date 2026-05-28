@@ -87,19 +87,6 @@ if (spClose) {
       Vercel/Netlify serverless function so CLIENT_SECRET
       never ships in this file.
 
-   CALIBRATION TIP:
-   To find exact dot coordinates, open the site in your browser
-   and run this in the console — then click each object:
-
-     const img = document.getElementById('room-img');
-     img.addEventListener('click', e => {
-       const r = img.getBoundingClientRect();
-       const x = ((e.clientX - r.left) / r.width  * 100).toFixed(2);
-       const y = ((e.clientY - r.top)  / r.height * 100).toFixed(2);
-       console.log(`data-x="${x}" data-y="${y}"`);
-     });
-
-   Then update the data-x / data-y on each .dot-wrap in index.html.
 ──────────────────────────────────────────── */
 const DEMO_MODE     = true;
 const CLIENT_ID     = 'YOUR_CLIENT_ID';
