@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Get Spotify Token</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #0e0b09;
+      color: #f5ede4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      gap: 24px;
+      padding: 40px;
+      box-sizing: border-box;
+    }
+    h1 { font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase; margin: 0; }
+    p { color: rgba(245,237,228,0.45); font-size: 0.8rem; line-height: 1.8; text-align: center; max-width: 480px; margin: 0; }
+    button {
+      background: #c8845a;
+      color: #fff;
+      border: none;
+      padding: 14px 32px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    button:hover { background: #b8734a; }
+    .token-box {
+      background: rgba(245,237,228,0.06);
+      border: 1px solid rgba(245,237,228,0.15);
+      padding: 20px 24px;
+      width: 100%;
+      max-width: 600px;
+      word-break: break-all;
+      font-size: 0.75rem;
+      line-height: 1.8;
+      display: none;
+    }
+    .token-box.show { display: block; }
+    .label { color: #c8845a; margin-bottom: 6px; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .value { color: #f5ede4; }
+    .copy-btn {
+      margin-top: 12px;
+      background: transparent;
+      border: 1px solid rgba(245,237,228,0.3);
+      color: rgba(245,237,228,0.6);
+      padding: 8px 16px;
+      font-size: 0.65rem;
+    }
+    .copy-btn:hover { border-color: #f5ede4; color: #f5ede4; background: transparent; }
+    .step { color: rgba(245,237,228,0.3); font-size: 0.7rem; letter-spacing: 0.1em; }
+  </style>
+</head>
+<body>
+
+  <h1>Spotify Token Grabber</h1>
+  <p>Click the button below, log in to Spotify, and your refresh token will appear here. Copy it into main.js and you're done.</p>
+
+  <span class="step" id="step">Step 1 of 2 — Authorize with Spotify</span>
+
+  <button id="auth-btn" onclick="authorize()">Login with Spotify</button>
+
+  <div class="token-box" id="result-box">
+    <div class="label">Your Refresh Token</div>
+    <div class="value" id="token-display"></div>
+    <button class="copy-btn" onclick="copyToken()">Copy Token</button>
+  </div>
+
+  <p id="instructions" style="display:none;">
+    Now open <strong>main.js</strong>, find the line that says<br>
+    <code>const REFRESH_TOKEN = 'YOUR_REFRESH_TOKEN'</code><br>
+    and replace <code>YOUR_REFRESH_TOKEN</code> with the token above.<br><br>
+    Also set <code>DEMO_MODE = false</code>.
+  </p>
+
+  <script>
+    const CLIENT_ID = '4e66114e764044b4a42eae803d34c038';
+    const REDIRECT_URI = 'http://127.0.0.1:5500/get-token.html';
+    const SCOPES = 'user-read-currently-playing user-read-playback-state';
+
+    function authorize() {
+      const url = 'https://accounts.spotify.com/authorize'
+        + '?client_id=' + CLIENT_ID
+        + '&response_type=code'
+        + '&redirect_uri=' + encodeURIComponent(REDIRECT_URI)
+        + '&scope=' + encodeURIComponent(SCOPES);
+      window.location.href = url;
+    }
+
+    // After redirect, grab the code from the URL
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+
+    if (code) {
+      document.getElementById('step').textContent = 'Step 2 of 2 — Fetching your token...';
+      document.getElementById('auth-btn').style.display = 'none';
+      fetchRefreshToken(code);
+    }
+
+    async function fetchRefreshToken(code) {
+      const CLIENT_SECRET = '2d32078a13474280aceeea22bd158d87';
+      const body = new URLSearchParams({
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: REDIRECT_URI,
+        client_id: CLIENT_ID,
+        client_secret: CLIENT_SECRET
+      });
+
+      try {
+        const res = await fetch('https://accounts.spotify.com/api/token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString()
+        });
+        const data = await res.json();
+
+        if (data.refresh_token) {
+          document.getElementById('step').textContent = '✓ Done! Copy your token below.';
+          document.getElementById('token-display').textContent = data.refresh_token;
+          document.getElementById('result-box').classList.add('show');
+          document.getElementById('instructions').style.display = 'block';
+        } else {
+          document.getElementById('step').textContent = 'Something went wrong. Try refreshing and starting over.';
+          console.error(data);
+        }
+      } catch (err) {
+        document.getElementById('step').textContent = 'Error — check the console.';
+        console.error(err);
+      }
+    }
+
+    function copyToken() {
+      const token = document.getElementById('token-display').textContent;
+      navigator.clipboard.writeText(token).then(() => {
+        document.querySelector('.copy-btn').textContent = 'Copied!';
+        setTimeout(() => document.querySelector('.copy-btn').textContent = 'Copy Token', 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
