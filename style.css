@@ -481,59 +481,30 @@ nav {
   #cursor { display: none; }
   *, *::before, *::after { cursor: auto !important; }
 
-  /* Room fills screen width, tall enough to scroll */
-  .s-room { overflow-y: auto; }
+  /* Let the room scroll naturally */
+  html { scroll-snap-type: none; }
+  .s-room { height: auto; overflow: visible; }
 
-  .room-img-wrap {
-    width: 100%;
-    min-height: 100svh;
-    overflow: visible;
-  }
-
+  /* Image full width, natural height — no cropping, no changes */
+  .room-img-wrap { width: 100%; }
   #room-img {
-    width: auto;
-    height: 100svh;
-    min-height: 100svh;
+    width: 100%;
+    height: auto;
     max-width: none;
-    object-fit: cover;
-    object-position: center;
+    object-fit: unset;
   }
 
-  /* Title — smaller on mobile */
-  .room-header {
-    top: 20px;
-    left: 20px;
-  }
-  .room-title {
-    font-size: 1.6rem;
-  }
-  .room-sub {
-    font-size: 0.52rem;
-  }
+  /* Dots — bigger tap targets, positions unchanged */
+  .dot { width: 18px; height: 18px; }
 
-  /* Hint at bottom */
-  .room-hint {
-    font-size: 0.5rem;
-    bottom: 20px;
-  }
-
-  /* Dots — bigger tap targets */
-  .dot {
-    width: 18px;
-    height: 18px;
-  }
-
-  /* Labels show below dot on mobile, not to the side */
+  /* Labels show below dot on tap */
   .dot-label {
     left: 50%;
-    top: 28px;
+    top: 26px;
     transform: translateX(-50%) translateY(4px);
     font-size: 0.65rem;
     padding: 6px 10px;
-    white-space: nowrap;
   }
-
-  /* Show label on tap (active state) instead of hover */
   .dot-wrap:active .dot-label,
   .dot-wrap.tapped .dot-label {
     opacity: 1;
@@ -547,26 +518,16 @@ nav {
   }
 
   /* Nav — compact */
-  nav.nav-home {
-    padding: 16px 20px;
-  }
-  nav.nav-home .nav-links {
-    gap: 18px;
-  }
-  nav.nav-home .nav-links a {
-    font-size: 0.55rem;
-  }
+  nav.nav-home { padding: 16px 20px; }
+  nav.nav-home .nav-links { gap: 18px; }
+  nav.nav-home .nav-links a { font-size: 0.55rem; }
 
   /* Spotify panel — full width at bottom */
   #spotify-panel {
-    bottom: 0;
-    right: 0;
-    left: 0;
+    bottom: 0; right: 0; left: 0;
     width: 100%;
     border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
+    border-left: none; border-right: none; border-bottom: none;
   }
 }
 
