@@ -8,14 +8,15 @@ if (cursor) {
   document.addEventListener('mousemove', e => {
     cursor.style.left = e.clientX + 'px';
     cursor.style.top  = e.clientY + 'px';
+    // Flip cursor white when hovering over the room image (dark photo)
     const under = document.elementFromPoint(e.clientX, e.clientY);
-    const inLight = under?.closest('.s-projects, .s-contact, .page-content, nav');
-    cursor.classList.toggle('on-light', !!inLight);
+    const onRoom = under?.closest('.s-room');
+    cursor.classList.toggle('on-dark', !!onRoom);
   });
   document.addEventListener('mouseleave', () => cursor.style.opacity = '0');
   document.addEventListener('mouseenter', () => cursor.style.opacity = '1');
 
-  document.querySelectorAll('.dot-wrap, .contact-row, .credit, .project-card, .contact-value, .nav-links a, .nav-logo, #sp-close, #dnt, a')
+  document.querySelectorAll('.dot-wrap, .contact-row, .credit, .project-card, .contact-value, .nav-links a, .nav-logo, #sp-close, a')
     .forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
@@ -23,13 +24,10 @@ if (cursor) {
 }
 
 /* ── Loader ─────────────────────────────── */
-const loader    = document.getElementById('loader');
-const loaderBar = document.getElementById('loader-bar');
-const roomImg   = document.getElementById('room-img');
+const loader  = document.getElementById('loader');
+const roomImg = document.getElementById('room-img');
 
 if (loader) {
-  if (loaderBar) setTimeout(() => { loaderBar.style.width = '100%'; }, 80);
-
   const dismissLoader = () => setTimeout(() => {
     loader.classList.add('done');
     if (roomImg) roomImg.classList.add('loaded');
@@ -43,35 +41,56 @@ if (loader) {
   }
 }
 
-/* ── Dot positioning ────────────────────────
-   Dots sit inside .room-img-wrap which is width:100% height:auto
-   matching the image exactly. left/top % on each dot is set
-   directly in HTML as inline style — no JS needed.
-   The CSS transform: translate(-50%,-50%) centres each dot
-   on its coordinate. Recalculation on resize is automatic.
-──────────────────────────────────────────── */
+/* ── Day / Night (dot) ──────────────────── */
+const NIGHT_SRC = 'Untitled.png';
+const DAY_SRC   = 'Untitled2.png';
+let   isDay     = localStorage.getItem('colorMode') === 'day';
 
-// Nothing to do — CSS % handles it natively.
+function applyMode(day, animate) {
+  const labelEl = document.getElementById('daynight-label');
+  if (labelEl) labelEl.textContent = day ? 'Switch to Night' : 'Switch to Day';
+
+  if (!roomImg) return;
+  if (animate) {
+    roomImg.style.transition = 'opacity 0.4s ease';
+    roomImg.style.opacity = '0';
+    setTimeout(() => {
+      roomImg.src = day ? DAY_SRC : NIGHT_SRC;
+      roomImg.onload = () => { roomImg.style.opacity = '1'; };
+      if (roomImg.complete) roomImg.style.opacity = '1';
+    }, 380);
+  } else {
+    roomImg.src = day ? DAY_SRC : NIGHT_SRC;
+  }
+}
+
+// Restore on load
+if (isDay) applyMode(true, false);
 
 /* ── Dot clicks ─────────────────────────── */
 const spotifyPanel = document.getElementById('spotify-panel');
 const spClose      = document.getElementById('sp-close');
 
 document.querySelectorAll('.dot-wrap').forEach(dot => {
-  // Mobile: tap once to show label, tap again to follow link
   dot.addEventListener('click', (e) => {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
     if (isMobile && !dot.classList.contains('tapped')) {
-      // First tap — show label, don't navigate
       document.querySelectorAll('.dot-wrap').forEach(d => d.classList.remove('tapped'));
       dot.classList.add('tapped');
       return;
     }
 
-    // Desktop or second tap — navigate
     dot.classList.remove('tapped');
-    if (dot.dataset.type === 'spotify') { toggleSpotify(); return; }
+
+    if (dot.dataset.type === 'spotify')  { toggleSpotify(); return; }
+    if (dot.dataset.type === 'daynight') {
+      isDay = !isDay;
+      localStorage.setItem('colorMode', isDay ? 'day' : 'night');
+      applyMode(isDay, true);
+      return;
+    }
+
     const href = dot.dataset.href;
     if (href) {
       dot.dataset.external === 'true'
@@ -81,7 +100,6 @@ document.querySelectorAll('.dot-wrap').forEach(dot => {
   });
 });
 
-// Tap anywhere else to dismiss labels
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.dot-wrap')) {
     document.querySelectorAll('.dot-wrap').forEach(d => d.classList.remove('tapped'));
@@ -95,31 +113,7 @@ if (spClose) {
   });
 }
 
-/* ── Spotify ────────────────────────────────
-   SETUP:
-   1. Go to https://developer.spotify.com/dashboard
-   2. Create an app, add your domain as a Redirect URI
-   3. Get a refresh token with scope:
-        user-read-currently-playing user-read-playback-state
-   4. Set DEMO_MODE = false and fill in the three constants
-   5. For production: proxy the token refresh through a
-      Vercel/Netlify serverless function so CLIENT_SECRET
-      never ships in this file.
-
-   CALIBRATION TIP:
-   To find exact dot coordinates, open the site in your browser
-   and run this in the console — then click each object:
-
-     const img = document.getElementById('room-img');
-     img.addEventListener('click', e => {
-       const r = img.getBoundingClientRect();
-       const x = ((e.clientX - r.left) / r.width  * 100).toFixed(2);
-       const y = ((e.clientY - r.top)  / r.height * 100).toFixed(2);
-       console.log(`data-x="${x}" data-y="${y}"`);
-     });
-
-   Then update the data-x / data-y on each .dot-wrap in index.html.
-──────────────────────────────────────────── */
+/* ── Spotify ────────────────────────────── */
 const DEMO_MODE     = false;
 const CLIENT_ID     = '4e66114e764044b4a42eae803d34c038';
 const CLIENT_SECRET = '038568c332a8407db12386838fb84702';
@@ -188,48 +182,11 @@ function renderTrack({ name, artist, art, playing }) {
   if (!content) return;
   const artEl  = art
     ? `<img class="sp-art" src="${art}" alt="album art">`
-    : `<div class="sp-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(245,237,228,0.3)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="9"/><line x1="12" y1="15" x2="12" y2="22"/></svg></div>`;
+    : `<div class="sp-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></div>`;
   const barsEl = playing
     ? `<div class="sp-bars"><div class="sp-bar"></div><div class="sp-bar"></div><div class="sp-bar"></div><div class="sp-bar"></div><div class="sp-bar"></div></div>`
     : '';
   content.innerHTML = `<div class="sp-track">${artEl}<div class="sp-info"><div class="sp-song">${name}</div><div class="sp-artist">${artist}</div>${barsEl}</div></div>`;
-}
-
-/* ── Day / Night Toggle ─────────────────── */
-const dnt      = document.getElementById('dnt');
-const dntIcon  = document.getElementById('dnt-icon');
-const dntLabel = document.getElementById('dnt-label');
-const roomImgEl = document.getElementById('room-img');
-
-const NIGHT_SRC = 'Untitled.png';
-const DAY_SRC   = 'Untitled2.png';
-
-// Restore saved preference
-const savedMode = localStorage.getItem('colorMode');
-if (savedMode === 'day') {
-  document.body.classList.add('day-mode');
-  if (roomImgEl) roomImgEl.src = DAY_SRC;
-  if (dntIcon)  dntIcon.textContent  = '🌙';
-  if (dntLabel) dntLabel.textContent = 'Night';
-}
-
-if (dnt) {
-  dnt.addEventListener('click', () => {
-    const isDay = document.body.classList.toggle('day-mode');
-    localStorage.setItem('colorMode', isDay ? 'day' : 'night');
-
-    if (roomImgEl) {
-      roomImgEl.style.opacity = '0';
-      setTimeout(() => {
-        roomImgEl.src = isDay ? DAY_SRC : NIGHT_SRC;
-        roomImgEl.onload = () => { roomImgEl.style.opacity = '1'; };
-        if (roomImgEl.complete) roomImgEl.style.opacity = '1';
-      }, 350);
-    }
-
-    if (dntIcon)  dntIcon.textContent  = isDay ? '🌙' : '☀️';
-    if (dntLabel) dntLabel.textContent = isDay ? 'Night' : 'Day';
-  });
 }
 
 /* ── Projects hover ─────────────────────── */
