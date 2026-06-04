@@ -138,12 +138,12 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
   border-radius: 50%;
   outline: 1.5px solid rgba(0,0,0,0.18);
   animation: dotPulse 2.6s ease-in-out infinite;
-  transition: background 0.2s, transform 0.2s;
+  transition: opacity 0.18s, transform 0.18s, background 0.2s;
   box-shadow: 0 1px 4px rgba(0,0,0,0.25);
 }
 .dot-wrap:hover .dot {
-  background: var(--amber);
-  transform: scale(1.4);
+  opacity: 0;
+  transform: scale(0.5);
   animation: none;
   outline: none;
   box-shadow: none;
@@ -157,25 +157,27 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 
 .dot-label {
   position: absolute;
-  left: 18px; top: 50%;
-  transform: translateY(-50%) translateX(-4px);
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
   white-space: nowrap;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: none;
   color: #0d0c0b;
-  background: rgba(240,237,232,0.92);
-  border: 0.5px solid rgba(0,0,0,0.12);
-  padding: 6px 12px;
-  border-radius: 2px;
+  background: #ffffff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 999px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.1);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.18s, transform 0.18s;
 }
 .dot-wrap:hover .dot-label {
   opacity: 1;
-  transform: translateY(-50%) translateX(0);
+  transform: translate(-50%, -50%) scale(1);
 }
 
 /* no vignette */
@@ -396,18 +398,17 @@ nav {
 
   .dot-label {
     left: 50%;
-    top: 26px;
-    transform: translateX(-50%) translateY(4px);
-    font-size: 0.65rem;
-    padding: 6px 10px;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.85);
+    font-size: 0.75rem;
+    padding: 7px 14px;
   }
   .dot-wrap.tapped .dot-label {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translate(-50%, -50%) scale(1);
   }
   .dot-wrap.tapped .dot {
-    background: var(--amber);
-    transform: scale(1.3);
+    opacity: 0;
     animation: none;
   }
 
