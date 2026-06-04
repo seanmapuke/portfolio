@@ -12,6 +12,132 @@
   --dot-pulse:  rgba(245,237,228,0.55);
 }
 
+/* ── DAY MODE overrides ── */
+body.day-mode {
+  --warm-white: #1a1208;
+  --dark:       #e8e0d5;
+  --muted:      rgba(26,18,8,0.45);
+  --dot-pulse:  rgba(26,18,8,0.35);
+}
+body.day-mode #room-img {
+  filter: brightness(1.02) saturate(0.95);
+}
+body.day-mode .room-vignette {
+  background: radial-gradient(ellipse at center, transparent 38%, rgba(200,190,175,0.45) 100%);
+}
+body.day-mode .dot {
+  background: #1a1208;
+  outline: 1.5px solid rgba(255,255,255,0.35);
+}
+body.day-mode .dot-wrap:hover .dot { background: var(--amber); outline: none; }
+body.day-mode .dot-label {
+  color: #1a1208;
+  background: rgba(232,224,213,0.9);
+  border: 1px solid rgba(26,18,8,0.18);
+}
+body.day-mode #loader { background: var(--dark); }
+body.day-mode #loader-name { color: #1a1208; }
+body.day-mode .room-title { color: #1a1208; }
+body.day-mode .room-sub { color: rgba(26,18,8,0.5); }
+body.day-mode .room-hint { color: rgba(26,18,8,0.45); }
+body.day-mode nav.nav-home .nav-links a { color: rgba(26,18,8,0.55); }
+body.day-mode nav.nav-home .nav-links a:hover { color: #1a1208; }
+body.day-mode #cursor { background: #1a1208; }
+body.day-mode #cursor.hovering { background: var(--amber); }
+body.day-mode #spotify-panel {
+  background: rgba(232,224,213,0.92);
+  border: 1px solid rgba(26,18,8,0.12);
+}
+body.day-mode .sp-header { color: var(--amber); }
+body.day-mode .sp-song { color: #1a1208; }
+body.day-mode .sp-artist { color: rgba(26,18,8,0.5); }
+body.day-mode .sp-close { color: rgba(26,18,8,0.4); }
+body.day-mode .sp-close:hover { color: #1a1208; }
+body.day-mode .sp-idle { color: rgba(26,18,8,0.45); }
+
+/* ── Day/Night Toggle ── */
+.day-night-toggle {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 10px;
+  background: rgba(14,11,9,0.55);
+  border-left: 0.5px solid rgba(245,237,228,0.1);
+  border-radius: 4px 0 0 4px;
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  animation: fadeUp 0.7s 2.4s forwards;
+  cursor: none !important;
+  transition: background 0.5s, border-color 0.5s;
+}
+body.day-mode .day-night-toggle {
+  background: rgba(232,224,213,0.75);
+  border-color: rgba(26,18,8,0.1);
+}
+
+.dnt-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.42rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245,237,228,0.35);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  transition: color 0.4s;
+  user-select: none;
+}
+body.day-mode .dnt-label { color: rgba(26,18,8,0.35); }
+
+/* The track */
+.dnt-track {
+  width: 18px;
+  height: 38px;
+  border-radius: 9px;
+  border: 0.5px solid rgba(245,237,228,0.2);
+  background: rgba(245,237,228,0.08);
+  position: relative;
+  transition: background 0.4s, border-color 0.4s;
+  flex-shrink: 0;
+}
+body.day-mode .dnt-track {
+  border-color: rgba(26,18,8,0.18);
+  background: rgba(26,18,8,0.06);
+}
+
+/* The thumb */
+.dnt-thumb {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--warm-white);
+  top: 3px;
+  transition: top 0.4s cubic-bezier(0.34,1.56,0.64,1), background 0.4s;
+}
+body.day-mode .dnt-thumb {
+  top: calc(100% - 15px);
+  background: #1a1208;
+}
+
+/* Icon: moon (night) / sun (day) */
+.dnt-icon {
+  font-size: 0.7rem;
+  line-height: 1;
+  user-select: none;
+  transition: opacity 0.3s;
+  opacity: 0.6;
+}
+body.day-mode .dnt-icon { opacity: 0.8; }
+
 html {
   scroll-snap-type: y proximity;
   overflow-y: scroll;

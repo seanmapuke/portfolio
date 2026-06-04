@@ -15,7 +15,7 @@ if (cursor) {
   document.addEventListener('mouseleave', () => cursor.style.opacity = '0');
   document.addEventListener('mouseenter', () => cursor.style.opacity = '1');
 
-  document.querySelectorAll('.dot-wrap, .contact-row, .credit, .project-card, .contact-value, .nav-links a, .nav-logo, #sp-close, a')
+  document.querySelectorAll('.dot-wrap, .contact-row, .credit, .project-card, .contact-value, .nav-links a, .nav-logo, #sp-close, #dnt, a')
     .forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
@@ -193,6 +193,43 @@ function renderTrack({ name, artist, art, playing }) {
     ? `<div class="sp-bars"><div class="sp-bar"></div><div class="sp-bar"></div><div class="sp-bar"></div><div class="sp-bar"></div><div class="sp-bar"></div></div>`
     : '';
   content.innerHTML = `<div class="sp-track">${artEl}<div class="sp-info"><div class="sp-song">${name}</div><div class="sp-artist">${artist}</div>${barsEl}</div></div>`;
+}
+
+/* ── Day / Night Toggle ─────────────────── */
+const dnt      = document.getElementById('dnt');
+const dntIcon  = document.getElementById('dnt-icon');
+const dntLabel = document.getElementById('dnt-label');
+const roomImgEl = document.getElementById('room-img');
+
+const NIGHT_SRC = 'Untitled.png';
+const DAY_SRC   = 'Untitled2.png';
+
+// Restore saved preference
+const savedMode = localStorage.getItem('colorMode');
+if (savedMode === 'day') {
+  document.body.classList.add('day-mode');
+  if (roomImgEl) roomImgEl.src = DAY_SRC;
+  if (dntIcon)  dntIcon.textContent  = '🌙';
+  if (dntLabel) dntLabel.textContent = 'Night';
+}
+
+if (dnt) {
+  dnt.addEventListener('click', () => {
+    const isDay = document.body.classList.toggle('day-mode');
+    localStorage.setItem('colorMode', isDay ? 'day' : 'night');
+
+    if (roomImgEl) {
+      roomImgEl.style.opacity = '0';
+      setTimeout(() => {
+        roomImgEl.src = isDay ? DAY_SRC : NIGHT_SRC;
+        roomImgEl.onload = () => { roomImgEl.style.opacity = '1'; };
+        if (roomImgEl.complete) roomImgEl.style.opacity = '1';
+      }, 350);
+    }
+
+    if (dntIcon)  dntIcon.textContent  = isDay ? '🌙' : '☀️';
+    if (dntLabel) dntLabel.textContent = isDay ? 'Night' : 'Day';
+  });
 }
 
 /* ── Projects hover ─────────────────────── */
