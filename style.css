@@ -2,7 +2,7 @@
    SEAN — Portfolio CSS
 ════════════════════════════════════════════ */
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
   --amber:      #c8845a;
@@ -26,33 +26,9 @@ body {
 /* ────────────────────────────────────────────
    CUSTOM CURSOR
 ──────────────────────────────────────────── */
-#cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 10px; height: 10px;
-  background: #0d0c0b;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99999;
-  transform: translate(-50%, -50%);
-  transition: width 0.15s, height 0.15s, background 0.15s;
-  outline: 1.5px solid rgba(0,0,0,0.15);
-  will-change: left, top;
-}
-#cursor.hovering {
-  width: 16px; height: 16px;
-  background: var(--amber);
-  outline: none;
-}
-/* on the dark room image, flip to white */
-#cursor.on-dark {
-  background: #f5ede4;
-  outline: 1.5px solid rgba(0,0,0,0.2);
-}
-#cursor.on-dark.hovering {
-  background: var(--amber);
-  outline: none;
-}
+/* ── custom cursor disabled — using system cursor ── */
+#cursor { display: none; }
+
 
 /* ────────────────────────────────────────────
    LOADER
@@ -404,9 +380,6 @@ nav {
    MOBILE
 ──────────────────────────────────────────── */
 @media (max-width: 768px) {
-
-  #cursor { display: none; }
-  *, *::before, *::after { cursor: auto !important; }
 
   html { scroll-snap-type: none; }
 
