@@ -2,7 +2,7 @@
    SEAN — Portfolio CSS
 ════════════════════════════════════════════ */
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
   --amber:      #c8845a;
@@ -24,35 +24,9 @@ body {
 }
 
 /* ────────────────────────────────────────────
-   CUSTOM CURSOR
+   CUSTOM CURSOR — disabled, using system cursor
 ──────────────────────────────────────────── */
-#cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 10px; height: 10px;
-  background: #0d0c0b;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 99999;
-  transform: translate(-50%, -50%);
-  transition: width 0.15s, height 0.15s, background 0.15s;
-  outline: 1.5px solid rgba(0,0,0,0.15);
-  will-change: left, top;
-}
-#cursor.hovering {
-  width: 16px; height: 16px;
-  background: var(--amber);
-  outline: none;
-}
-/* on the dark room image, flip to white */
-#cursor.on-dark {
-  background: #f5ede4;
-  outline: 1.5px solid rgba(0,0,0,0.2);
-}
-#cursor.on-dark.hovering {
-  background: var(--amber);
-  outline: none;
-}
+#cursor { display: none; }
 
 /* ────────────────────────────────────────────
    LOADER
@@ -157,12 +131,10 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 
 .dot-label {
   position: absolute;
-  /* tail tip lands exactly at dot center (dot is 11px, so center = 5.5px from top of dot-wrap) */
-  /* bubble bottom + tail (10px) = dot center, so bottom of bubble = dot center - tail height */
-  bottom: calc(50% + 10px);
+  top: calc(50% + 10px);
   left: 50%;
   transform: translateX(-50%) scale(0.88);
-  transform-origin: bottom center;
+  transform-origin: top center;
   white-space: nowrap;
   font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
@@ -180,16 +152,16 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
   transition: opacity 0.18s, transform 0.18s;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,0.16)) drop-shadow(0 1px 2px rgba(0,0,0,0.08));
 }
-/* tail — centered, points down to dot center */
+/* tail points UP to dot center */
 .dot-label::after {
   content: '';
   position: absolute;
-  bottom: -10px;
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-top: 10px solid #ffffff;
+  border-bottom: 10px solid #ffffff;
 }
 .dot-wrap:hover .dot-label {
   opacity: 1;
@@ -406,7 +378,6 @@ nav {
 @media (max-width: 768px) {
 
   #cursor { display: none; }
-  *, *::before, *::after { cursor: auto !important; }
 
   html { scroll-snap-type: none; }
 
@@ -414,10 +385,9 @@ nav {
 
   .dot-label {
     left: 50%;
-    bottom: calc(50% + 10px);
-    top: auto;
+    top: calc(50% + 10px);
     transform: translateX(-50%) scale(0.88);
-    transform-origin: bottom center;
+    transform-origin: top center;
     font-size: 0.75rem;
     padding: 8px 16px;
   }
