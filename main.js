@@ -180,13 +180,20 @@ async function fetchNowPlaying() {
 function renderTrack({ name, artist, art, playing }) {
   const content = document.getElementById('sp-content');
   if (!content) return;
-  const artEl  = art
+  const artEl = art
     ? `<img class="sp-art" src="${art}" alt="album art">`
-    : `<div class="sp-art"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.2)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></div>`;
-  const barsEl = playing
-    ? `<div class="sp-bars"><div class="sp-bar"></div><div class="sp-bar"></div><div class="sp-bar"></div><div class="sp-bar"></div><div class="sp-bar"></div></div>`
-    : '';
-  content.innerHTML = `<div class="sp-track">${artEl}<div class="sp-info"><div class="sp-song">${name}</div><div class="sp-artist">${artist}</div>${barsEl}</div></div>`;
+    : `<div class="sp-art"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></div>`;
+  const bars = Array.from({length: 15}, () => `<div class="sp-bar"></div>`).join('');
+  const barsEl = playing ? `<div class="sp-bars">${bars}</div>` : '';
+  content.innerHTML = `
+    <div class="sp-track">
+      ${artEl}
+      <div class="sp-info">
+        <div class="sp-song">${name}</div>
+        <div class="sp-artist">${artist}</div>
+        ${barsEl}
+      </div>
+    </div>`;
 }
 
 /* ── Projects hover ─────────────────────── */

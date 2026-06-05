@@ -232,76 +232,129 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
   position: fixed;
   bottom: 28px; right: 32px;
   z-index: 500;
-  width: 272px;
-  background: rgba(240,237,232,0.96);
-  border: 0.5px solid rgba(0,0,0,0.1);
-  border-radius: 3px;
-  padding: 16px 18px;
-  backdrop-filter: blur(16px);
+  width: 300px;
+  background: rgba(22, 20, 18, 0.82);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 14px 14px 14px 14px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   pointer-events: none;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.3s, transform 0.3s;
+  transform: translateY(8px) scale(0.97);
+  transition: opacity 0.25s, transform 0.25s;
 }
 #spotify-panel.visible {
   pointer-events: all;
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
+
+/* × close */
 .sp-close {
-  position: absolute; top: 10px; right: 12px;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.52rem;
-  color: rgba(0,0,0,0.3);
-  letter-spacing: 0.08em;
-  transition: color 0.2s;
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0;
+  transition: background 0.2s, color 0.2s;
+  line-height: 1;
 }
-.sp-close:hover { color: #0d0c0b; }
-.sp-header {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.5rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--amber);
-  margin-bottom: 12px;
+.sp-close:hover {
+  background: rgba(255,255,255,0.22);
+  color: #fff;
 }
-.sp-track { display: flex; gap: 12px; align-items: center; }
+
+/* inner track row */
+.sp-track {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* album art */
 .sp-art {
-  width: 50px; height: 50px;
-  border-radius: 2px; object-fit: cover;
-  flex-shrink: 0; background: rgba(0,0,0,0.06);
+  width: 56px; height: 56px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.06);
   display: flex; align-items: center; justify-content: center;
 }
+
+/* text + waveform */
 .sp-info { flex: 1; min-width: 0; }
+
 .sp-song {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem; font-weight: 400;
-  color: #0d0c0b;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 .sp-artist {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.56rem; color: rgba(0,0,0,0.4);
-  margin-top: 3px; letter-spacing: 0.06em;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.45);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* waveform bars — taller, more bars, fills width */
 .sp-bars {
-  display: flex; align-items: flex-end; gap: 2px;
-  height: 13px; margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 20px;
+  margin-top: 8px;
 }
 .sp-bar {
-  width: 3px; background: var(--amber); border-radius: 1px;
-  animation: barBounce var(--spd) ease-in-out infinite alternate;
+  flex: 1;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.55);
+  animation: waveBar var(--spd) ease-in-out infinite alternate;
 }
-.sp-bar:nth-child(1){--spd:0.50s}
-.sp-bar:nth-child(2){--spd:0.70s;animation-delay:.10s}
-.sp-bar:nth-child(3){--spd:0.42s;animation-delay:.20s}
-.sp-bar:nth-child(4){--spd:0.62s;animation-delay:.05s}
-.sp-bar:nth-child(5){--spd:0.56s;animation-delay:.15s}
-@keyframes barBounce { from{height:2px} to{height:13px} }
+.sp-bar:nth-child(1) {--spd:0.4s; --h:35%}
+.sp-bar:nth-child(2) {--spd:0.6s; --h:70%; animation-delay:.05s}
+.sp-bar:nth-child(3) {--spd:0.3s; --h:100%; animation-delay:.10s}
+.sp-bar:nth-child(4) {--spd:0.5s; --h:55%; animation-delay:.08s}
+.sp-bar:nth-child(5) {--spd:0.45s;--h:90%; animation-delay:.12s}
+.sp-bar:nth-child(6) {--spd:0.35s;--h:45%; animation-delay:.03s}
+.sp-bar:nth-child(7) {--spd:0.55s;--h:80%; animation-delay:.15s}
+.sp-bar:nth-child(8) {--spd:0.42s;--h:60%; animation-delay:.07s}
+.sp-bar:nth-child(9) {--spd:0.38s;--h:95%; animation-delay:.11s}
+.sp-bar:nth-child(10){--spd:0.52s;--h:40%; animation-delay:.04s}
+.sp-bar:nth-child(11){--spd:0.44s;--h:75%; animation-delay:.09s}
+.sp-bar:nth-child(12){--spd:0.33s;--h:50%; animation-delay:.13s}
+.sp-bar:nth-child(13){--spd:0.58s;--h:85%; animation-delay:.06s}
+.sp-bar:nth-child(14){--spd:0.41s;--h:30%; animation-delay:.14s}
+.sp-bar:nth-child(15){--spd:0.47s;--h:65%; animation-delay:.02s}
+
+@keyframes waveBar {
+  from { height: calc(var(--h) * 0.2); }
+  to   { height: var(--h); }
+}
+
+/* header label removed — cleaner without it */
+.sp-header { display: none; }
+
 .sp-idle {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.58rem; color: rgba(0,0,0,0.35); line-height: 1.6;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.6;
+  padding: 4px 0;
 }
 
 /* ────────────────────────────────────────────
