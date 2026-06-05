@@ -157,28 +157,43 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 
 .dot-label {
   position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%) scale(0.85);
+  /* tail tip lands exactly at dot center (dot is 11px, so center = 5.5px from top of dot-wrap) */
+  /* bubble bottom + tail (10px) = dot center, so bottom of bubble = dot center - tail height */
+  bottom: calc(50% + 10px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.88);
+  transform-origin: bottom center;
   white-space: nowrap;
   font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
   font-style: normal;
-  letter-spacing: normal;
   line-height: normal;
-  color: #0d0c0b;
+  letter-spacing: normal;
+  color: #000;
   background: #ffffff;
   border: none;
-  padding: 7px 16px;
+  padding: 8px 18px;
   border-radius: 999px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.1);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.18s, transform 0.18s;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.16)) drop-shadow(0 1px 2px rgba(0,0,0,0.08));
+}
+/* tail — centered, points down to dot center */
+.dot-label::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid #ffffff;
 }
 .dot-wrap:hover .dot-label {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translateX(-50%) scale(1);
 }
 
 /* no vignette */
@@ -399,14 +414,16 @@ nav {
 
   .dot-label {
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0.85);
+    bottom: calc(50% + 10px);
+    top: auto;
+    transform: translateX(-50%) scale(0.88);
+    transform-origin: bottom center;
     font-size: 0.75rem;
-    padding: 7px 14px;
+    padding: 8px 16px;
   }
   .dot-wrap.tapped .dot-label {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translateX(-50%) scale(1);
   }
   .dot-wrap.tapped .dot {
     opacity: 0;
