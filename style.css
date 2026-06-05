@@ -222,14 +222,17 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 ──────────────────────────────────────────── */
 #spotify-panel {
   position: fixed;
-  bottom: 28px; right: 32px;
+  bottom: 24px;
+  right: 24px;
   z-index: 500;
-  width: 272px;
-  background: rgba(240,237,232,0.96);
-  border: 0.5px solid rgba(0,0,0,0.1);
-  border-radius: 3px;
-  padding: 16px 18px;
-  backdrop-filter: blur(16px);
+  width: 300px;
+  background: rgba(30, 30, 30, 0.35);
+  backdrop-filter: blur(20px) saturate(1.8);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+  overflow: hidden;
+  padding: 10px;
   pointer-events: none;
   opacity: 0;
   transform: translateY(10px);
@@ -241,59 +244,79 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
   transform: translateY(0);
 }
 .sp-close {
-  position: absolute; top: 10px; right: 12px;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.52rem;
-  color: rgba(0,0,0,0.3);
-  letter-spacing: 0.08em;
-  transition: color 0.2s;
-}
-.sp-close:hover { color: #0d0c0b; }
-.sp-header {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.5rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--amber);
-  margin-bottom: 12px;
-}
-.sp-track { display: flex; gap: 12px; align-items: center; }
-.sp-art {
-  width: 50px; height: 50px;
-  border-radius: 2px; object-fit: cover;
-  flex-shrink: 0; background: rgba(0,0,0,0.06);
+  position: absolute; top: 7px; right: 7px;
+  width: 18px; height: 18px;
+  background: rgba(255,255,255,0.18);
+  border: none; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; line-height: 1;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer; z-index: 10;
+  transition: background 0.2s;
+  padding: 0;
 }
-.sp-info { flex: 1; min-width: 0; }
+.sp-close:hover { background: rgba(255,255,255,0.32); }
+.sp-header { display: none; }
+
+/* Two-column layout: art | [title + artist + waveform] */
+.sp-player {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 8px;
+  align-items: center;
+}
+.sp-art {
+  width: 72px; height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sp-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sp-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  justify-content: center;
+}
 .sp-song {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem; font-weight: 400;
-  color: #0d0c0b;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem; font-weight: 600;
+  color: #ffffff; line-height: 1.25;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  padding-right: 20px;
 }
 .sp-artist {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.56rem; color: rgba(0,0,0,0.4);
-  margin-top: 3px; letter-spacing: 0.06em;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem; font-weight: 400;
+  color: rgba(255,255,255,0.55);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-top: 1px;
+  padding-right: 20px;
 }
-.sp-bars {
-  display: flex; align-items: flex-end; gap: 2px;
-  height: 13px; margin-top: 8px;
+.sp-waveform {
+  width: 100%;
+  height: 38px;
+  margin-top: 6px;
+  margin-left: 0;
+  display: block;
 }
-.sp-bar {
-  width: 3px; background: var(--amber); border-radius: 1px;
-  animation: barBounce var(--spd) ease-in-out infinite alternate;
+.sp-waveform svg { display: block; }
+.sp-waveform svg line {
+  transform-box: fill-box;
+  transform-origin: center;
+  stroke: rgba(255,255,255,0.75) !important;
+  stroke-opacity: 1 !important;
 }
-.sp-bar:nth-child(1){--spd:0.50s}
-.sp-bar:nth-child(2){--spd:0.70s;animation-delay:.10s}
-.sp-bar:nth-child(3){--spd:0.42s;animation-delay:.20s}
-.sp-bar:nth-child(4){--spd:0.62s;animation-delay:.05s}
-.sp-bar:nth-child(5){--spd:0.56s;animation-delay:.15s}
-@keyframes barBounce { from{height:2px} to{height:13px} }
+@keyframes waveScale {
+  from { transform: scaleY(0.12); }
+  to   { transform: scaleY(1); }
+}
 .sp-idle {
   font-family: 'DM Mono', monospace;
-  font-size: 0.58rem; color: rgba(0,0,0,0.35); line-height: 1.6;
+  font-size: 0.55rem; color: rgba(255,255,255,0.45); line-height: 1.6;
+  padding: 4px 0;
 }
 
 /* ────────────────────────────────────────────
@@ -409,7 +432,11 @@ nav {
   #spotify-panel {
     bottom: 0; right: 0; left: 0;
     width: 100%;
-    border-radius: 0;
+    border-radius: 18px 18px 0 0;
     border-left: none; border-right: none; border-bottom: none;
   }
+  .sp-art { width: 56px; height: 56px; }
+  .sp-song { font-size: 0.78rem; }
+  .sp-artist { font-size: 0.65rem; }
+  .sp-waveform { height: 22px; }
 }

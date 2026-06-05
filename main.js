@@ -177,21 +177,50 @@ async function fetchNowPlaying() {
   }
 }
 
+/* Exact line data extracted from the Figma waveform SVG (8:112)
+   Each entry: [x, y1, y2] — 42 lines, stroke-width 5, 10px spacing */
+const WAVE_LINES = [
+  [7.5,30.2281,75.7719],[17.5,17.4052,88.5948],[27.5,19.4274,86.5726],
+  [37.5,38.9913,67.0087],[47.5,16.7345,89.2655],[57.5,34.7049,71.2951],
+  [67.5,34.248,71.752],[77.5,35.6707,70.3293],[87.5,37.9361,68.0639],
+  [97.5,31.6877,74.3123],[107.5,32.4929,73.5071],[117.5,19.0372,86.9628],
+  [127.5,38.3301,67.6699],[137.5,14.8925,91.1075],[147.5,40.5467,65.4533],
+  [157.5,44.2646,61.7354],[167.5,25.2482,80.7518],[177.5,21.0245,84.9755],
+  [187.5,34.1876,71.8124],[197.5,38.3933,67.6068],[207.5,42.7112,63.2888],
+  [217.5,36.4034,69.5966],[227.5,30.7875,75.2125],[237.5,37.8892,68.1108],
+  [247.5,41.6409,64.3591],[257.5,37.0118,68.9882],[267.5,21.3969,84.6031],
+  [277.5,28.1511,77.8489],[287.5,33.8057,72.1943],[297.5,33.5523,72.4477],
+  [307.5,21.7331,84.2669],[317.5,44.4654,61.5346],[327.5,14.5108,91.4892],
+  [337.5,44.1343,61.8657],[347.5,15.0059,90.9941],[357.5,40.5253,65.4747],
+  [367.5,18.2977,87.7023],[377.5,21.9589,84.0411],[387.5,22.3941,83.6059],
+  [397.5,34.8252,71.1748],[407.5,28.0581,77.9419],[417.5,39.4731,66.5269]
+];
+
+function buildWaveformSVG(playing) {
+  const lines = WAVE_LINES.map(([x, y1, y2], i) => {
+    const anim = playing
+      ? ` style="transform-box:fill-box;transform-origin:center;animation:waveScale ${(0.38+(i%7)*0.06).toFixed(2)}s ${(i*0.018).toFixed(3)}s ease-in-out infinite alternate"`
+      : '';
+    return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="black" stroke-opacity="0.72" stroke-width="5" stroke-linecap="round"${anim}/>`;
+  }).join('');
+  return `<svg width="100%" height="100%" viewBox="-7 0 437 106" fill="none" preserveAspectRatio="xMinYMid meet" xmlns="http://www.w3.org/2000/svg">${lines}</svg>`;
+}
+
 function renderTrack({ name, artist, art, playing }) {
   const content = document.getElementById('sp-content');
   if (!content) return;
+
   const artEl = art
-    ? `<img class="sp-art" src="${art}" alt="album art">`
-    : `<div class="sp-art"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></div>`;
-  const bars = Array.from({length: 15}, () => `<div class="sp-bar"></div>`).join('');
-  const barsEl = playing ? `<div class="sp-bars">${bars}</div>` : '';
+    ? `<img src="${art}" alt="album art">`
+    : `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>`;
+
   content.innerHTML = `
-    <div class="sp-track">
-      ${artEl}
-      <div class="sp-info">
+    <div class="sp-player">
+      <div class="sp-art">${artEl}</div>
+      <div class="sp-details">
         <div class="sp-song">${name}</div>
         <div class="sp-artist">${artist}</div>
-        ${barsEl}
+        <div class="sp-waveform">${buildWaveformSVG(playing)}</div>
       </div>
     </div>`;
 }
