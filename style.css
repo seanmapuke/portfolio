@@ -160,12 +160,13 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 .dot-label::after {
   content: '';
   position: absolute;
-  top: -10px;
+  top: -5px;
   left: 50%;
-  transform: translateX(-50%);
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 10px solid #ffffff;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
+  border-radius: 2px;
 }
 .dot-wrap:hover .dot-label {
   opacity: 1;
