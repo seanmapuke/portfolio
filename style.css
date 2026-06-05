@@ -157,34 +157,28 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 
 .dot-label {
   position: absolute;
-  left: 50%;
-  bottom: calc(100% + 4px); /* sits above the dot, tail points down to it */
-  transform: translateX(-50%) scale(0.88);
-  transform-origin: bottom center;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(0.85);
   white-space: nowrap;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.78rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  font-style: normal;
+  letter-spacing: normal;
+  line-height: normal;
   color: #0d0c0b;
-  padding: 10px 20px 18px; /* extra bottom padding for the tail */
+  background: #ffffff;
+  border: none;
+  padding: 7px 16px;
+  border-radius: 999px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18), 0 1px 3px rgba(0,0,0,0.1);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.18s, transform 0.18s;
-
-  /* Speech bubble via SVG background */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='506' height='93' viewBox='0 0 506 93' fill='none'%3E%3Cpath d='M0 52.7727C0 30.6813 17.9086 12.7727 40 12.7727H466C488.091 12.7727 506 30.6813 506 52.7727C506 74.8641 488.091 92.7727 466 92.7727H40C17.9086 92.7727 0 74.8641 0 52.7727Z' fill='white'/%3E%3Cpath d='M249.434 1.43067C251.033 -0.47689 253.967 -0.476889 255.566 1.43067L266.48 14.4534C268.662 17.0566 266.811 21.0227 263.414 21.0227H241.586C238.189 21.0227 236.338 17.0566 238.52 14.4534L249.434 1.43067Z' fill='white'/%3E%3C/svg%3E");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.18)) drop-shadow(0 1px 2px rgba(0,0,0,0.1));
 }
 .dot-wrap:hover .dot-label {
   opacity: 1;
-  transform: translateX(-50%) scale(1);
+  transform: translate(-50%, -50%) scale(1);
 }
 
 /* no vignette */
@@ -405,15 +399,14 @@ nav {
 
   .dot-label {
     left: 50%;
-    bottom: calc(100% + 4px);
-    top: auto;
-    transform: translateX(-50%) scale(0.88);
-    transform-origin: bottom center;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.85);
     font-size: 0.75rem;
+    padding: 7px 14px;
   }
   .dot-wrap.tapped .dot-label {
     opacity: 1;
-    transform: translateX(-50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
   }
   .dot-wrap.tapped .dot {
     opacity: 0;
