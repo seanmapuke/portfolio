@@ -110,6 +110,8 @@ if (spClose) {
   spClose.addEventListener('click', () => {
     spotifyPanel.classList.remove('visible');
     spotifyOpen = false;
+    clearInterval(spotifyPollInterval);
+    spotifyPollInterval = null;
   });
 }
 
@@ -120,17 +122,23 @@ const CLIENT_SECRET = '038568c332a8407db12386838fb84702';
 const REFRESH_TOKEN = 'AQCCHdrU1fEsgROuu2I7m2GRzOT_WjZ63kDX4uwMR9liEmuOpjk7HtdGvw8vToK6jq0PnrXQgsOvGHrMtBis8UHb91pOTdeH8xfTCpCAwip_q2psWWRFntZX1bwey6q4Ohk';
 
 let spotifyOpen = false;
+let spotifyPollInterval = null;
+let currentTrackId = null;
 
 async function toggleSpotify() {
   if (!spotifyPanel) return;
   if (spotifyOpen) {
     spotifyPanel.classList.remove('visible');
     spotifyOpen = false;
+    clearInterval(spotifyPollInterval);
+    spotifyPollInterval = null;
     return;
   }
   spotifyPanel.classList.add('visible');
   spotifyOpen = true;
   await fetchNowPlaying();
+  // Poll every 3s but only re-renders if track or play state actually changed
+  spotifyPollInterval = setInterval(() => fetchNowPlaying(true), 3000);
 }
 
 async function getAccessToken() {
@@ -146,7 +154,7 @@ async function getAccessToken() {
   return data.access_token;
 }
 
-async function fetchNowPlaying() {
+async function fetchNowPlaying(silent = false) {
   const content = document.getElementById('sp-content');
   if (!content) return;
 
@@ -155,17 +163,33 @@ async function fetchNowPlaying() {
     return;
   }
 
-  content.innerHTML = `<div class="sp-idle">Loading…</div>`;
+  if (!silent) content.innerHTML = `<div class="sp-idle">Loading…</div>`;
   try {
     const token = await getAccessToken();
     const res   = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.status === 204 || res.status === 404) {
-      content.innerHTML = `<div class="sp-idle">Nothing playing right now.</div>`; return;
+      if (currentTrackId !== null) {
+        currentTrackId = null;
+        content.innerHTML = `<div class="sp-idle">Nothing playing right now.</div>`;
+      }
+      return;
     }
     const data = await res.json();
-    if (!data?.item) { content.innerHTML = `<div class="sp-idle">Nothing playing right now.</div>`; return; }
+    if (!data?.item) {
+      if (currentTrackId !== null) {
+        currentTrackId = null;
+        content.innerHTML = `<div class="sp-idle">Nothing playing right now.</div>`;
+      }
+      return;
+    }
+
+    // Only re-render if track or play state changed
+    const newId = data.item.id + '_' + data.is_playing;
+    if (newId === currentTrackId) return;
+    currentTrackId = newId;
+
     renderTrack({
       name:    data.item.name,
       artist:  data.item.artists.map(a => a.name).join(', '),
@@ -173,7 +197,7 @@ async function fetchNowPlaying() {
       playing: data.is_playing
     });
   } catch {
-    content.innerHTML = `<div class="sp-idle">Couldn't connect. Check credentials in main.js.</div>`;
+    if (!silent) content.innerHTML = `<div class="sp-idle">Couldn't connect. Check credentials in main.js.</div>`;
   }
 }
 
