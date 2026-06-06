@@ -259,3 +259,141 @@ credits.forEach(item => {
     if (archLabel) archLabel.textContent = item.querySelector('.cname').textContent;
   });
 });
+
+/* ════════════════════════════════════════════
+   ADDITIONS — hamburger menu, night mode class,
+   mobile spotify card
+════════════════════════════════════════════ */
+
+/* ── Hamburger menu ── */
+const mobHamburger = document.getElementById('mob-hamburger');
+const mobMenu      = document.getElementById('mob-menu');
+const mobClose     = document.getElementById('mob-menu-close');
+
+if (mobHamburger && mobMenu) {
+  mobHamburger.addEventListener('click', () => {
+    mobMenu.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+}
+if (mobClose && mobMenu) {
+  mobClose.addEventListener('click', () => {
+    mobMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  });
+}
+
+/* ── Night mode body class (for dark dot labels) ── */
+function applyNightClass(day) {
+  if (day) {
+    document.body.classList.remove('night-mode');
+  } else {
+    document.body.classList.add('night-mode');
+  }
+}
+// Apply on load
+applyNightClass(isDay);
+
+// Patch applyMode to also toggle body class
+const _origApplyMode = applyMode;
+function applyMode(day, animate) {
+  _origApplyMode(day, animate);
+  applyNightClass(day);
+}
+
+/* ── Mobile Spotify overlay ── */
+const spMobOverlay = document.getElementById('spotify-mobile-overlay');
+const spMobClose   = document.getElementById('sp-mob-close');
+const spMobContent = document.getElementById('sp-mob-content');
+
+function isMobileView() {
+  return window.matchMedia('(max-width: 768px)').matches;
+}
+
+// Tap outside card to close
+if (spMobOverlay) {
+  spMobOverlay.addEventListener('click', (e) => {
+    if (e.target === spMobOverlay) closeMobileSpotify();
+  });
+}
+if (spMobClose) {
+  spMobClose.addEventListener('click', closeMobileSpotify);
+}
+
+function closeMobileSpotify() {
+  if (spMobOverlay) spMobOverlay.classList.remove('visible');
+  spotifyOpen = false;
+  clearInterval(spotifyPollInterval);
+  spotifyPollInterval = null;
+}
+
+function renderMobileTrack({ name, artist, art, playing }) {
+  if (!spMobContent) return;
+  const artEl = art
+    ? `<img src="${art}" alt="album art">`
+    : `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>`;
+  spMobContent.innerHTML = `
+    <div class="sp-mob-art">${artEl}</div>
+    <div class="sp-mob-info">
+      <div class="sp-mob-song">${name}</div>
+      <div class="sp-mob-artist">${artist}</div>
+    </div>`;
+}
+
+// Override toggleSpotify to use mobile card on mobile
+const _origToggleSpotify = toggleSpotify;
+async function toggleSpotify() {
+  if (isMobileView()) {
+    if (spotifyOpen) {
+      closeMobileSpotify();
+      return;
+    }
+    if (spMobOverlay) spMobOverlay.classList.add('visible');
+    spotifyOpen = true;
+    await fetchMobileNowPlaying();
+    spotifyPollInterval = setInterval(() => fetchMobileNowPlaying(true), 3000);
+  } else {
+    await _origToggleSpotify();
+  }
+}
+
+async function fetchMobileNowPlaying(silent = false) {
+  if (!spMobContent) return;
+  if (DEMO_MODE) {
+    renderMobileTrack({ name: 'Add Spotify credentials', artist: 'main.js', art: null, playing: true });
+    return;
+  }
+  if (!silent) spMobContent.innerHTML = `<div class="sp-mob-idle">Loading…</div>`;
+  try {
+    const token = await getAccessToken();
+    const res = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (res.status === 204 || res.status === 404) {
+      if (currentTrackId !== null) {
+        currentTrackId = null;
+        spMobContent.innerHTML = `<div class="sp-mob-idle">Nothing playing right now.</div>`;
+      }
+      return;
+    }
+    const data = await res.json();
+    if (!data?.item) {
+      if (currentTrackId !== null) {
+        currentTrackId = null;
+        spMobContent.innerHTML = `<div class="sp-mob-idle">Nothing playing right now.</div>`;
+      }
+      return;
+    }
+    const newId = data.item.id + '_' + data.is_playing;
+    if (newId === currentTrackId) return;
+    currentTrackId = newId;
+    renderMobileTrack({
+      name:    data.item.name,
+      artist:  data.item.artists.map(a => a.name).join(', '),
+      art:     data.item.album.images[1]?.url || data.item.album.images[0]?.url,
+      playing: data.is_playing
+    });
+  } catch {
+    if (!silent) spMobContent.innerHTML = `<div class="sp-mob-idle">Couldn't connect.</div>`;
+  }
+}

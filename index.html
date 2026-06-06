@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&family=Inter:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -17,24 +17,68 @@
     <div id="loader-name">Sean Mapuke</div>
   </div>
 
+  <!-- Desktop nav -->
   <nav class="nav-home">
     <div class="nav-links">
+      <a href="about.html">About Me</a>
       <a href="projects.html">Projects</a>
       <a href="contact.html">Contact</a>
     </div>
   </nav>
+
+  <!-- Mobile nav -->
+  <div class="mob-nav">
+    <button class="mob-hamburger" id="mob-hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <span class="mob-nav-name">SEAN MAPUKE.</span>
+  </div>
+
+  <!-- Mobile menu overlay -->
+  <div class="mob-menu" id="mob-menu">
+    <div class="mob-menu-inner">
+      <div class="mob-menu-top">
+        <button class="mob-menu-close" id="mob-menu-close" aria-label="Close menu">
+          <span></span><span></span>
+        </button>
+        <span class="mob-menu-name">SEAN MAPUKE.</span>
+      </div>
+      <nav class="mob-menu-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="mob-menu-footer">
+        <div class="mob-menu-address">
+          SOMEWHERE IN MY ROOM,<br>
+          DALLAS, TX<br>
+          USA
+        </div>
+        <a href="mailto:seanmapuke1@gmail.com" class="mob-menu-email">EMAIL ME</a>
+        <div class="mob-menu-bottom">
+          <div class="mob-menu-legal">
+            <a href="#">LEGAL NOTICE</a>
+            <span>©2026 SEANMAPUKE</span>
+          </div>
+          <div class="mob-menu-by">
+            WEBSITE BY<br>
+            <strong>SEAN</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <section class="s-room">
     <div class="room-img-wrap">
       <img id="room-img" src="Untitled.png" alt="Sean's Room" />
 
       <div class="room-header">
-        <h1 class="room-title">Hi I'm Sean</h1>
-        <p class="room-sub">Welcome to my space</p>
+        <h1 class="room-title">SEAN MAPUKE.</h1>
       </div>
 
       <div class="room-hint">explore the room</div>
-
       <div class="room-vignette"></div>
 
       <!-- 1. Phone on nightstand → contact.html -->
@@ -42,43 +86,46 @@
         <div class="dot"></div>
         <div class="dot-label">Contact Me</div>
       </div>
-
       <!-- 2. Clothes pile → mnyfces.com -->
       <div class="dot-wrap" style="left:56.10%;top:90.39%;" data-href="https://mnyfces.com" data-external="true" data-label="mnyfces.com">
         <div class="dot"></div>
         <div class="dot-label">mnyfces.com</div>
       </div>
-
       <!-- 3. Monitor → projects.html -->
       <div class="dot-wrap" style="left:26.14%;top:39.00%;" data-href="projects.html" data-label="Professional Projects">
         <div class="dot"></div>
         <div class="dot-label">Professional Projects</div>
       </div>
-
       <!-- 4. Vinyl player → Spotify -->
       <div class="dot-wrap" style="left:59.00%;top:33.67%;" data-type="spotify" data-label="What I'm Listening To">
         <div class="dot"></div>
         <div class="dot-label">What I'm Listening To</div>
       </div>
-
       <!-- 5. Orange hard drive → artistic projects -->
       <div class="dot-wrap" style="left:27.20%;top:42.87%;" data-href="projects.html#art" data-label="Creative Projects">
         <div class="dot"></div>
         <div class="dot-label">Creative Projects</div>
       </div>
-
       <!-- 6. Switch → day/night toggle -->
       <div class="dot-wrap" style="left:5.20%;top:65.25%;" data-type="daynight" data-label="Day / Night">
         <div class="dot"></div>
         <div class="dot-label" id="daynight-label">Switch to Day</div>
       </div>
-
     </div>
   </section>
 
+  <!-- Spotify panel — desktop -->
   <div id="spotify-panel">
-    <div class="sp-close" id="sp-close">×</div>
+    <button class="sp-close" id="sp-close" aria-label="Close">×</button>
     <div id="sp-content"></div>
+  </div>
+
+  <!-- Spotify card — mobile -->
+  <div id="spotify-mobile-overlay" class="sp-mob-overlay">
+    <div class="sp-mob-card" id="sp-mob-card">
+      <button class="sp-mob-close" id="sp-mob-close" aria-label="Close">×</button>
+      <div id="sp-mob-content"></div>
+    </div>
   </div>
 
   <script src="main.js"></script>
