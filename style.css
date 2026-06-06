@@ -179,19 +179,19 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 /* name tag */
 .room-header {
   position: absolute;
-  top: 36px; left: 48px;
+  top: 25px; left: 43px;
   z-index: 30;
   opacity: 0;
   animation: fadeUp 0.8s 1.3s forwards;
 }
 .room-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-size: clamp(1.8rem, 3.34vw, 128px);
   font-weight: 400;
-  color: #ffffff;
-  letter-spacing: 0.08em;
+  color: #E0DEDE;
+  letter-spacing: 0.00em;
   line-height: 1;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.35);
+  text-shadow: 0 0px 0px rgba(0,0,0,0.35);
 }
 .room-sub {
   font-family: 'DM Mono', monospace;
@@ -324,9 +324,9 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
    NAV — HOME
 ──────────────────────────────────────────── */
 nav.nav-home {
-  position: fixed; top:0; left:0; right:0; z-index:200;
+  position: fixed; top:25px; left:0; right:0; z-index:200;
   display:flex; align-items:center; justify-content:flex-end;
-  padding: 22px 40px;
+  padding: 25px 43px;
   background: transparent;
   border-bottom: none;
 }
@@ -337,7 +337,7 @@ nav.nav-home .nav-links {
 }
 nav.nav-home .nav-links a {
   font-family:'DM Mono',monospace;
-  font-size:0.6rem; letter-spacing:0.16em;
+  font-size:0.8rem; letter-spacing:14.4px;
   text-transform:uppercase; color: rgba(255,255,255,0.65);
   text-decoration:none; transition:color 0.2s;
   text-shadow: 0 1px 4px rgba(0,0,0,0.3);
