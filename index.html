@@ -27,49 +27,51 @@
 
   <section class="s-room">
     <div class="room-img-wrap">
-      <img id="room-img" src="Untitled.png" alt="Sean's Room" />
-
-      <div class="room-header">
-        <h1 class="room-title">SEAN MAPUKE.</h1>
-        <p class="room-sub">Welcome to my space</p>
-      </div>
+      <img id="room-img" src="NIGHTTIME.png" alt="Sean's Room" />
 
       <div class="room-hint">explore the room</div>
 
+      <!-- Corner tag: location / date / time -->
+      <div class="corner-tag" id="corner-tag">
+        <div class="corner-tag-line" id="ct-location">Location: Somewhere in Texas</div>
+        <div class="corner-tag-line" id="ct-date"></div>
+        <div class="corner-tag-line" id="ct-time-live"></div>
+      </div>
+
       <div class="room-vignette"></div>
 
-      <!-- 1. Phone on nightstand → contact.html -->
-      <div class="dot-wrap" style="left:85.00%;top:78.00%;" data-href="contact.html" data-label="Contact Me">
+      <!-- 1. Contact Me -->
+      <div class="dot-wrap" style="left:90.60%;top:77.83%;" data-href="contact.html" data-label="Contact Me">
         <div class="dot"></div>
         <div class="dot-label">Contact Me</div>
       </div>
 
-      <!-- 2. Clothes pile → mnyfces.com -->
-      <div class="dot-wrap" style="left:56.10%;top:90.39%;" data-href="https://mnyfces.com" data-external="true" data-label="mnyfces.com">
+      <!-- 2. Manyfaces → mnyfces.com -->
+      <div class="dot-wrap" style="left:59.79%;top:89.67%;" data-href="https://mnyfces.com" data-external="true" data-label="mnyfces.com">
         <div class="dot"></div>
         <div class="dot-label">mnyfces.com</div>
       </div>
 
-      <!-- 3. Monitor → projects.html -->
-      <div class="dot-wrap" style="left:26.14%;top:39.00%;" data-href="projects.html" data-label="Professional Projects">
+      <!-- 3. Pro Projects → projects.html -->
+      <div class="dot-wrap" style="left:29.64%;top:40.17%;" data-href="projects.html" data-label="Professional Projects">
         <div class="dot"></div>
         <div class="dot-label">Professional Projects</div>
       </div>
 
-      <!-- 4. Vinyl player → Spotify -->
-      <div class="dot-wrap" style="left:59.00%;top:33.67%;" data-type="spotify" data-label="What I'm Listening To">
+      <!-- 4. What I'm Listening To → Spotify -->
+      <div class="dot-wrap" style="left:64.18%;top:35.69%;" data-type="spotify" data-label="What I'm Listening To">
         <div class="dot"></div>
         <div class="dot-label">What I'm Listening To</div>
       </div>
 
-      <!-- 5. Orange hard drive → artistic projects -->
-      <div class="dot-wrap" style="left:27.20%;top:42.87%;" data-href="projects.html#art" data-label="Creative Projects">
+      <!-- 5. Creative Projects → projects.html#art -->
+      <div class="dot-wrap" style="left:31.74%;top:44.83%;" data-href="projects.html#art" data-label="Creative Projects">
         <div class="dot"></div>
         <div class="dot-label">Creative Projects</div>
       </div>
 
       <!-- 6. Switch → day/night toggle -->
-      <div class="dot-wrap" style="left:5.20%;top:65.25%;" data-type="daynight" data-label="Day / Night">
+      <div class="dot-wrap" style="left:6.04%;top:63.67%;" data-type="daynight" data-label="Day / Night">
         <div class="dot"></div>
         <div class="dot-label" id="daynight-label">Switch to Day</div>
       </div>
@@ -83,5 +85,26 @@
   </div>
 
   <script src="main.js"></script>
+  <script>
+    // Corner tag — live date & time
+    function updateCornerTag() {
+      const now = new Date();
+      const dateEl = document.getElementById('ct-date');
+      const timeEl = document.getElementById('ct-time-live');
+      if (dateEl) {
+        const d = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        dateEl.textContent = 'Date: ' + d;
+      }
+      if (timeEl) {
+        const t = now.toLocaleTimeString('en-US', {
+          timeZone: 'America/Chicago',
+          hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+        });
+        timeEl.textContent = 'Time: ' + t;
+      }
+    }
+    updateCornerTag();
+    setInterval(updateCornerTag, 1000);
+  </script>
 </body>
 </html>

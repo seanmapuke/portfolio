@@ -2,7 +2,63 @@
    SEAN — main.js
 ════════════════════════════════════════════ */
 
-/* ── Custom cursor ──────────────────────── */
+/* ── Dynamic dot repositioning ──────────── */
+// Image is height:100vh, width:auto — no object-fit cropping.
+// Dots are placed as % of the image's natural rendered dimensions.
+
+const roomImg = document.getElementById('room-img');
+
+function repositionDotsFromOriginal() {
+  if (!roomImg || !roomImg.offsetWidth) return;
+
+  const IMG_RATIO = 2880 / 1800; // 16:10
+  const vpRatio   = window.innerWidth / window.innerHeight;
+  const isCover   = vpRatio > IMG_RATIO; // matches the @media (min-aspect-ratio: 8/5)
+
+  let imgW, imgH, offsetX, offsetY;
+
+  if (isCover) {
+    // object-fit: cover — image fills viewport, center-center cropped
+    if (vpRatio > IMG_RATIO) {
+      imgW = window.innerWidth;
+      imgH = window.innerWidth / IMG_RATIO;
+    } else {
+      imgH = window.innerHeight;
+      imgW = window.innerHeight * IMG_RATIO;
+    }
+    offsetX = (window.innerWidth  - imgW) / 2;
+    offsetY = (window.innerHeight - imgH) / 2;
+  } else {
+    // horizontal scroll — image is height:100vh, width:auto, no crop
+    imgW    = roomImg.offsetWidth;
+    imgH    = roomImg.offsetHeight;
+    offsetX = 0;
+    offsetY = 0;
+  }
+
+  document.querySelectorAll('.dot-wrap').forEach(dot => {
+    const pctLeft = parseFloat(dot.dataset.origLeft) / 100;
+    const pctTop  = parseFloat(dot.dataset.origTop)  / 100;
+
+    dot.style.left = (offsetX + pctLeft * imgW) + 'px';
+    dot.style.top  = (offsetY + pctTop  * imgH) + 'px';
+  });
+}
+
+// Store original percentages once before any repositioning
+document.querySelectorAll('.dot-wrap').forEach(dot => {
+  dot.dataset.origLeft = dot.style.left;
+  dot.dataset.origTop  = dot.style.top;
+  // Clear inline % so px values take over
+  dot.style.left = '';
+  dot.style.top  = '';
+});
+
+window.addEventListener('resize', repositionDotsFromOriginal);
+window.addEventListener('load',   repositionDotsFromOriginal);
+
+
+
 const cursor = document.getElementById('cursor');
 if (cursor) {
   document.addEventListener('mousemove', e => {
@@ -25,12 +81,14 @@ if (cursor) {
 
 /* ── Loader ─────────────────────────────── */
 const loader  = document.getElementById('loader');
-const roomImg = document.getElementById('room-img');
 
 if (loader) {
   const dismissLoader = () => setTimeout(() => {
     loader.classList.add('done');
-    if (roomImg) roomImg.classList.add('loaded');
+    if (roomImg) {
+      roomImg.classList.add('loaded');
+      repositionDotsFromOriginal();
+    }
   }, 1300);
 
   if (roomImg) {
@@ -42,13 +100,18 @@ if (loader) {
 }
 
 /* ── Day / Night (dot) ──────────────────── */
-const NIGHT_SRC = 'Untitled.png';
-const DAY_SRC   = 'Untitled2.png';
-let   isDay     = localStorage.getItem('colorMode') === 'day';
+const NIGHT_SRC = 'NIGHTTIME.png';
+const DAY_SRC   = 'DAYTIME.png';
+// Use time-of-day as default if user hasn't manually toggled
+const _saved = sessionStorage.getItem('colorMode');
+const _hour  = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago', hour: 'numeric', hour12: false });
+const _isDayTime = parseInt(_hour) >= 6 && parseInt(_hour) < 20; // 6am–8pm CDT = day
+let   isDay  = _saved !== null ? _saved === 'day' : _isDayTime;
 
 function applyMode(day, animate) {
   const labelEl = document.getElementById('daynight-label');
   if (labelEl) labelEl.textContent = day ? 'Switch to Night' : 'Switch to Day';
+  document.body.classList.toggle('day-mode', day);
 
   if (!roomImg) return;
   if (animate) {
@@ -86,7 +149,7 @@ document.querySelectorAll('.dot-wrap').forEach(dot => {
     if (dot.dataset.type === 'spotify')  { toggleSpotify(); return; }
     if (dot.dataset.type === 'daynight') {
       isDay = !isDay;
-      localStorage.setItem('colorMode', isDay ? 'day' : 'night');
+      sessionStorage.setItem('colorMode', isDay ? 'day' : 'night');
       applyMode(isDay, true);
       return;
     }
