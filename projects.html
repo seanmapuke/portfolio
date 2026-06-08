@@ -623,6 +623,59 @@
       });
     });
 
+    // ── Icon dragging ─────────────────────────────
+    let iconDragging = false, iconTarget = null, iconOx = 0, iconOy = 0, iconMoved = false;
+
+    document.querySelectorAll('.folder-item').forEach(item => {
+      item.style.cursor = 'grab';
+
+      item.addEventListener('mousedown', e => {
+        // Don't drag if clicking inside an open window
+        if (e.target.closest('.proj-window')) return;
+        iconTarget  = item;
+        iconDragging = false;
+        iconMoved   = false;
+        const r = item.getBoundingClientRect();
+        iconOx = e.clientX - r.left;
+        iconOy = e.clientY - r.top;
+        // Convert to position:absolute px if not already
+        item.style.position = 'absolute';
+        item.style.left = r.left + 'px';
+        item.style.top  = r.top  + 'px';
+        item.style.zIndex = ++topZ;
+        e.preventDefault();
+      });
+    });
+
+    document.addEventListener('mousemove', e => {
+      if (!iconTarget) return;
+      const dx = e.clientX - (parseFloat(iconTarget.style.left) + iconOx);
+      const dy = e.clientY - (parseFloat(iconTarget.style.top)  + iconOy);
+      if (!iconDragging && Math.abs(dx) + Math.abs(dy) > 4) {
+        iconDragging = true;
+        iconMoved    = true;
+        iconTarget.style.cursor  = 'grabbing';
+        iconTarget.style.opacity = '0.85';
+        iconTarget.style.transition = 'none';
+      }
+      if (iconDragging) {
+        iconTarget.style.left = (e.clientX - iconOx) + 'px';
+        iconTarget.style.top  = (e.clientY - iconOy) + 'px';
+      }
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (iconTarget) {
+        iconTarget.style.cursor  = 'grab';
+        iconTarget.style.opacity = '1';
+        // Save position so resize doesn't reset it
+        iconTarget.dataset.origLeft = null;
+        iconTarget.dataset.origTop  = null;
+        iconTarget = null;
+        iconDragging = false;
+      }
+    });
+
     // Drag window
     const bar = document.getElementById('window-bar');
     let dragging = false, ox = 0, oy = 0;
