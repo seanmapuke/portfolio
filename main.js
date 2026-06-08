@@ -100,8 +100,8 @@ if (loader) {
 }
 
 /* ── Day / Night (dot) ──────────────────── */
-const NIGHT_SRC = 'NIGHTTIME.png';
-const DAY_SRC   = 'DAYTIME.png';
+const NIGHT_SRC = 'NIGHTTIME.webp';
+const DAY_SRC   = 'DAYTIME.webp';
 // Use time-of-day as default if user hasn't manually toggled
 const _saved = sessionStorage.getItem('colorMode');
 const _hour  = new Date().toLocaleString('en-US', { timeZone: 'America/Chicago', hour: 'numeric', hour12: false });
