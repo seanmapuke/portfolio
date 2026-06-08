@@ -625,38 +625,43 @@
 
     // ── Icon dragging ─────────────────────────────
     let iconDragging = false, iconTarget = null, iconOx = 0, iconOy = 0, iconMoved = false;
+    let iconStartX = 0, iconStartY = 0;
 
     document.querySelectorAll('.folder-item').forEach(item => {
       item.style.cursor = 'grab';
 
       item.addEventListener('mousedown', e => {
-        // Don't drag if clicking inside an open window
         if (e.target.closest('.proj-window')) return;
-        iconTarget  = item;
+        iconTarget   = item;
         iconDragging = false;
-        iconMoved   = false;
+        iconMoved    = false;
+        iconStartX   = e.clientX;
+        iconStartY   = e.clientY;
         const r = item.getBoundingClientRect();
         iconOx = e.clientX - r.left;
         iconOy = e.clientY - r.top;
-        // Convert to position:absolute px if not already
-        item.style.position = 'absolute';
-        item.style.left = r.left + 'px';
-        item.style.top  = r.top  + 'px';
-        item.style.zIndex = ++topZ;
         e.preventDefault();
       });
     });
 
     document.addEventListener('mousemove', e => {
       if (!iconTarget) return;
-      const dx = e.clientX - (parseFloat(iconTarget.style.left) + iconOx);
-      const dy = e.clientY - (parseFloat(iconTarget.style.top)  + iconOy);
-      if (!iconDragging && Math.abs(dx) + Math.abs(dy) > 4) {
+      const dx = e.clientX - iconStartX;
+      const dy = e.clientY - iconStartY;
+      if (!iconDragging && Math.abs(dx) + Math.abs(dy) > 24) {
         iconDragging = true;
         iconMoved    = true;
-        iconTarget.style.cursor  = 'grabbing';
-        iconTarget.style.opacity = '0.85';
-        iconTarget.style.transition = 'none';
+        // Lock to px position only now
+        const r = iconTarget.getBoundingClientRect();
+        iconTarget.style.position   = 'absolute';
+        iconTarget.style.left       = r.left + 'px';
+        iconTarget.style.top        = r.top  + 'px';
+        iconTarget.style.zIndex     = ++topZ;
+        iconTarget.style.cursor     = 'grabbing';
+        iconTarget.style.opacity    = '0.88';
+        iconTarget.style.transition = 'opacity 0.15s ease';
+        iconTarget.style.willChange = 'transform, left, top';
+        iconTarget.style.filter     = 'drop-shadow(0 8px 24px rgba(0,0,0,0.35))';
       }
       if (iconDragging) {
         iconTarget.style.left = (e.clientX - iconOx) + 'px';
@@ -666,9 +671,11 @@
 
     document.addEventListener('mouseup', () => {
       if (iconTarget) {
-        iconTarget.style.cursor  = 'grab';
-        iconTarget.style.opacity = '1';
-        // Save position so resize doesn't reset it
+        iconTarget.style.cursor     = 'grab';
+        iconTarget.style.opacity    = '1';
+        iconTarget.style.filter     = '';
+        iconTarget.style.willChange = 'auto';
+        iconTarget.style.transition = 'opacity 0.2s ease, filter 0.2s ease';
         iconTarget.dataset.origLeft = null;
         iconTarget.dataset.origTop  = null;
         iconTarget = null;
