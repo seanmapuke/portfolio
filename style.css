@@ -374,6 +374,18 @@ body.day-mode .dot-label::after {
   font-size: 0.55rem; color: rgba(255,255,255,0.45); line-height: 1.6;
   padding: 4px 0;
 }
+.sp-art-empty {
+  font-size: 30px;
+  filter: grayscale(0.2) opacity(0.9);
+}
+.sp-note {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.35);
+  margin-top: 6px;
+  padding-left: 2px;
+}
 
 /* ────────────────────────────────────────────
    NAV — HOME

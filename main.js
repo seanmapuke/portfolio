@@ -235,7 +235,7 @@ async function fetchNowPlaying(silent = false) {
     if (res.status === 204 || res.status === 404) {
       if (currentTrackId !== null) {
         currentTrackId = null;
-        content.innerHTML = `<div class="sp-idle">Nothing playing right now.</div>`;
+        renderEmptyState();
       }
       return;
     }
@@ -243,7 +243,7 @@ async function fetchNowPlaying(silent = false) {
     if (!data?.item) {
       if (currentTrackId !== null) {
         currentTrackId = null;
-        content.innerHTML = `<div class="sp-idle">Nothing playing right now.</div>`;
+        renderEmptyState();
       }
       return;
     }
@@ -291,6 +291,32 @@ function buildWaveformSVG(playing) {
     return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="black" stroke-opacity="0.72" stroke-width="5" stroke-linecap="round"${anim}/>`;
   }).join('');
   return `<svg width="100%" height="100%" viewBox="-7 0 437 106" fill="none" preserveAspectRatio="xMinYMid meet" xmlns="http://www.w3.org/2000/svg">${lines}</svg>`;
+}
+
+const IDLE_JOKES = [
+  { song: '4′ 33″', artist: 'John Cage', note: '(he’s not playing anything either)' },
+  { song: 'Sound of Silence', artist: 'Absolutely Nobody', note: '(probably heads-down somewhere)' },
+  { song: 'Dead Air', artist: 'Radio Static FM', note: '(the DJ stepped out for coffee)' },
+  { song: 'Untitled Track', artist: 'Deafening Silence', note: '(check back after a snack break)' },
+  { song: 'Loading...', artist: 'My Attention Span', note: '(buffering since 2019)' }
+];
+
+function renderEmptyState() {
+  const content = document.getElementById('sp-content');
+  if (!content) return;
+
+  const pick = IDLE_JOKES[Math.floor(Math.random() * IDLE_JOKES.length)];
+
+  content.innerHTML = `
+    <div class="sp-player">
+      <div class="sp-art sp-art-empty">💤</div>
+      <div class="sp-details">
+        <div class="sp-song">${pick.song}</div>
+        <div class="sp-artist">${pick.artist}</div>
+        <div class="sp-waveform">${buildWaveformSVG(false)}</div>
+      </div>
+    </div>
+    <div class="sp-note">${pick.note}</div>`;
 }
 
 function renderTrack({ name, artist, art, playing }) {
