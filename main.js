@@ -134,6 +134,13 @@ if (isDay) applyMode(true, false);
 const spotifyPanel = document.getElementById('spotify-panel');
 const spClose      = document.getElementById('sp-close');
 
+function closeSpotifyPanel() {
+  spotifyPanel.classList.remove('visible');
+  spotifyOpen = false;
+  clearInterval(spotifyPollInterval);
+  spotifyPollInterval = null;
+}
+
 document.querySelectorAll('.dot-wrap').forEach(dot => {
   dot.addEventListener('click', (e) => {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -170,13 +177,17 @@ document.addEventListener('click', (e) => {
 });
 
 if (spClose) {
-  spClose.addEventListener('click', () => {
-    spotifyPanel.classList.remove('visible');
-    spotifyOpen = false;
-    clearInterval(spotifyPollInterval);
-    spotifyPollInterval = null;
-  });
+  spClose.addEventListener('click', closeSpotifyPanel);
 }
+
+// Close the panel on a click anywhere outside it (but not on the dot that
+// opens it, which already handles its own toggle).
+document.addEventListener('click', (e) => {
+  if (!spotifyOpen) return;
+  if (e.target.closest('.dot-wrap[data-type="spotify"]')) return;
+  if (e.target.closest('#spotify-panel')) return;
+  closeSpotifyPanel();
+});
 
 /* ── Spotify ────────────────────────────── */
 const DEMO_MODE     = false;
@@ -186,15 +197,12 @@ const REFRESH_TOKEN = 'AQCCHdrU1fEsgROuu2I7m2GRzOT_WjZ63kDX4uwMR9liEmuOpjk7HtdGv
 
 let spotifyOpen = false;
 let spotifyPollInterval = null;
-let currentTrackId = null;
+let currentTrackId = null; // null = not yet checked, 'idle' = confirmed nothing playing
 
 async function toggleSpotify() {
   if (!spotifyPanel) return;
   if (spotifyOpen) {
-    spotifyPanel.classList.remove('visible');
-    spotifyOpen = false;
-    clearInterval(spotifyPollInterval);
-    spotifyPollInterval = null;
+    closeSpotifyPanel();
     return;
   }
   spotifyPanel.classList.add('visible');
@@ -226,29 +234,34 @@ async function fetchNowPlaying(silent = false) {
     return;
   }
 
-  if (!silent) content.innerHTML = `<div class="sp-idle">Loading…</div>`;
+  // Only flash "Loading…" on the very first open (empty panel).
+  // On later opens, keep whatever's already showing until fresh data arrives,
+  // so reopening the panel doesn't collapse/resize mid-transition.
+  if (!silent && !content.innerHTML.trim()) content.innerHTML = `<div class="sp-idle">Loading…</div>`;
   try {
     const token = await getAccessToken();
     const res   = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.status === 204 || res.status === 404) {
-      if (currentTrackId !== null) {
-        currentTrackId = null;
-        renderEmptyState();
-      }
+      // Skip re-render if we're already showing idle — the panel keeps its last
+      // content while closed (never wiped), so there's nothing stale to fix here,
+      // and re-rendering would restart the waveform animation for no reason.
+      if (currentTrackId === 'idle') return;
+      currentTrackId = 'idle';
+      renderEmptyState();
       return;
     }
     const data = await res.json();
     if (!data?.item) {
-      if (currentTrackId !== null) {
-        currentTrackId = null;
-        renderEmptyState();
-      }
+      if (currentTrackId === 'idle') return;
+      currentTrackId = 'idle';
+      renderEmptyState();
       return;
     }
 
-    // Only re-render if track or play state changed
+    // Skip re-render if it's the same track in the same play state — avoids
+    // rebuilding the waveform SVG (and restarting its animation) unnecessarily.
     const newId = data.item.id + '_' + data.is_playing;
     if (newId === currentTrackId) return;
     currentTrackId = newId;
@@ -293,30 +306,10 @@ function buildWaveformSVG(playing) {
   return `<svg width="100%" height="100%" viewBox="-7 0 437 106" fill="none" preserveAspectRatio="xMinYMid meet" xmlns="http://www.w3.org/2000/svg">${lines}</svg>`;
 }
 
-const IDLE_JOKES = [
-  { song: '4′ 33″', artist: 'John Cage', note: '(he’s not playing anything either)' },
-  { song: 'Sound of Silence', artist: 'Absolutely Nobody', note: '(probably heads-down somewhere)' },
-  { song: 'Dead Air', artist: 'Radio Static FM', note: '(the DJ stepped out for coffee)' },
-  { song: 'Untitled Track', artist: 'Deafening Silence', note: '(check back after a snack break)' },
-  { song: 'Loading...', artist: 'My Attention Span', note: '(buffering since 2019)' }
-];
-
 function renderEmptyState() {
   const content = document.getElementById('sp-content');
   if (!content) return;
-
-  const pick = IDLE_JOKES[Math.floor(Math.random() * IDLE_JOKES.length)];
-
-  content.innerHTML = `
-    <div class="sp-player">
-      <div class="sp-art sp-art-empty">💤</div>
-      <div class="sp-details">
-        <div class="sp-song">${pick.song}</div>
-        <div class="sp-artist">${pick.artist}</div>
-        <div class="sp-waveform">${buildWaveformSVG(false)}</div>
-      </div>
-    </div>
-    <div class="sp-note">${pick.note}</div>`;
+  content.innerHTML = `<div class="sp-idle">Nothing playing right now, soundtrack pending.</div>`;
 }
 
 function renderTrack({ name, artist, art, playing }) {
@@ -331,12 +324,40 @@ function renderTrack({ name, artist, art, playing }) {
     <div class="sp-player">
       <div class="sp-art">${artEl}</div>
       <div class="sp-details">
-        <div class="sp-song">${name}</div>
+        <div class="sp-song"><span class="sp-song-inner">${name}</span></div>
         <div class="sp-artist">${artist}</div>
         <div class="sp-waveform">${buildWaveformSVG(playing)}</div>
       </div>
     </div>`;
+
+  applySongMarquee();
 }
+
+/* Scroll the track name back and forth if it's too long to fit the panel;
+   short names are left alone (no animation, no wasted motion). */
+function applySongMarquee() {
+  const wrap  = document.querySelector('#sp-content .sp-song');
+  const inner = document.querySelector('#sp-content .sp-song-inner');
+  if (!wrap || !inner) return;
+
+  inner.classList.remove('sp-marquee');
+  inner.style.removeProperty('--sp-scroll-distance');
+  inner.style.removeProperty('--sp-scroll-duration');
+
+  const overflow = inner.scrollWidth - wrap.clientWidth;
+  if (overflow <= 4) return;
+
+  const distance = overflow + 6; // small buffer so the last letters fully clear
+  const duration = Math.max(4, distance / 28); // ~28px/s, floor so short overflows aren't frantic
+
+  inner.style.setProperty('--sp-scroll-distance', `-${distance}px`);
+  inner.style.setProperty('--sp-scroll-duration', `${duration.toFixed(2)}s`);
+  inner.classList.add('sp-marquee');
+}
+
+window.addEventListener('resize', () => {
+  if (document.querySelector('#sp-content .sp-song-inner')) applySongMarquee();
+});
 
 /* ── Projects hover ─────────────────────── */
 const credits   = document.querySelectorAll('.credit');

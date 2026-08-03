@@ -340,8 +340,21 @@ body.day-mode .dot-label::after {
   font-family: 'Inter', sans-serif;
   font-size: 0.82rem; font-weight: 600;
   color: #ffffff; line-height: 1.25;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  padding-right: 20px;
+  white-space: nowrap; overflow: hidden;
+  /* A real width (not padding) so the clip boundary sits before the close
+     button; padding alone doesn't fully clip content sliding through it. */
+  width: calc(100% - 20px);
+}
+.sp-song-inner {
+  display: inline-block;
+  will-change: transform;
+}
+.sp-song-inner.sp-marquee {
+  animation: sp-song-scroll var(--sp-scroll-duration, 6s) ease-in-out infinite alternate;
+}
+@keyframes sp-song-scroll {
+  0%, 12%   { transform: translateX(0); }
+  88%, 100% { transform: translateX(var(--sp-scroll-distance, 0px)); }
 }
 .sp-artist {
   font-family: 'Inter', sans-serif;
@@ -373,18 +386,6 @@ body.day-mode .dot-label::after {
   font-family: 'DM Mono', monospace;
   font-size: 0.55rem; color: rgba(255,255,255,0.45); line-height: 1.6;
   padding: 4px 0;
-}
-.sp-art-empty {
-  font-size: 30px;
-  filter: grayscale(0.2) opacity(0.9);
-}
-.sp-note {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
-  font-style: italic;
-  color: rgba(255,255,255,0.35);
-  margin-top: 6px;
-  padding-left: 2px;
 }
 
 /* ────────────────────────────────────────────
