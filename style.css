@@ -130,7 +130,7 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
 }
 
 .dot {
-  width: 0.972vh; height: 0.972vh;
+  width: 1.3vh; height: 1.3vh;
   background: #ffffff;
   border-radius: 50%;
   animation: dotPulse 2.6s ease-in-out infinite;
@@ -314,6 +314,21 @@ body.day-mode .dot-label::after {
 .sp-close:hover { background: rgba(255,255,255,0.32); }
 .sp-header { display: none; }
 
+/* Reserve consistent height so swapping Loading… ↔ player doesn't jump */
+#sp-content {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+}
+
+/* Fade each content swap in smoothly instead of popping */
+.sp-fade-in {
+  width: 100%;
+  opacity: 0;
+  animation: spFadeIn 0.35s ease forwards;
+}
+@keyframes spFadeIn { to { opacity: 1; } }
+
 /* Two-column layout: art | [title + artist + waveform] */
 .sp-player {
   display: grid;
@@ -329,7 +344,12 @@ body.day-mode .dot-label::after {
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.sp-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sp-art img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.sp-art img.loaded { opacity: 1; }
 .sp-details {
   display: flex;
   flex-direction: column;
@@ -340,21 +360,8 @@ body.day-mode .dot-label::after {
   font-family: 'Inter', sans-serif;
   font-size: 0.82rem; font-weight: 600;
   color: #ffffff; line-height: 1.25;
-  white-space: nowrap; overflow: hidden;
-  /* A real width (not padding) so the clip boundary sits before the close
-     button; padding alone doesn't fully clip content sliding through it. */
-  width: calc(100% - 20px);
-}
-.sp-song-inner {
-  display: inline-block;
-  will-change: transform;
-}
-.sp-song-inner.sp-marquee {
-  animation: sp-song-scroll var(--sp-scroll-duration, 6s) ease-in-out infinite alternate;
-}
-@keyframes sp-song-scroll {
-  0%, 12%   { transform: translateX(0); }
-  88%, 100% { transform: translateX(var(--sp-scroll-distance, 0px)); }
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  padding-right: 20px;
 }
 .sp-artist {
   font-family: 'Inter', sans-serif;
@@ -385,7 +392,44 @@ body.day-mode .dot-label::after {
 .sp-idle {
   font-family: 'DM Mono', monospace;
   font-size: 0.55rem; color: rgba(255,255,255,0.45); line-height: 1.6;
-  padding: 4px 0;
+  display: flex; align-items: center;
+  min-height: 72px;
+  padding: 0;
+}
+
+/* Skeleton shown only if the panel is opened before the background
+   prefetch has resolved even once */
+.sp-skeleton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+.sp-skeleton-art {
+  width: 72px; height: 72px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.14) 37%, rgba(255,255,255,0.06) 63%);
+  background-size: 400% 100%;
+  animation: spShimmer 1.4s ease infinite;
+}
+.sp-skeleton-lines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sp-skeleton-line {
+  height: 10px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.14) 37%, rgba(255,255,255,0.06) 63%);
+  background-size: 400% 100%;
+  animation: spShimmer 1.4s ease infinite;
+}
+.sp-skeleton-line.short { width: 55%; }
+@keyframes spShimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: 0 0; }
 }
 
 /* ────────────────────────────────────────────
@@ -394,21 +438,21 @@ body.day-mode .dot-label::after {
 nav.nav-home {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
   display: flex; align-items: flex-start; justify-content: flex-end;
-  padding: 24px 33px 0;
+  padding: 30px 40px 0;
   background: transparent;
   border-bottom: none;
   pointer-events: none;
 }
 nav.nav-home .nav-links {
   display: flex;
-  gap: 39.5px;
+  gap: 46px;
   opacity: 0;
   animation: fadeUp 0.7s 1.5s forwards;
   pointer-events: all;
 }
 nav.nav-home .nav-links a {
   font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
+  font-size: 0.7rem;
   font-weight: 400;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -483,7 +527,7 @@ nav {
 
   html { scroll-snap-type: none; }
 
-  .dot { width: 10px; height: 10px; }
+  .dot { width: 13px; height: 13px; }
 
   .dot-label {
     left: 50%;

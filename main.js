@@ -134,13 +134,6 @@ if (isDay) applyMode(true, false);
 const spotifyPanel = document.getElementById('spotify-panel');
 const spClose      = document.getElementById('sp-close');
 
-function closeSpotifyPanel() {
-  spotifyPanel.classList.remove('visible');
-  spotifyOpen = false;
-  clearInterval(spotifyPollInterval);
-  spotifyPollInterval = null;
-}
-
 document.querySelectorAll('.dot-wrap').forEach(dot => {
   dot.addEventListener('click', (e) => {
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
@@ -177,17 +170,13 @@ document.addEventListener('click', (e) => {
 });
 
 if (spClose) {
-  spClose.addEventListener('click', closeSpotifyPanel);
+  spClose.addEventListener('click', () => {
+    spotifyPanel.classList.remove('visible');
+    spotifyOpen = false;
+    clearInterval(spotifyPollInterval);
+    spotifyPollInterval = null;
+  });
 }
-
-// Close the panel on a click anywhere outside it (but not on the dot that
-// opens it, which already handles its own toggle).
-document.addEventListener('click', (e) => {
-  if (!spotifyOpen) return;
-  if (e.target.closest('.dot-wrap[data-type="spotify"]')) return;
-  if (e.target.closest('#spotify-panel')) return;
-  closeSpotifyPanel();
-});
 
 /* ── Spotify ────────────────────────────── */
 const DEMO_MODE     = false;
@@ -197,22 +186,36 @@ const REFRESH_TOKEN = 'AQCCHdrU1fEsgROuu2I7m2GRzOT_WjZ63kDX4uwMR9liEmuOpjk7HtdGv
 
 let spotifyOpen = false;
 let spotifyPollInterval = null;
-let currentTrackId = null; // null = not yet checked, 'idle' = confirmed nothing playing
+let currentTrackId = null;
+let hasLoadedOnce  = false;
+
+// Cache the access token instead of re-fetching it on every open —
+// this alone removes a full network round trip from the critical path.
+let cachedToken  = null;
+let tokenExpiry  = 0;
 
 async function toggleSpotify() {
   if (!spotifyPanel) return;
   if (spotifyOpen) {
-    closeSpotifyPanel();
+    spotifyPanel.classList.remove('visible');
+    spotifyOpen = false;
     return;
   }
   spotifyPanel.classList.add('visible');
   spotifyOpen = true;
-  await fetchNowPlaying();
-  // Poll every 3s but only re-renders if track or play state actually changed
-  spotifyPollInterval = setInterval(() => fetchNowPlaying(true), 3000);
+
+  // If the background prefetch already has data, the panel opens with
+  // content already sitting in the DOM — nothing to wait on.
+  if (!hasLoadedOnce) {
+    setSpContent(skeletonHTML());
+    await fetchNowPlaying(true);
+  }
 }
 
 async function getAccessToken() {
+  const now = Date.now();
+  if (cachedToken && now < tokenExpiry) return cachedToken;
+
   const res = await fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {
@@ -222,7 +225,29 @@ async function getAccessToken() {
     body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(REFRESH_TOKEN)}`
   });
   const data = await res.json();
-  return data.access_token;
+  cachedToken = data.access_token;
+  // Refresh a minute early so we never hand out a token that's about to expire
+  tokenExpiry = now + ((data.expires_in || 3600) - 60) * 1000;
+  return cachedToken;
+}
+
+function setSpContent(html) {
+  const content = document.getElementById('sp-content');
+  if (!content) return;
+  // Wrap in a fade-in shell so every swap (skeleton → player, track → track)
+  // eases in at a fixed height instead of popping/jumping.
+  content.innerHTML = `<div class="sp-fade-in">${html}</div>`;
+}
+
+function skeletonHTML() {
+  return `
+    <div class="sp-skeleton">
+      <div class="sp-skeleton-art"></div>
+      <div class="sp-skeleton-lines">
+        <div class="sp-skeleton-line" style="width:70%"></div>
+        <div class="sp-skeleton-line short"></div>
+      </div>
+    </div>`;
 }
 
 async function fetchNowPlaying(silent = false) {
@@ -230,39 +255,40 @@ async function fetchNowPlaying(silent = false) {
   if (!content) return;
 
   if (DEMO_MODE) {
-    renderTrack({ name: 'Add Spotify credentials', artist: 'See setup notes in main.js', art: null, playing: true });
+    if (!hasLoadedOnce) {
+      hasLoadedOnce  = true;
+      currentTrackId = 'demo';
+      renderTrack({ name: 'Add Spotify credentials', artist: 'See setup notes in main.js', art: null, playing: true });
+    }
     return;
   }
 
-  // Only flash "Loading…" on the very first open (empty panel).
-  // On later opens, keep whatever's already showing until fresh data arrives,
-  // so reopening the panel doesn't collapse/resize mid-transition.
-  if (!silent && !content.innerHTML.trim()) content.innerHTML = `<div class="sp-idle">Loading…</div>`;
   try {
     const token = await getAccessToken();
     const res   = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.status === 204 || res.status === 404) {
-      // Skip re-render if we're already showing idle — the panel keeps its last
-      // content while closed (never wiped), so there's nothing stale to fix here,
-      // and re-rendering would restart the waveform animation for no reason.
-      if (currentTrackId === 'idle') return;
-      currentTrackId = 'idle';
-      renderEmptyState();
+      hasLoadedOnce = true;
+      if (currentTrackId !== null) {
+        currentTrackId = null;
+        setSpContent(`<div class="sp-idle">Nothing playing right now.</div>`);
+      }
       return;
     }
     const data = await res.json();
     if (!data?.item) {
-      if (currentTrackId === 'idle') return;
-      currentTrackId = 'idle';
-      renderEmptyState();
+      hasLoadedOnce = true;
+      if (currentTrackId !== null) {
+        currentTrackId = null;
+        setSpContent(`<div class="sp-idle">Nothing playing right now.</div>`);
+      }
       return;
     }
 
-    // Skip re-render if it's the same track in the same play state — avoids
-    // rebuilding the waveform SVG (and restarting its animation) unnecessarily.
+    // Only re-render if track or play state changed
     const newId = data.item.id + '_' + data.is_playing;
+    hasLoadedOnce = true;
     if (newId === currentTrackId) return;
     currentTrackId = newId;
 
@@ -273,9 +299,15 @@ async function fetchNowPlaying(silent = false) {
       playing: data.is_playing
     });
   } catch {
-    if (!silent) content.innerHTML = `<div class="sp-idle">Couldn't connect. Check credentials in main.js.</div>`;
+    if (!silent) setSpContent(`<div class="sp-idle">Couldn't connect. Check credentials in main.js.</div>`);
   }
 }
+
+// Prefetch immediately on page load, then keep polling in the background
+// regardless of whether the panel is open — so by the time it's clicked,
+// the data (and album art) is already sitting in the DOM and warmed in cache.
+fetchNowPlaying(true);
+spotifyPollInterval = setInterval(() => fetchNowPlaying(true), 4000);
 
 /* Exact line data extracted from the Figma waveform SVG (8:112)
    Each entry: [x, y1, y2] — 42 lines, stroke-width 5, 10px spacing */
@@ -306,58 +338,23 @@ function buildWaveformSVG(playing) {
   return `<svg width="100%" height="100%" viewBox="-7 0 437 106" fill="none" preserveAspectRatio="xMinYMid meet" xmlns="http://www.w3.org/2000/svg">${lines}</svg>`;
 }
 
-function renderEmptyState() {
-  const content = document.getElementById('sp-content');
-  if (!content) return;
-  content.innerHTML = `<div class="sp-idle">Nothing playing right now, soundtrack pending.</div>`;
-}
-
 function renderTrack({ name, artist, art, playing }) {
-  const content = document.getElementById('sp-content');
-  if (!content) return;
-
+  // Fade the album art in only once it's actually decoded, instead of
+  // popping in the instant the network request resolves.
   const artEl = art
-    ? `<img src="${art}" alt="album art">`
+    ? `<img src="${art}" alt="album art" onload="this.classList.add('loaded')">`
     : `<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.18)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>`;
 
-  content.innerHTML = `
+  setSpContent(`
     <div class="sp-player">
       <div class="sp-art">${artEl}</div>
       <div class="sp-details">
-        <div class="sp-song"><span class="sp-song-inner">${name}</span></div>
+        <div class="sp-song">${name}</div>
         <div class="sp-artist">${artist}</div>
         <div class="sp-waveform">${buildWaveformSVG(playing)}</div>
       </div>
-    </div>`;
-
-  applySongMarquee();
+    </div>`);
 }
-
-/* Scroll the track name back and forth if it's too long to fit the panel;
-   short names are left alone (no animation, no wasted motion). */
-function applySongMarquee() {
-  const wrap  = document.querySelector('#sp-content .sp-song');
-  const inner = document.querySelector('#sp-content .sp-song-inner');
-  if (!wrap || !inner) return;
-
-  inner.classList.remove('sp-marquee');
-  inner.style.removeProperty('--sp-scroll-distance');
-  inner.style.removeProperty('--sp-scroll-duration');
-
-  const overflow = inner.scrollWidth - wrap.clientWidth;
-  if (overflow <= 4) return;
-
-  const distance = overflow + 6; // small buffer so the last letters fully clear
-  const duration = Math.max(4, distance / 28); // ~28px/s, floor so short overflows aren't frantic
-
-  inner.style.setProperty('--sp-scroll-distance', `-${distance}px`);
-  inner.style.setProperty('--sp-scroll-duration', `${duration.toFixed(2)}s`);
-  inner.classList.add('sp-marquee');
-}
-
-window.addEventListener('resize', () => {
-  if (document.querySelector('#sp-content .sp-song-inner')) applySongMarquee();
-});
 
 /* ── Projects hover ─────────────────────── */
 const credits   = document.querySelectorAll('.credit');
