@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sean — Projects</title>
+  <link rel="preload" as="image" href="Thesis_FINAL.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --header-h: 76px;
+      --card-th: 16px;
+    }
+
+    html, body {
+      height: 100%;
+      background: #efede3;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    /* ════════════════════════════════════
+       HEADER
+    ════════════════════════════════════ */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3vw;
+      z-index: 30;
+    }
+    .header-left {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .header-title {
+      font-size: clamp(17px, 1.6vw, 22px);
+      font-weight: 700;
+      color: #302f2c;
+      letter-spacing: -0.01em;
+    }
+    .header-curated {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(48,47,44,0.45);
+    }
+    .header-back {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(48,47,44,0.5);
+      text-decoration: none;
+      padding: 8px 0;
+      transition: color 0.25s;
+    }
+    .header-back:hover { color: #302f2c; }
+
+    /* ════════════════════════════════════
+       STRIP GALLERY
+    ════════════════════════════════════ */
+    .viewport {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    /* the camera dolly — this is the only thing that moves */
+    .scene {
+      position: absolute;
+      inset: 0;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .car-item {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      /* width/left/centering set once in layout() — records don't move themselves */
+      transform-style: preserve-3d;
+      cursor: pointer;
+      -webkit-box-reflect: below 3px linear-gradient(transparent 76%, rgba(255,255,255,0.14));
+    }
+
+    .box {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      /* flat — cards face the viewer straight on */
+      transform: none;
+      opacity: 0;
+      animation: appear 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    @keyframes appear {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .face {
+      position: absolute;
+      backface-visibility: hidden;
+    }
+    .face-front {
+      inset: 0;
+      transform: translateZ(calc(var(--card-th) / 2));
+      overflow: hidden;
+      border-radius: 3px;
+      background: #0a0a0a;
+      box-shadow: 0 24px 50px rgba(48,47,44,0.16), 0 3px 10px rgba(48,47,44,0.1);
+    }
+    .face-back {
+      inset: 0;
+      transform: rotateY(180deg) translateZ(calc(var(--card-th) / 2));
+      border-radius: 2px;
+      background: #0d0d0d;
+    }
+    /* flat cards face the viewer straight on — the depth edges never show */
+    .face-side { display: none; }
+    .face-left {
+      left: 0;
+      transform: rotateY(-90deg);
+      transform-origin: left center;
+    }
+    .face-right {
+      right: 0;
+      transform: rotateY(90deg);
+      transform-origin: right center;
+    }
+
+    .cover-art {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+    .cover-art.textured::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -35deg,
+        transparent,
+        transparent 5px,
+        rgba(0,0,0,0.09) 5px,
+        rgba(0,0,0,0.09) 6px
+      );
+    }
+    /* flat cards don't rake into shadow — the shade layer stays off */
+    .face-shade { display: none; }
+
+    /* hovering a flat card brings it to full brightness */
+    @media (min-width: 761px) {
+      .car-item:hover { filter: brightness(1) !important; }
+    }
+
+    /* mobile-only label on each card */
+    .cover-mlabel { display: none; }
+
+    /* ── Caption ── */
+    .caption {
+      position: fixed;
+      left: 50%;
+      bottom: 4.5vh;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 20;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .caption-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #302f2c;
+      text-shadow: 0 1px 14px rgba(239,237,227,0.9);
+    }
+    .caption-sub {
+      font-size: 10px;
+      color: rgba(48,47,44,0.5);
+      margin-top: 4px;
+      text-shadow: 0 1px 10px rgba(239,237,227,0.9);
+    }
+    .caption-open {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: rgba(48,47,44,0.5);
+      margin-top: 12px;
+      text-shadow: 0 1px 10px rgba(239,237,227,0.9);
+    }
+
+    /* faint floor shadow */
+    .floor {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      height: 24vh;
+      background: radial-gradient(ellipse at 50% 100%, rgba(48,47,44,0.08), transparent 65%);
+      pointer-events: none;
+    }
+
+    /* ════════════════════════════════════
+       CASE STUDY OVERLAY — above everything
+    ════════════════════════════════════ */
+    .case {
+      position: fixed;
+      inset: 0;
+      background: #efede3;
+      z-index: 5000;
+      transform: translateY(100%);
+      transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+      visibility: hidden;
+    }
+    .case.open {
+      transform: translateY(0);
+      visibility: visible;
+    }
+    .case-scroll {
+      height: 100%;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: none;
+    }
+    .case-scroll::-webkit-scrollbar { display: none; }
+
+    body.case-open .caption { opacity: 0; pointer-events: none; }
+
+    .case-close {
+      position: fixed;
+      top: 26px;
+      right: 26px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(239,237,227,0.4);
+      background: rgba(48,47,44,0.35);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #efede3;
+      font-size: 16px;
+      line-height: 1;
+      z-index: 5100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s, background 0.25s;
+    }
+    .case-close:hover { transform: rotate(90deg); background: rgba(48,47,44,0.55); }
+
+    .case-hero {
+      position: relative;
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 5vw 10vh;
+      overflow: hidden;
+    }
+    .case-hero-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center top;
+      filter: brightness(0.38) blur(14px) saturate(1.2);
+      transform: scale(1.15);
+    }
+    .case-hero-fade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, #030303 0%, rgba(3,3,3,0.25) 35%, transparent 65%);
+    }
+    .case-eyebrow {
+      position: relative;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 18px;
+    }
+    .case-title {
+      position: relative;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 11vw, 150px);
+      line-height: 0.92;
+      color: #f2f0ed;
+      letter-spacing: 0.015em;
+      max-width: 14ch;
+    }
+    .case-scrollcue {
+      position: absolute;
+      bottom: 4vh;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      animation: cue 2s ease-in-out infinite;
+    }
+    @keyframes cue {
+      0%, 100% { transform: translate(-50%, 0); opacity: 0.4; }
+      50%      { transform: translate(-50%, 8px); opacity: 0.9; }
+    }
+
+    .case-body {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 14vh 24px 6vh;
+    }
+    .case-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(19px, 2vw, 24px);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(48,47,44,0.7);
+      line-height: 1.8;
+    }
+    .case-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 0.5px solid rgba(48,47,44,0.15);
+      margin-top: 10vh;
+    }
+    .case-meta-item { padding: 26px 0; }
+    .case-meta-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(48,47,44,0.4);
+      margin-bottom: 8px;
+    }
+    .case-meta-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 19px;
+      font-weight: 300;
+      color: rgba(48,47,44,0.85);
+    }
+    .case-img {
+      display: block;
+      width: 100%;
+      border-radius: 4px;
+      margin-top: 8vh;
+      border: 0.5px solid rgba(48,47,44,0.12);
+    }
+    .case-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8vh;
+      padding: 14px 26px;
+      border: 1px solid rgba(48,47,44,0.35);
+      border-radius: 999px;
+      color: #302f2c;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .case-cta:hover { background: rgba(48,47,44,0.08); border-color: rgba(48,47,44,0.6); }
+
+    .case-end {
+      padding: 16vh 5vw 12vh;
+      text-align: center;
+    }
+    .case-end button {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(34px, 5vw, 60px);
+      color: rgba(48,47,44,0.4);
+      letter-spacing: 0.04em;
+      transition: color 0.3s;
+    }
+    .case-end button:hover { color: #302f2c; }
+
+    /* ════════════════════════════════════
+       MOBILE — flat vertical list
+    ════════════════════════════════════ */
+    @media (max-width: 760px) {
+      .viewport {
+        position: fixed;
+        inset: 0;
+        perspective: none;
+        overflow: hidden;
+      }
+      /* the desktop rail duplicates cards for infinite scroll — mobile only needs one set */
+      .car-item:not([data-block="0"]) { display: none !important; }
+      .scene {
+        position: static;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        height: 100%;
+        padding: calc(var(--header-h) + 4px) 12px 20px;
+        transform: none !important;
+      }
+      .car-item {
+        position: static;
+        width: auto !important;
+        height: auto !important;
+        transform: none !important;
+        flex: 1 1 0;
+        min-height: 0;
+        -webkit-box-reflect: none;
+        transition: flex-grow 0.6s cubic-bezier(0.32, 0.9, 0.25, 1);
+      }
+      .car-item.focused { flex-grow: 4; }
+      .box { transform: none !important; }
+      .face-back, .face-side, .face-shade { display: none; }
+      .face-front { transform: none; border-radius: 6px; }
+      .face-front::before {
+        content: '';
+        position: absolute;
+        left: 0; right: 0; bottom: 0;
+        height: 80px;
+        background: linear-gradient(to top, rgba(0,0,0,0.72), transparent);
+        z-index: 1;
+        pointer-events: none;
+      }
+      .cover-mlabel {
+        display: block;
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 12px;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .cover-mlabel .m-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+        text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .cover-mlabel .m-sub {
+        font-size: 10px;
+        color: rgba(255,255,255,0.55);
+        margin-top: 2px;
+        text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+      }
+      .caption, .floor { display: none; }
+      .header-curated { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .box { animation-duration: 0.01s; }
+      .case-scrollcue { animation: none; }
+      .case { transition-duration: 0.01s; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <div class="header-title">Selected Work</div>
+      <div class="header-curated">Curated by Sean Mapuke</div>
+    </div>
+    <a class="header-back" href="index.html">← Back to Room</a>
+  </div>
+
+  <!-- Strip gallery -->
+  <div class="viewport" id="viewport">
+    <div class="scene" id="scene"></div>
+  </div>
+  <div class="floor"></div>
+
+  <div class="caption" id="caption">
+    <div class="caption-title" id="caption-title">—</div>
+    <div class="caption-sub" id="caption-sub"></div>
+    <div class="caption-open">Click to Open Project ↗</div>
+  </div>
+
+  <!-- Case study overlay -->
+  <div class="case" id="case">
+    <button class="case-close" id="case-close" aria-label="Close project">✕</button>
+    <div class="case-scroll" id="case-scroll">
+      <div id="case-content"></div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Project data ─────────────────────── */
+    const projects = [
+      {
+        id: 'digital-divide',
+        title: 'Bridging the Digital Divide',
+        sub: 'UX Research · 2025',
+        cover: 'Thesis_FINAL.png',
+        edge: 'linear-gradient(180deg, #3a6b4a, #16281c)',
+        desc: 'An investigation into how UX design can reduce cognitive load and usability barriers for adults aged 60+. Ten participants from North Texas completed structured usability sessions across websites, mobile apps, and device settings. Findings revealed recurring issues — small touch targets, cluttered layouts, unclear iconography — and proposed design strategies centered on simplified navigation, larger UI elements, contextual guidance, and voice interaction. Submitted as an undergraduate thesis at the University of North Texas, December 2025.',
+        meta: [
+          { label: 'Role', val: 'Researcher' },
+          { label: 'Year', val: '2025' },
+          { label: 'Type', val: 'UX Research' }
+        ],
+        img: 'Thesis_FINAL.png',
+        cta: { href: 'Thesis_FINAL.pdf', text: 'Read Thesis (PDF)' }
+      },
+      {
+        id: 'project-02',
+        title: 'Coming Soon',
+        sub: 'In the works',
+        gradient: 'linear-gradient(165deg, #14f1d9 0%, #00b4d8 45%, #01243a 100%)',
+        desc: 'Something is in the works. Check back soon.',
+        meta: []
+      },
+      {
+        id: 'project-03',
+        title: 'Coming Soon',
+        sub: 'In the works',
+        gradient: 'linear-gradient(200deg, #4361ee 0%, #3a0ca3 55%, #10002b 100%)',
+        desc: 'Something is in the works. Check back soon.',
+        meta: []
+      },
+      {
+        id: 'project-04',
+        title: 'Coming Soon',
+        sub: 'In the works',
+        gradient: 'linear-gradient(170deg, #ffd60a 0%, #ff9e00 55%, #6a2405 100%)',
+        desc: 'Something is in the works. Check back soon.',
+        meta: []
+      },
+      {
+        id: 'project-05',
+        title: 'Coming Soon',
+        sub: 'In the works',
+        gradient: 'linear-gradient(215deg, #f72585 0%, #7209b7 55%, #240046 100%)',
+        desc: 'Something is in the works. Check back soon.',
+        meta: []
+      },
+      {
+        id: 'project-06',
+        title: 'Coming Soon',
+        sub: 'In the works',
+        gradient: 'linear-gradient(160deg, #ff8500 0%, #e5383b 50%, #4d0208 100%)',
+        desc: 'Something is in the works. Check back soon.',
+        meta: []
+      },
+      {
+        id: 'project-07',
+        title: 'Coming Soon',
+        sub: 'In the works',
+        gradient: 'linear-gradient(190deg, #80ed99 0%, #2d6a4f 55%, #06130d 100%)',
+        desc: 'Something is in the works. Check back soon.',
+        meta: []
+      }
+    ];
+
+    /* ── Build the strip ──────────────────── */
+    const viewport = document.getElementById('viewport');
+    const scene = document.getElementById('scene');
+    const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
+
+    const REAL_N = projects.length;
+    const REPEAT = 7;              // physical duplicate blocks laid end to end, for infinite scroll
+    const MID    = Math.floor(REPEAT / 2);
+    const TOTAL  = REAL_N * REPEAT;
+
+    for (let i = 0; i < TOTAL; i++) {
+      const p = projects[i % REAL_N];
+      const item = document.createElement('div');
+      item.className = 'car-item';
+      item.dataset.block = Math.floor(i / REAL_N);   // mobile shows only block 0 (no duplicates)
+      const art = p.cover
+        ? `<div class="cover-art" style="background-image:url('${p.cover}')"></div>`
+        : `<div class="cover-art textured" style="background-image:${p.gradient}"></div>`;
+      const edge = p.edge || p.gradient;
+      item.innerHTML = `
+        <div class="box" style="animation-delay:${(0.07 * (i % REAL_N)).toFixed(2)}s">
+          <div class="face face-front">
+            ${art}
+            <div class="face-shade shade-l"></div>
+            <div class="face-shade shade-r"></div>
+            <div class="cover-mlabel">
+              <div class="m-title">${p.title}</div>
+              <div class="m-sub">${p.sub}</div>
+            </div>
+          </div>
+          <div class="face face-back"></div>
+          <div class="face face-side face-left" style="background-image:${edge}"></div>
+          <div class="face face-side face-right" style="background-image:${edge}"></div>
+        </div>`;
+      const projIdx = i % REAL_N;
+      item.addEventListener('click', () => {
+        if (dragMoved) return;
+        openCase(projIdx);
+      });
+      scene.appendChild(item);
+    }
+
+    const items = [...scene.children];
+    const shadeLs = items.map(el => el.querySelector('.shade-l'));
+    const shadeRs = items.map(el => el.querySelector('.shade-r'));
+    const n = items.length; // physical card count (REAL_N * REPEAT)
+
+    /* ── Motion state ─────────────────────── */
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let f = REAL_N * MID;   // start centered in the middle block
+    let targetF = f;
+    let lastInput = 0;
+    let focusIndex = -1;
+    let mobileApplied = false;
+    let PITCH = 0;
+
+    const capTitle = document.getElementById('caption-title');
+    const capSub   = document.getElementById('caption-sub');
+
+    function setTarget(v) { targetF = v; lastInput = performance.now(); }
+    function wrapReal(i) { return ((Math.round(i) % REAL_N) + REAL_N) % REAL_N; }
+
+    function cardHeight() {
+      return Math.min(window.innerHeight * 0.56, window.innerWidth * 0.26);
+    }
+    function cardWidth() {
+      return cardHeight() * 1.5;
+    }
+
+    /* records are static — position/size are laid out once, not every frame */
+    function layout() {
+      if (isMobile()) {
+        items.forEach(el => { el.style.cssText = ''; });
+        scene.style.cssText = '';
+        return;
+      }
+      const H = cardHeight();
+      const W = cardWidth();
+      PITCH = W + Math.max(28, W * 0.08);
+      items.forEach((el, i) => {
+        el.style.width = W + 'px';
+        el.style.height = H + 'px';
+        el.style.left = (i * PITCH) + 'px';
+        el.style.transform = 'translate3d(0, calc(-50% + 18px), 0)';
+      });
+    }
+    layout();
+    window.addEventListener('resize', layout);
+
+    function setFocus(i) {
+      if (i === focusIndex) return;
+      focusIndex = i;
+      items.forEach((el, j) => el.classList.toggle('focused', j === i));
+      const p = projects[wrapReal(i)];
+      capTitle.textContent = p.title;
+      capSub.textContent   = p.sub;
+    }
+
+    /* ── The one true render loop ─────────── */
+    function frame(now) {
+      requestAnimationFrame(frame);
+
+      if (isMobile()) {
+        if (!mobileApplied) {
+          mobileApplied = true;
+          layout();
+          setFocus(Math.max(0, focusIndex));
+          if (focusIndex < 0) setFocus(0);
+        }
+        return;
+      }
+      if (mobileApplied) { mobileApplied = false; layout(); }
+      if (!PITCH) return;
+
+      // gentle magnet toward the nearest card once input settles
+      if (now - lastInput > 240) {
+        targetF += (Math.round(targetF) - targetF) * 0.10;
+      }
+
+      const ease = reducedMotion ? 1 : 0.095;
+      f += (targetF - f) * ease;
+      if (Math.abs(targetF - f) < 0.0004) f = targetF;
+
+      // infinite scroll: recycle the finite duplicated strip by teleporting a whole
+      // block at a time — invisible, since neighboring blocks are identical copies
+      const lo = (MID - 1) * REAL_N;
+      const hi = (MID + 1) * REAL_N;
+      while (f < lo) { f += REAL_N; targetF += REAL_N; }
+      while (f > hi) { f -= REAL_N; targetF -= REAL_N; }
+
+      const viewW = window.innerWidth;
+      const camX = viewW / 2 - f * PITCH;
+      scene.style.transform = `translate3d(${camX.toFixed(2)}px, 0, 0)`;
+
+      for (let i = 0; i < n; i++) {
+        // screen-space position of this static record, purely from where the camera now sits
+        const cx = (i - f) * PITCH + viewW / 2;
+        const s = (cx - viewW / 2) / (viewW / 2);   // -1 … 1 across the screen
+        const a = Math.min(1, Math.abs(s));
+
+        // spotlight follows the POV — center record lit, the rest sink toward the edges
+        const bright = 0.55 + 0.45 * Math.pow(1 - a, 1.1);
+
+        // crate shadow ramps in away from the center, on the receding side
+        const shadeAmt = Math.min(1, a / 0.35);
+        shadeLs[i].style.opacity = s < 0 ? shadeAmt.toFixed(3) : 0;
+        shadeRs[i].style.opacity = s > 0 ? shadeAmt.toFixed(3) : 0;
+
+        items[i].style.zIndex = 200 - Math.round(a * 100);   // center record in front
+        items[i].style.filter = `brightness(${bright.toFixed(3)})`;
+      }
+
+      setFocus(Math.round(f));
+    }
+    requestAnimationFrame(frame);
+
+    /* ── Input: wheel, drag, arrows, keys ─── */
+    window.addEventListener('wheel', e => {
+      if (isMobile() || caseOpen) return;
+      const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      setTarget(targetF + delta * 0.0032);
+      e.preventDefault();
+    }, { passive: false });
+
+    let dragging = false, dragMoved = false, dragStartX = 0, dragStartF = 0;
+    viewport.addEventListener('pointerdown', e => {
+      if (isMobile()) return;
+      dragging = true;
+      dragMoved = false;
+      dragStartX = e.clientX;
+      dragStartF = targetF;
+    });
+    window.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      if (e.buttons === 0) { dragging = false; return; }
+      const dx = e.clientX - dragStartX;
+      if (Math.abs(dx) > 8) dragMoved = true;
+      if (dragMoved) setTarget(dragStartF - dx / (cardWidth() * 0.62));
+    });
+    const endDrag = () => {
+      dragging = false;
+      setTimeout(() => { dragMoved = false; }, 0);
+    };
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+    window.addEventListener('blur', endDrag);
+
+    document.addEventListener('keydown', e => {
+      if (caseOpen) { if (e.key === 'Escape') closeCase(); return; }
+      if (e.key === 'ArrowLeft')  setTarget(Math.round(f) - 1);
+      if (e.key === 'ArrowRight') setTarget(Math.round(f) + 1);
+      if (e.key === 'Enter')      openCase(wrapReal(f));
+    });
+
+    /* ── Case study overlay ───────────────── */
+    const caseEl      = document.getElementById('case');
+    const caseScroll  = document.getElementById('case-scroll');
+    const caseContent = document.getElementById('case-content');
+    let caseOpen = false;
+    let lenis    = null;
+    let rafId    = null;
+
+    function caseHTML(p) {
+      const bg = p.cover ? `background-image:url('${p.cover}')` : `background-image:${p.gradient}`;
+      const metaHTML = p.meta.length ? `
+        <div class="case-meta">
+          ${p.meta.map(m => `
+            <div class="case-meta-item">
+              <div class="case-meta-label">${m.label}</div>
+              <div class="case-meta-val">${m.val}</div>
+            </div>`).join('')}
+        </div>` : '';
+      return `
+        <section class="case-hero">
+          <div class="case-hero-bg" style="${bg}"></div>
+          <div class="case-hero-fade"></div>
+          <div class="case-eyebrow">${p.sub}</div>
+          <h1 class="case-title">${p.title}</h1>
+          <div class="case-scrollcue">Scroll ↓</div>
+        </section>
+        <section class="case-body">
+          <p class="case-desc">${p.desc}</p>
+          ${metaHTML}
+          ${p.img ? `<img class="case-img" src="${p.img}" alt="${p.title} cover" loading="lazy">` : ''}
+          ${p.cta ? `<a class="case-cta" href="${p.cta.href}" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            ${p.cta.text}
+          </a>` : ''}
+        </section>
+        <section class="case-end">
+          <button onclick="closeCase()">← Back to Gallery</button>
+        </section>`;
+    }
+
+    function startLenis() {
+      if (typeof Lenis === 'undefined' || reducedMotion) return;
+      lenis = new Lenis({
+        wrapper: caseScroll,
+        content: caseContent,
+        duration: 1.25,
+        smoothWheel: true
+      });
+      const raf = (t) => { if (!lenis) return; lenis.raf(t); rafId = requestAnimationFrame(raf); };
+      rafId = requestAnimationFrame(raf);
+    }
+    function stopLenis() {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      if (lenis) { lenis.destroy(); lenis = null; }
+    }
+
+    function openCase(i, pushHash = true) {
+      const p = projects[i];
+      caseContent.innerHTML = caseHTML(p);
+      caseScroll.scrollTop = 0;
+      caseEl.classList.add('open');
+      document.body.classList.add('case-open');
+      caseOpen = true;
+      startLenis();
+      if (pushHash) history.pushState({ project: p.id }, '', '#' + p.id);
+      document.title = 'Sean — ' + p.title;
+    }
+
+    function closeCase(viaHistory = false) {
+      if (!caseOpen) return;
+      caseEl.classList.remove('open');
+      document.body.classList.remove('case-open');
+      caseOpen = false;
+      stopLenis();
+      document.title = 'Sean — Projects';
+      if (!viaHistory && location.hash) history.back();
+    }
+
+    document.getElementById('case-close').addEventListener('click', () => closeCase());
+
+    window.addEventListener('popstate', () => {
+      const id = location.hash.slice(1);
+      const idx = projects.findIndex(p => p.id === id);
+      if (idx >= 0) openCase(idx, false);
+      else closeCase(true);
+    });
+
+    /* ── Init ─────────────────────────────── */
+    const initialId = location.hash.slice(1);
+    const initialIdx = projects.findIndex(p => p.id === initialId);
+    if (initialIdx >= 0) openCase(initialIdx, false);
+  </script>
+</body>
+</html>

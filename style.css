@@ -117,12 +117,7 @@ section { position: relative; z-index: 1; scroll-snap-align: start; }
   opacity: 0;
   animation: dotPop 0.5s forwards;
 }
-.dot-wrap:nth-of-type(1) { animation-delay: 1.7s; }
-.dot-wrap:nth-of-type(2) { animation-delay: 1.9s; }
-.dot-wrap:nth-of-type(3) { animation-delay: 2.1s; }
-.dot-wrap:nth-of-type(4) { animation-delay: 2.3s; }
-.dot-wrap:nth-of-type(5) { animation-delay: 2.5s; }
-.dot-wrap:nth-of-type(6) { animation-delay: 2.7s; }
+.dot-wrap { animation-delay: var(--pop-delay, 1.7s); }
 
 
 @keyframes dotPop {
