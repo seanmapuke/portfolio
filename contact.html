@@ -270,7 +270,7 @@
         <div class="ct-location-block">
           <div class="ct-location-label">Based in</div>
           <div class="ct-location-val">Dallas, TX</div>
-          <div class="ct-timezone" id="ct-time">— CDT</div>
+          <div class="ct-timezone" id="ct-time">· CDT</div>
         </div>
       </div>
 
@@ -298,7 +298,7 @@
         hour12: true
       });
       const el = document.getElementById('ct-time');
-      if (el) el.textContent = `— ${now} CDT`;
+      if (el) el.textContent = `· ${now} CDT`;
     }
     updateTime();
     setInterval(updateTime, 30000);
