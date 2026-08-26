@@ -11,6 +11,28 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    @font-face {
+      font-family: 'Artific Trial';
+      src: url('ArtificTrial-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Artific Trial';
+      src: url('ArtificTrial-Black.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Advercase Demo';
+      src: url('Advercase-Font-Demo-Regular.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
     :root {
       --color-bg: #f3f2f2;
       --color-surface: #eae9e9;
@@ -128,7 +150,8 @@
     .pj-eyebrow { color: var(--accent, var(--color-accent)); }
     .pj-text h2 {
       margin: 20px 0 0;
-      font-weight: 800;
+      font-family: 'Artific Trial', 'Archivo', sans-serif;
+      font-weight: 700;
       font-size: clamp(34px, 3.4vw, 52px);
       line-height: 0.98;
       letter-spacing: -0.025em;
@@ -391,6 +414,96 @@
       .case { transition-duration: 0.01s; }
       .case-scrollcue { animation: none; }
     }
+
+    /* ════════════════════════════════════
+       PLURALSIGHT CASE STUDY
+    ════════════════════════════════════ */
+    .case-hero.ps-cover .case-title { font-family: 'Artific Trial', 'Archivo', sans-serif; font-weight: 700; }
+    .case-stack .ps-hero { position: relative; z-index: 1; }
+
+    .ps-case-end { background: #fff; }
+    .ps-case-end button { font-family: 'Artific Trial', 'Archivo', sans-serif; font-weight: 700; }
+
+    .ps-case { font-family: 'Artific Trial', 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif; color: #1a0510; }
+
+    .ps-hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6vw;
+      background: #f5e9ec;
+      padding: clamp(50px, 9vh, 110px) clamp(24px, 9vw, 140px) clamp(40px, 7vh, 90px);
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    .ps-hero-main { display: flex; flex-direction: column; gap: clamp(24px, 4vh, 45px); max-width: 865px; }
+    .ps-eyebrow {
+      color: #ff1575;
+      font-size: clamp(18px, 2.1vw, 29px);
+      letter-spacing: 0.11em;
+      font-weight: 400;
+    }
+    .ps-lede { font-size: clamp(22px, 3vw, 41px); line-height: 1.35; }
+    .ps-provided { display: flex; flex-direction: column; gap: 10px; width: 173px; flex-shrink: 0; }
+    .ps-provided-label { color: #ff1575; font-size: 16px; letter-spacing: 0.02em; }
+    .ps-provided-list { display: flex; flex-direction: column; gap: 16px; font-size: 17.8px; line-height: 1.3; }
+    @media (max-width: 900px) {
+      .ps-hero { flex-direction: column; align-items: flex-start; min-height: 0; }
+      .ps-provided { width: 100%; }
+    }
+
+    .ps-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6vw;
+      background: #fff;
+      padding: clamp(50px, 9vh, 110px) clamp(24px, 9vw, 140px);
+    }
+    .ps-section.bg-pink { background: #f5e9ec; }
+    .ps-section.reverse { flex-direction: row-reverse; }
+    .ps-section-text { display: flex; flex-direction: column; gap: clamp(24px, 4vh, 50px); max-width: 568px; }
+    .ps-heading {
+      font-family: 'Advercase Demo', 'Archivo', sans-serif;
+      color: #ff1575;
+      font-size: clamp(30px, 5vw, 64px);
+      line-height: 1.1;
+      font-weight: 400;
+    }
+    .ps-body { font-size: clamp(16px, 1.6vw, 20px); line-height: 1.7; max-width: 455px; }
+    .ps-section-media { flex-shrink: 0; width: 100%; max-width: 566px; }
+    .ps-section-media img, .ps-section-media svg { display: block; width: 100%; height: auto; }
+    @media (max-width: 900px) {
+      .ps-section, .ps-section.reverse { flex-direction: column; }
+      .ps-section-text { max-width: none; }
+      .ps-body { max-width: none; }
+    }
+
+    .ps-section-center { flex-direction: column; text-align: center; }
+    .ps-section-center .ps-section-text { max-width: 1160px; width: 100%; align-items: center; }
+    .ps-section-center .ps-body { max-width: none; }
+    .ps-section-center .ps-heading { max-width: none; white-space: nowrap; }
+    @media (max-width: 1100px) {
+      .ps-section-center .ps-heading { white-space: normal; }
+    }
+
+    .ps-body-long { display: flex; flex-direction: column; gap: 1.4em; }
+
+    .ps-collab { align-items: flex-start; }
+    .ps-collab-media {
+      max-width: 449px;
+      margin-top: clamp(24px, 20vw, 361px);
+    }
+    @media (max-width: 900px) {
+      .ps-collab-media { margin-top: 0; }
+    }
+
+    .ps-grid12 { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; width: 100%; }
+    .ps-col-mid8 { grid-column: 3 / span 8; display: flex; flex-direction: column; gap: clamp(24px, 4vh, 50px); text-align: left; }
+    .ps-col-mid8 .ps-body, .ps-col-mid8 .ps-heading { max-width: none; }
+    @media (max-width: 900px) {
+      .ps-col-mid8 { grid-column: 1 / -1; }
+    }
   </style>
 </head>
 <body>
@@ -421,7 +534,7 @@
       {
         id: 'pluralsight',
         eyebrow: '01 / Pluralsight',
-        title: 'Auditing an Internal Authoring Suite',
+        title: 'Unifying Enterprise Content Creation',
         desc: 'Five internal authoring tools had each grown their own conventions. I audited all five against one combined UX and content-quality rubric, logged every inconsistency in a shared tracker, and turned the result into a framework engineering, product design, and the design system team now score against.',
         problem: 'Five internal authoring tools had each grown their own conventions over time, with no shared standard for usability or content quality across them. Those inconsistencies slowed teams down and made the tools harder to trust.',
         roleTags: ['Rubric Design', 'Tool Audit', 'Scoring Framework', 'Cross-Team Rollout'],
@@ -604,6 +717,130 @@
         </section>`;
     }
 
+    function pluralsightCaseHTML(p) {
+      return `
+        <div class="case-stack">
+          <section class="case-hero has-cover ps-cover">
+            <div class="case-hero-bg" style="background-image:url('${encodeURI(p.cover)}')"></div>
+            <div class="case-hero-fade"></div>
+            <div class="mono case-eyebrow">${p.eyebrow}</div>
+            <h1 class="case-title">${p.title}</h1>
+            <div class="mono case-scrollcue">Scroll ↓</div>
+          </section>
+          <section class="ps-hero ps-case">
+            <div class="ps-hero-main">
+              <div class="ps-eyebrow">PLURALSIGHT</div>
+              <p class="ps-lede">I led a systematic UX and content audit across a complex internal authoring tool suite, covering five distinct software products used for content creation. The goal was to evaluate these separate tools against the corporate design system, brand voice guidelines, and AI UX principles to determine if they could function as a cohesive "one-stop shop" for a sequential content workflow.</p>
+            </div>
+            <div class="ps-provided">
+              <div class="ps-provided-label">I provided</div>
+              <div class="ps-provided-list">
+                <div>UX/UI AUDITING + STRATEGY</div>
+                <div>PRODUCT MANAGEMENT</div>
+                <div>AI UX DEVELOPMENT</div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="ps-case">
+
+          <section class="ps-section">
+            <div class="ps-section-text">
+              <h2 class="ps-heading">Making sense of a fragmented ecosystem</h2>
+              <p class="ps-body">The authoring suite consisted of five distinct tools, some acquired and others built internally by a tight-knit team of about six creative technologists. Because these technologists were rapidly developing different tools simultaneously, the suite had become visually and functionally inconsistent. Furthermore, with the company's first in-house introduction of AI features, there were no existing UI patterns or corporate design system standards to govern these new interfaces. The challenge was to bring cohesion to this ecosystem without stifling the team's ongoing development.</p>
+            </div>
+            <div class="ps-section-media"><svg viewBox="0 0 566 453" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="">
+              <rect x="44" y="58" width="375" height="315" fill="#1a0510"/>
+              <circle cx="63" cy="77" r="4" fill="#ff1575"/>
+              <circle cx="76" cy="77" r="4" fill="#726069"/>
+              <circle cx="89" cy="77" r="4" fill="#726069"/>
+              <g fill="#ffffff">
+                <rect x="59" y="95" width="8" height="3" rx="1.5" fill="#01853e"/>
+                <rect x="75" y="95" width="161" height="3" rx="1.5" opacity="0.5"/>
+                <rect x="75" y="108" width="192" height="3" rx="1.5" opacity="0.3"/>
+                <rect x="75" y="121" width="110" height="3" rx="1.5" opacity="0.3"/>
+                <rect x="59" y="134" width="8" height="3" rx="1.5" fill="#01853e"/>
+                <rect x="75" y="134" width="100" height="3" rx="1.5" opacity="0.5"/>
+                <rect x="75" y="147" width="173" height="3" rx="1.5" fill="#ff1575" opacity="1"/>
+                <rect x="75" y="160" width="76" height="3" rx="1.5" opacity="0.4"/>
+                <rect x="59" y="177" width="8" height="3" rx="1.5" fill="#01853e"/>
+                <rect x="75" y="173" width="9" height="10" rx="1.5" opacity="0.5"/>
+              </g>
+              <rect x="256" y="206" width="114" height="9" rx="3" fill="#1a0510"/>
+              <rect x="256" y="221" width="148" height="2" fill="#dcd9db"/>
+              <rect x="469" y="206" width="32" height="32" rx="7" fill="none" stroke="#ff8ab4" stroke-width="2"/>
+              <rect x="480" y="217" width="11" height="11" rx="2" fill="#ff1575"/>
+              <rect x="256" y="252" width="245" height="86" fill="none" stroke="#e2e0e1" stroke-width="1.5"/>
+              <line x1="374" y1="253" x2="374" y2="337" stroke="#e2e0e1" stroke-width="1.5"/>
+              <rect x="385" y="252" width="116" height="86" fill="#f5e9ec"/>
+              <rect x="266" y="321" width="98" height="2" fill="#cbc7c9"/>
+              <rect x="266" y="327" width="70" height="2" fill="#cbc7c9"/>
+              <rect x="393" y="306" width="10" height="23" fill="#1a0510"/>
+              <rect x="406" y="290" width="10" height="39" fill="#1a0510"/>
+              <rect x="419" y="275" width="10" height="54" fill="#ff1575"/>
+              <rect x="256" y="352" width="165" height="23" rx="3" fill="#1a0510"/>
+              <rect x="429" y="352" width="73" height="25" rx="3" fill="none" stroke="#1a0510" stroke-width="1.5"/>
+            </svg></div>
+          </section>
+
+          <section class="ps-section bg-pink reverse">
+            <div class="ps-section-text">
+              <h2 class="ps-heading">Establishing a single source of truth</h2>
+              <p class="ps-body">As the sole driver of this audit, I needed to establish a rigorous, objective baseline before evaluating. I developed a User Journey Framework detailing requirements for AI UX best practices, design system adherence, and ecosystem cohesion. I presented this to the team, and leadership formally adopted it as our operating standard. From there, I created a 22-criterion weighted audit scorecard, heavily prioritizing AI autonomy and cross-tool consistency to enable precise, side-by-side comparisons of the entire suite.</p>
+            </div>
+            <div class="ps-section-media"><svg viewBox="0 0 474 379" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="">
+              <g fill="none" stroke="#908086" stroke-width="1.4">
+                <line x1="0" y1="189" x2="474" y2="189"/>
+                <rect x="59.5" y="162" width="53" height="54"/>
+                <rect x="127" y="162" width="53" height="54"/>
+                <rect x="294" y="162" width="53" height="54"/>
+                <rect x="361" y="162" width="53" height="53.5"/>
+                <line x1="86.5" y1="216" x2="86.5" y2="242"/>
+                <line x1="153.5" y1="216" x2="153.5" y2="242"/>
+                <line x1="320.5" y1="216" x2="320.5" y2="242"/>
+                <line x1="387.5" y1="216" x2="387.5" y2="242"/>
+              </g>
+              <rect x="210.5" y="162" width="53" height="54" fill="#ff1575"/>
+              <g stroke="#ff1575" stroke-width="2">
+                <line x1="237" y1="109" x2="237" y2="136"/>
+                <line x1="237" y1="243" x2="237" y2="269"/>
+              </g>
+            </svg></div>
+          </section>
+
+          <section class="ps-section ps-collab">
+            <div class="ps-section-text">
+              <h2 class="ps-heading">Building context through collaboration</h2>
+              <p class="ps-body">Building context quickly during a short internship initially felt like a roadblock, but I soon realized my unfamiliarity was my greatest asset. A fresh perspective allowed me to spot interface inconsistencies the team had naturally grown accustomed to. However, identifying the friction was only half the work. I needed to step outside my immediate team to understand the technical and strategic reasons behind it. I made relationship-building a priority, initiating outreach to senior designers to understand the corporate design system and partnering with colleagues to integrate accessibility research. By actively engaging with disciplines ranging from rotating engineers to the VP of Architecture, I ensured the work remained aligned with the organization's bigger picture.</p>
+            </div>
+            <div class="ps-section-media ps-collab-media"><img src="collaboration.JPG" alt=""></div>
+          </section>
+
+          <section class="ps-section">
+            <div class="ps-grid12">
+              <div class="ps-col-mid8">
+                <h2 class="ps-heading">Designing for reality, not just aesthetics</h2>
+                <p class="ps-body">Good UX has to actually be buildable. Working alongside a small team of creative technologists, I realized my job wasn't just to point out interface flaws, but to help connect the dots between their parallel projects. I took a solution-first approach by taking the time to learn the underlying technical architecture. For example, I set up the full-stack local environment for a new beta tool myself so I could run a hands-on QA audit. Because I understood how the tools were built under the hood, I could ensure every UX recommendation and AI pattern I proposed was actually feasible for the engineering team to execute.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="ps-section ps-section-center">
+            <div class="ps-section-text">
+              <h2 class="ps-heading">Turning findings into a lasting framework</h2>
+              <div class="ps-body ps-body-long">
+                <p>By the end of the audit, I had logged over 130 findings across five tools and mapped out entirely new AI UX patterns to guide future development. However, I knew that raw data is only valuable if it actually drives action.</p>
+                <p>Halfway through the project, a major organizational shift occurred when the Product and Content orgs merged. Their new shared goal was driving internal tool adoption. This was a pivotal moment for me. I realized that to make my work truly matter, I had to stop framing UX purely as a usability exercise and start pitching it as a core business strategy. I completely reframed my final documentation to show how resolving these specific interface inconsistencies would directly move the needle on their new adoption metrics.</p>
+                <p>Looking back, the most rewarding part of this project was its permanence. My strategic roadmap did not just sit in a folder when my internship ended. It became the operational foundation for the team, directly resulting in the launch of a recurring bi-weekly UX sprint to tackle the issues I identified. The experience taught me that successful design is not just about delivering a polished artifact. It is about equipping a team with the clarity and direction they need to keep building long after you step away.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+        <section class="case-end ps-case-end">
+          <button onclick="closeCase()">← Back to Gallery</button>
+        </section>`;
+    }
+
     function startLenis() {
       if (typeof Lenis === 'undefined' || reducedMotion) return;
       lenis = new Lenis({ wrapper: caseScroll, content: caseContent, duration: 1.25, smoothWheel: true });
@@ -619,7 +856,7 @@
       const p = projects[i];
       if (!p.hasCase) return;
       caseEl.style.setProperty('--accent', p.accent || '');
-      caseContent.innerHTML = caseHTML(p);
+      caseContent.innerHTML = p.id === 'pluralsight' ? pluralsightCaseHTML(p) : caseHTML(p);
       caseScroll.scrollTop = 0;
       caseEl.classList.add('open');
       caseOpen = true;
