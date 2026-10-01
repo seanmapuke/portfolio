@@ -504,6 +504,214 @@
     @media (max-width: 900px) {
       .ps-col-mid8 { grid-column: 1 / -1; }
     }
+
+    /* ════════════════════════════════════
+       SPOTTR CASE STUDY
+    ════════════════════════════════════ */
+    @font-face {
+      font-family: 'Spottr Display';
+      src: url('Advercase-Font-Demo-Bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Spottr Text';
+      src: url('ArtificTrial-Regular.woff') format('woff');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    .sp-case {
+      --sp-red: #ff4632;
+      --sp-dark: #302e2b;
+      --sp-cream: #f5f1e8;
+      --sp-card: #f7f4ed;
+      --sp-rule: #dbd6cc;
+      --sp-ink: #0f0f0f;
+      --sp-gray: #6b6b6b;
+      --sp-paper: #efede3;
+      font-family: 'Spottr Text', 'Artific Trial', 'Archivo', sans-serif;
+      font-weight: 400;
+      color: var(--sp-ink);
+    }
+    .sp-case p, .sp-case h1, .sp-case h2, .sp-case h3 { margin: 0; font-weight: inherit; }
+    .sp-case img { display: block; }
+    .sp-semi { font-weight: 600; }
+    .sp-display { font-family: 'Spottr Display', 'Advercase Demo', serif; font-weight: 700; }
+
+    .sp-sec {
+      position: relative;
+      background: #fff;
+      padding: 110px clamp(24px, 9.72vw, 140px);
+    }
+    .sp-sec.sp-dark { background: var(--sp-dark); }
+    .sp-sec.sp-cream { background: var(--sp-cream); }
+    .sp-inner { max-width: 1160px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+    .sp-label {
+      position: absolute;
+      left: 24px; top: 64px;
+      color: var(--sp-red);
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      white-space: nowrap;
+    }
+
+    .sp-head { display: flex; flex-direction: column; gap: 16px; }
+    .sp-head.sp-right { align-items: flex-end; text-align: right; }
+    .sp-head.sp-center { align-items: center; text-align: center; }
+    .sp-h2 { color: var(--sp-red); font-size: clamp(34px, 3.6vw, 52px); line-height: 1; }
+    .sp-lede { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; max-width: 640px; color: var(--sp-ink); }
+    .sp-dark .sp-lede { color: var(--sp-paper); }
+    .sp-copy { font-size: 16px; line-height: 1.55; color: var(--sp-gray); max-width: 780px; }
+
+    /* 01 intro */
+    .sp-intro { padding-top: 60px; display: flex; }
+    .sp-stack-top { position: relative; z-index: 1; }
+    .sp-stack-top .sp-intro { min-height: 100vh; min-height: 100dvh; align-items: center; }
+    .sp-intro .sp-inner { flex-direction: row; justify-content: space-between; align-items: flex-start; width: 100%; gap: 6vw; }
+    .sp-intro-main { display: flex; flex-direction: column; gap: 45px; max-width: 865px; }
+    .sp-eyebrow { color: var(--sp-red); font-size: clamp(18px, 2vw, 29px); letter-spacing: 0.11em; }
+    .sp-intro-lede { color: #fff; font-size: clamp(24px, 2.85vw, 41px); line-height: 1.22; }
+    .sp-provided { display: flex; flex-direction: column; gap: 24px; width: 173px; flex-shrink: 0; margin-top: 137px; font-size: 24px; color: #fff; }
+    .sp-provided-label { color: var(--sp-red); }
+
+    /* 02 origin */
+    .sp-origin .sp-inner { flex-direction: row; align-items: center; justify-content: space-between; gap: clamp(40px, 11vw, 161px); }
+    .sp-origin-text { display: flex; flex-direction: column; gap: 50px; max-width: 568px; }
+    .sp-origin-h { color: var(--sp-red); font-size: clamp(40px, 4.45vw, 64px); line-height: 1.15; }
+    .sp-origin-body { font-size: clamp(16px, 1.4vw, 20px); line-height: normal; color: #000; max-width: 455px; display: flex; flex-direction: column; gap: 1.2em; }
+    .sp-stats { width: 462px; flex-shrink: 0; }
+    .sp-stat { display: flex; align-items: center; gap: 24px; padding: 18px 0; border-top: 1px solid rgba(0,0,0,0.1); }
+    .sp-stat:first-child { border-top: 0; }
+    .sp-stat-n { width: 72px; flex-shrink: 0; color: var(--sp-red); font-size: 28px; }
+    .sp-stat-t { font-size: 15px; line-height: 1.45; color: #292929; }
+
+    /* 03 problem */
+    .sp-qs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .sp-q { background: var(--sp-card); border-radius: 12px; padding: 20px; height: 140px; display: flex; flex-direction: column; justify-content: space-between; }
+    .sp-q-t { font-size: 17px; line-height: 1.18; }
+    .sp-q-a { display: flex; flex-direction: column; gap: 10px; font-size: 12.5px; line-height: 1.35; color: var(--sp-gray); }
+    .sp-q-a::before { content: ''; height: 1px; background: var(--sp-rule); }
+    .sp-arrow { color: var(--sp-red); }
+    .sp-table { display: grid; grid-template-columns: 220px repeat(4, 1fr); }
+    .sp-table > div { padding: 14px; border-bottom: 1px solid var(--sp-rule); font-size: 13px; line-height: 1.3; color: var(--sp-gray); }
+    .sp-table .sp-th { font-size: 11px; letter-spacing: 0.08em; }
+    .sp-table .sp-rowh { color: var(--sp-ink); }
+    .sp-table .sp-me { color: var(--sp-ink); font-weight: 500; }
+    .sp-table .sp-me.sp-rowh { color: var(--sp-red); }
+    .sp-hmw { background: #f6f1e8; border-radius: 12px; padding: 26px 28px; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.45; }
+
+    /* 04 insights */
+    .sp-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .sp-box { background: #fff; border: 1px solid var(--sp-rule); border-radius: 12px; padding: 26px; display: flex; flex-direction: column; gap: 12px; }
+    .sp-kicker { color: var(--sp-red); font-size: 11px; letter-spacing: 0.1em; }
+    .sp-box-t { font-size: 16px; line-height: 1.35; }
+    .sp-box-b { font-size: 14px; line-height: 1.5; color: var(--sp-gray); }
+
+    /* 05 process */
+    .sp-process .sp-inner { gap: 56px; }
+    .sp-block { display: flex; flex-direction: column; gap: 16px; }
+    .sp-block-t { font-size: 16px; }
+    .sp-block-d { font-size: 14px; line-height: 1.5; color: var(--sp-gray); max-width: 720px; }
+    .sp-flow { position: relative; width: 100%; aspect-ratio: 1160 / 470; border-radius: 16px; overflow: hidden; }
+    .sp-flow img { position: absolute; left: 0; top: 6.23%; width: 100%; height: 87.55%; }
+    .sp-strip { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 4px; }
+    .sp-wire { flex-shrink: 0; width: 150px; height: 325px; border: 1px dashed var(--sp-ink); border-radius: 16px; overflow: hidden; }
+    .sp-wire img, .sp-shot img { width: 100%; height: 100%; object-fit: contain; }
+    .sp-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+    .sp-pair { display: flex; flex-direction: column; gap: 16px; }
+    .sp-pair-row { display: flex; align-items: center; gap: 18px; }
+    .sp-pair-col { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .sp-pair-wire { width: 130px; height: 283px; border: 1px dashed #111; border-radius: 14px; overflow: hidden; }
+    .sp-pair-final { width: 247px; height: 343px; }
+    .sp-pair-wire img, .sp-pair-final img { width: 100%; height: 100%; object-fit: contain; }
+    .sp-pair-lbl { font-size: 10.5px; letter-spacing: 0.12em; color: var(--sp-gray); }
+    .sp-pair-arrow { color: var(--sp-red); font-size: 34px; }
+    .sp-pair-cap { font-size: 13px; line-height: 1.5; color: var(--sp-gray); }
+    .sp-pair-cap b { font-weight: 600; color: var(--sp-ink); }
+
+    /* 06 core loop */
+    .sp-loop .sp-inner { max-width: 1140px; gap: 64px; }
+    .sp-step { display: flex; align-items: center; gap: 56px; }
+    .sp-shot { width: 329px; height: 522px; flex-shrink: 0; border-radius: 24px; overflow: hidden; }
+    .sp-step-text { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+    .sp-step-n { color: var(--sp-red); font-size: 48px; line-height: 1; letter-spacing: 0.1em; }
+    .sp-step-t { color: var(--sp-paper); font-size: 19px; }
+    .sp-step-b { color: rgba(239,237,227,0.82); font-size: 15px; line-height: 1.6; }
+    .sp-step-d { border-top: 1px solid rgba(239,237,227,0.16); padding-top: 14px; font-size: 13px; line-height: 1.5; color: rgba(239,237,227,0.62); }
+    .sp-step-d b { font-weight: 600; color: rgba(239,237,227,0.95); }
+    .sp-loopstrip { display: flex; flex-direction: column; gap: 18px; }
+    .sp-loopstrip-l { color: var(--sp-red); font-size: 12px; letter-spacing: 0.12em; }
+    .sp-mini { flex-shrink: 0; width: 132px; height: 287px; border: 1.2px dashed rgba(239,237,227,0.14); border-radius: 18px; overflow: hidden; }
+    .sp-mini img { width: 100%; height: 100%; object-fit: cover; }
+    .sp-loopstrip .sp-strip { gap: 12px; }
+
+    /* 07 around */
+    .sp-feeds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .sp-feed { display: flex; flex-direction: column; gap: 16px; }
+    .sp-feed-img { width: 100%; max-width: 366px; aspect-ratio: 365 / 435; border-radius: 22px; overflow: hidden; }
+    .sp-feed-img img { width: 100%; height: 100%; object-fit: contain; }
+    .sp-feed-t { font-size: 17px; }
+
+    /* 08 iteration */
+    .sp-changes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+    .sp-change { background: var(--sp-card); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .sp-change-l { font-size: 11px; letter-spacing: 0.1em; color: var(--sp-gray); }
+    .sp-change-b { font-size: 14px; line-height: 1.5; }
+    .sp-swatches { display: flex; gap: 8px; }
+    .sp-swatch { position: relative; width: 28px; height: 28px; }
+    .sp-swatch img { position: absolute; top: 0; left: -3.57%; width: 107.14%; height: 100%; }
+    .sp-marks { display: flex; gap: 12px; }
+    .sp-mark { position: relative; width: 52px; height: 52px; border-radius: 12px; overflow: hidden; }
+    .sp-mark img { position: absolute; left: 13px; top: 12px; width: 26px; height: 28.8px; }
+
+    /* 09 design system */
+    .sp-ds .sp-inner { gap: 36px; }
+    .sp-ds-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .sp-ds-stat { display: flex; flex-direction: column; gap: 6px; }
+    .sp-ds-n { color: var(--sp-red); font-size: 48px; line-height: 1; }
+    .sp-ds-l { font-size: 13px; color: var(--sp-gray); }
+    .sp-ds-img { width: 100%; border-radius: 16px; }
+    .sp-ds-cap { font-size: 14px; line-height: 1.45; color: var(--sp-gray); max-width: 780px; }
+
+    /* 10 reflection */
+    .sp-reflect .sp-inner { gap: 36px; }
+    .sp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+    .sp-case .sp-col-t { font-size: 16px; margin-bottom: 14px; }
+    .sp-li { display: flex; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--sp-rule); font-size: 14px; line-height: 1.45; }
+    .sp-li:first-of-type { border-top: 1px solid var(--sp-rule); }
+
+    /* 11 end */
+    .sp-end { padding: 120px clamp(24px, 9.72vw, 140px) 117px; }
+    .sp-end-inner { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+    .sp-end-h { color: var(--sp-red); font-size: clamp(40px, 3.9vw, 56px); line-height: 1; }
+    .sp-end-b { color: rgba(239,237,227,0.85); font-size: 18px; line-height: 1.5; }
+    .sp-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .sp-btn { display: inline-flex; align-items: center; padding: 14px 22px; border-radius: 999px; font-size: 14px; }
+    .sp-btn-fill { background: var(--sp-red); color: #1f1c1c; }
+    .sp-btn-line { border: 1px solid rgba(239,237,227,0.3); color: var(--sp-paper); }
+    .sp-sign { font-size: 12px; color: rgba(239,237,227,0.5); }
+
+    @media (max-width: 1100px) {
+      .sp-intro .sp-inner, .sp-origin .sp-inner { flex-direction: column; align-items: flex-start; }
+      .sp-provided { margin-top: 0; width: auto; }
+      .sp-stats { width: 100%; }
+      .sp-qs { grid-template-columns: repeat(2, 1fr); }
+      .sp-step, .sp-step.sp-flip { flex-direction: column; align-items: flex-start; }
+      .sp-step.sp-flip .sp-shot { order: -1; }
+      .sp-pairs, .sp-feeds, .sp-changes { grid-template-columns: 1fr; }
+      .sp-table-wrap { overflow-x: auto; }
+      .sp-table { min-width: 680px; grid-template-columns: 160px repeat(4, 1fr); }
+      .sp-head.sp-right { align-items: flex-start; text-align: left; }
+    }
+    @media (max-width: 700px) {
+      .sp-qs, .sp-boxes, .sp-cols, .sp-ds-stats { grid-template-columns: 1fr; }
+      .sp-label { top: 32px; }
+      .sp-sec { padding-top: 80px; padding-bottom: 80px; }
+      .sp-shot { width: 100%; max-width: 329px; height: auto; aspect-ratio: 329 / 522; }
+    }
   </style>
 </head>
 <body>
@@ -566,11 +774,19 @@
         hasCase: true
       },
       {
-        id: 'untitled',
-        eyebrow: '03 / Untitled',
-        title: 'In Progress',
-        desc: 'Documentation underway. This slot holds the next case study.',
-        hasCase: false
+        id: 'spottr',
+        eyebrow: '03 / Personal Project',
+        title: 'Spottr.',
+        desc: 'Conversations with lifters, a survey, and a review of competing apps kept surfacing the same failure: routines break when people have to decide something, not when they log it. The design answers each decision point with ranked routines based on recovery, pre-answered quick workouts, and pre-filled sets.',
+        meta: [
+          { label: 'Role', val: 'Product Designer' },
+          { label: 'Year', val: '2026' },
+          { label: 'Type', val: 'Personal iOS app' }
+        ],
+        logo: 'spottr logo.svg',
+        cover: 'spottr/cover.jpg',
+        accent: '#FF4632',
+        hasCase: true
       }
     ];
 
@@ -841,6 +1057,283 @@
         </section>`;
     }
 
+    function spottrCaseHTML(p) {
+      const img = (f) => `spottr/${f}`;
+      const q = (t, a) => `
+        <div class="sp-q"><p class="sp-q-t sp-semi">${t}</p><p class="sp-q-a"><span><span class="sp-arrow">→</span>&nbsp;&nbsp;${a}</span></p></div>`;
+      const row = (cells, cls = '') => cells.map((c, i) => `<div class="${cls}${i === 0 ? ' sp-rowh' : ''}">${c}</div>`).join('');
+      const box = (k, t, b) => `
+        <div class="sp-box"><p class="sp-kicker sp-semi">${k}</p><p class="sp-box-t sp-semi">${t}</p><p class="sp-box-b">${b}</p></div>`;
+      const step = (n, shot, t, b, d, flip) => {
+        const text = `
+          <div class="sp-step-text">
+            <p class="sp-step-n sp-display">${n}</p>
+            <p class="sp-step-t sp-semi">${t}</p>
+            <p class="sp-step-b">${b}</p>
+            <p class="sp-step-d"><b>Decision:</b> ${d}</p>
+          </div>`;
+        const pic = `<div class="sp-shot"><img src="${img(shot)}" alt=""></div>`;
+        return `<div class="sp-step${flip ? ' sp-flip' : ''}">${flip ? text + pic : pic + text}</div>`;
+      };
+      const feed = (f, t, b) => `
+        <div class="sp-feed"><div class="sp-feed-img"><img src="${img(f)}" alt=""></div><p class="sp-feed-t sp-semi">${t}</p><p class="sp-box-b">${b}</p></div>`;
+      const li = (t) => `<div class="sp-li"><span class="sp-arrow">→</span><span>${t}</span></div>`;
+
+      return `
+        <div class="case-stack">
+          <section class="case-hero has-cover ps-cover">
+            <div class="case-hero-bg" style="background-image:url('${encodeURI(p.cover)}')"></div>
+            <div class="case-hero-fade"></div>
+            <div class="mono case-eyebrow">${p.eyebrow}</div>
+            <h1 class="case-title">${p.title}</h1>
+            <div class="mono case-scrollcue">Scroll ↓</div>
+          </section>
+        <div class="sp-case sp-stack-top">
+          <section class="sp-sec sp-dark sp-intro">
+            <div class="sp-inner">
+              <div class="sp-intro-main">
+                <p class="sp-eyebrow">SPOTTR.</p>
+                <p class="sp-intro-lede">I designed an iOS strength-training app end to end, from problem framing through 32 high-fidelity screens and a clickable prototype. Research with lifters pointed to a single failure point: routines break when people have to decide something, not while they log. The goal was to design around those moments and determine whether an app could remove indecision without taking the routine out of the user's hands.</p>
+              </div>
+              <div class="sp-provided">
+                <p class="sp-provided-label">I provided</p>
+                <p>UX RESEARCH + STRATEGY</p>
+                <p>PRODUCT DESIGN</p>
+                <p>INTERACTION DESIGN</p>
+              </div>
+            </div>
+          </section>
+        </div>
+        </div>
+        <div class="sp-case">
+
+          <section class="sp-sec sp-origin">
+            <div class="sp-inner">
+              <div class="sp-origin-text">
+                <h2 class="sp-origin-h sp-display">Spottr started with frustration.</h2>
+                <div class="sp-origin-body">
+                  <p>The workout apps I'd used did what they promised: they logged sets well. But conversations with other lifters, and the research I did after, kept pointing to the same thing. What broke routines and consistency wasn't a lack of tracking. It was indecision, in one form or another. That made me wonder whether workout apps were solving the wrong problem.</p>
+                  <p>Spottr is my answer: a strength app that removes indecision the moment it shows up. It answers “what should I do today?” from your recovery, your time, and the equipment you have, so newer lifters stop stalling and start training.</p>
+                  <p>The work splits into two halves that speak to two different roles. Reframing the problem, and deciding what Spottr should and shouldn't decide for someone, is the product story. Designing a loop that answers each question before it stalls a workout, and the system underneath it, is the UX story. Below is how both came together.</p>
+                </div>
+              </div>
+              <div class="sp-stats">
+                <div class="sp-stat"><p class="sp-stat-n sp-display">10</p><p class="sp-stat-t">survey responses behind the problem reframe</p></div>
+                <div class="sp-stat"><p class="sp-stat-n sp-display">4</p><p class="sp-stat-t">questions that stall a workout before it starts</p></div>
+                <div class="sp-stat"><p class="sp-stat-n sp-display">3</p><p class="sp-stat-t">taps to answer them in Quick Workout setup</p></div>
+                <div class="sp-stat"><p class="sp-stat-n sp-display">26</p><p class="sp-stat-t">high-fidelity screens across 4 flows</p></div>
+                <div class="sp-stat"><p class="sp-stat-n sp-display">92</p><p class="sp-stat-t">components in use, documented across 7 pages</p></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="sp-sec" style="padding-bottom:132px">
+            <p class="sp-label">01 · PROBLEM</p>
+            <div class="sp-inner">
+              <div class="sp-head sp-right">
+                <h2 class="sp-h2 sp-display">Indecision kills consistency</h2>
+                <p class="sp-lede">Between "I should work out" and actually working out sits a pile of small decisions. For newer lifters, that pile is often enough to skip.</p>
+              </div>
+              <p class="sp-copy">Walking into a gym without a plan means answering four questions on the spot, often while the equipment you wanted is taken and the clock is running. Each one is small. Together they turn intent into hesitation, and hesitation into a skipped day.</p>
+              <div class="sp-qs">
+                ${q('What should I train?', 'Recovery picks the focus')}
+                ${q('Is my body ready?', "A muscle map shows what's recovered")}
+                ${q('How much time do I have?', 'Pick 15, 30, 45, or 60 min')}
+                ${q('What equipment is free?', 'Full gym, dumbbells, or bodyweight')}
+              </div>
+              <p class="sp-copy">Recovery is the hardest of the four because it's invisible. Soreness fades before muscles are ready and lingers after they are, and experienced lifters take years to learn the difference. Existing apps each answer one question at most: loggers record what you did, wearables give you a score, and neither turns that into a plan for right now.</p>
+              <div class="sp-table-wrap">
+                <div class="sp-table">
+                  <div class="sp-th"></div><div class="sp-th">LOGS WORKOUTS</div><div class="sp-th">READS RECOVERY</div><div class="sp-th">FITS TIME &amp; EQUIPMENT</div><div class="sp-th">SAYS WHAT TO DO TODAY</div>
+                  ${row(['Workout loggers', 'Yes', 'No', 'No', 'No'])}
+                  ${row(['Recovery wearables', 'No', 'Yes', 'No', 'Partly'])}
+                  ${row(['Coached programs', 'Yes', 'No', 'Partly', 'Yes, fixed and costly'])}
+                  ${row(['Spottr', 'Yes', 'Yes', 'Yes', 'Yes, in three taps'], 'sp-me')}
+                </div>
+              </div>
+              <p class="sp-hmw">How might we close the gap between wanting to work out and actually starting, by answering "what should I do today?" for the time, equipment, and recovery someone has right now?</p>
+            </div>
+          </section>
+
+          <section class="sp-sec sp-cream" style="padding-bottom:108px">
+            <p class="sp-label">02 · INSIGHTS</p>
+            <div class="sp-inner">
+              <div class="sp-head sp-center">
+                <h2 class="sp-h2 sp-display">What shaped it</h2>
+                <p class="sp-lede">A review of how recovery can be estimated, what existing apps do, and how lifters decide what to train pointed to four design rules.</p>
+              </div>
+              <div class="sp-boxes">
+                ${box('SEE IT', "People can't see recovery, so they guess.", 'Spottr shows it as a body, not a table: a muscle map tinted by readiness.')}
+                ${box('EXPLAIN IT', 'A suggestion is trusted only when it gives a reason.', 'Every recommendation comes with its “because.”')}
+                ${box('SAY IT PLAINLY', 'Jargon makes newer lifters tune out.', '“Above your avg,” not “above baseline.” Every color also has a word.')}
+                ${box('KEEP IT GLANCEABLE', "Mid-set, people glance, they don't read.", 'One exercise per screen, big numbers, one button.')}
+              </div>
+            </div>
+          </section>
+
+          <section class="sp-sec sp-process" style="padding-bottom:42px">
+            <p class="sp-label">03 · PROCESS</p>
+            <div class="sp-inner">
+              <div class="sp-head">
+                <h2 class="sp-h2 sp-display">From flow to wireframes</h2>
+                <p class="sp-lede">Before any pixels, I mapped the logic end to end, then sketched it in low fidelity. Both changed the final product.</p>
+              </div>
+              <div class="sp-block">
+                <p class="sp-block-t sp-semi">User flows</p>
+                <p class="sp-block-d">My first flow was one dense diagram that was hard to follow. Breaking it into smaller sections made every path easier to trace. Mapping the logic before drawing any screens surfaced gaps and dead ends early, and fixing them in the flow made the final design simpler and more consistent.</p>
+                <div class="sp-flow"><img src="${img('flow.png')}" alt="Spottr user flow diagram"></div>
+              </div>
+              <div class="sp-block">
+                <p class="sp-block-t sp-semi">Low-fidelity wireframes</p>
+                <p class="sp-block-d">Wireframes tested the structure: log in, sign up, then one question per screen. They also surfaced a conflict with the flow, choosing a mode first versus browsing one shared catalog, which is why strength and cardio became separate tabs, each with its own flow.</p>
+                <div class="sp-strip">
+                  ${[1, 2, 3, 4, 5, 6, 7].map(n => `<div class="sp-wire"><img src="${img(`wire-${n}.png`)}" alt=""></div>`).join('')}
+                </div>
+              </div>
+              <div class="sp-block">
+                <p class="sp-block-t sp-semi">Wireframe to final</p>
+                <p class="sp-block-d">Two screens where the idea held but the execution changed.</p>
+                <div class="sp-pairs">
+                  <div class="sp-pair">
+                    <div class="sp-pair-row">
+                      <div class="sp-pair-col"><div class="sp-pair-wire"><img src="${img('pair-goals-wire.png')}" alt=""></div><p class="sp-pair-lbl">Wireframe</p></div>
+                      <p class="sp-pair-arrow sp-display">→</p>
+                      <div class="sp-pair-col"><div class="sp-pair-final"><img src="${img('pair-goals-final.png')}" alt=""></div><p class="sp-pair-lbl">Final</p></div>
+                    </div>
+                    <p class="sp-pair-cap"><b>Goals.</b> A dashed box labeled “adaptive questionnaire” became a coach card: one question, tappable answers, and a preview of what’s next.</p>
+                  </div>
+                  <div class="sp-pair">
+                    <div class="sp-pair-row">
+                      <div class="sp-pair-col"><div class="sp-pair-wire"><img src="${img('wire-3.png')}" alt=""></div><p class="sp-pair-lbl">Wireframe</p></div>
+                      <p class="sp-pair-arrow sp-display">→</p>
+                      <div class="sp-pair-col"><div class="sp-pair-final"><img src="${img('pair-home-final.png')}" alt=""></div><p class="sp-pair-lbl">Final</p></div>
+                    </div>
+                    <p class="sp-pair-cap"><b>Home.</b> Two competing wireframe layouts became one Rest Summary built around readiness and the muscle map.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="sp-sec sp-dark sp-loop" style="padding-bottom:129px">
+            <p class="sp-label">04 · THE CORE LOOP</p>
+            <div class="sp-inner">
+              <div class="sp-head">
+                <h2 class="sp-h2 sp-display">One push day, start to finish</h2>
+                <p class="sp-lede">Legs are still sore from the weekend and there are 15 minutes to train. Here’s how Spottr gets from “how recovered am I?” to a saved session.</p>
+              </div>
+              ${step(1, 'loop-1.png', 'Home shows what’s ready', 'A readiness ring reads 78 with “Good day for upper body,” and right under it, “Legs need about 18 more hours.” The muscle map tints quads and hamstrings as still recovering. HRV, resting heart rate, and sleep sit below to explain the score.', 'a body map instead of a list of muscle percentages. People read a body faster than a table, and a Needs rest, Recovering, Ready legend means color is never the only cue.', false)}
+              ${step(2, 'loop-2.png', 'Setup suggests, it doesn’t force', 'Time, focus, and equipment are three chip rows, so the questions that stall people at the gym door get answered in three taps. “Upper body · suggested” is pre-selected from recovery data, and the plan updates live: 2 exercises, about 15 minutes.', 'pre-select, never lock. Push, Pull, Core, and Full body stay one tap away. The app advises; the lifter decides.', true)}
+              ${step(3, 'loop-3.png', 'The working set', 'Dumbbell Bench Press, set 1 of 3, 6 to 8 reps at 135 lbs. Reps and weight get big readouts with plus and minus buttons, and one Log set button sits at the bottom. Set dots track progress.', 'one exercise fills the screen with 44pt targets, built for sweaty hands and quick glances between sets.', false)}
+              ${step(4, 'loop-4.png', 'The loop closes', 'After a timed finisher, the summary shows volume, duration, and the muscles trained on a two-tone map. Back on Home, the message changes to “Great push day. Rest up tonight.”', 'the session only saves at the end. An early flow wrote every set live, which left half-saved workouts behind when someone cancelled. Holding the session until “Complete” made cancelling clean.', true)}
+              <div class="sp-loopstrip">
+                <p class="sp-loopstrip-l">EVERY SCREEN IN THE LOOP</p>
+                <div class="sp-strip">
+                  ${[1, 2, 3, 4, 5, 6, 7, 8].map(n => `<div class="sp-mini"><img src="${img(`strip-${n}.png`)}" alt=""></div>`).join('')}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="sp-sec sp-cream">
+            <p class="sp-label">05 · AROUND THE LOOP</p>
+            <div class="sp-inner">
+              <div class="sp-head sp-center">
+                <h2 class="sp-h2 sp-display">What feeds it</h2>
+                <p class="sp-lede">Three flows supply the data the core loop runs on.</p>
+              </div>
+              <div class="sp-feeds">
+                ${feed('feed-onboarding.png', 'Onboarding', 'One question per screen, each with a reason. The goals step is a short adaptive quiz where each answer shapes the next question, and it’s skippable.')}
+                ${feed('feed-create.png', 'Create a workout', 'For lifters who outgrow Quick Workout: build blocks, search exercises from A to Z, and group them into circuits.')}
+                ${feed('feed-you.png', 'You', 'Stats, weekly history, and training preferences. Changing a goal here changes what Home recommends tomorrow.')}
+              </div>
+            </div>
+          </section>
+
+          <section class="sp-sec">
+            <p class="sp-label">06 · ITERATION</p>
+            <div class="sp-inner">
+              <div class="sp-head sp-right">
+                <h2 class="sp-h2 sp-display">What changed along the way</h2>
+                <p class="sp-lede">Spottr covers both strength and cardio. Telling both stories at once would shortchange each, so this one follows strength.</p>
+              </div>
+              <div class="sp-changes">
+                <div class="sp-change">
+                  <p class="sp-change-l sp-semi">SCOPE</p>
+                  <p class="sp-change-b">The full app pairs strength with cardio: live GPS runs, scheduled runs, preset runs, and runs you build yourself. Wireframes showed the two needed separate homes, so they became separate tabs. This case study and the prototype follow strength end to end; cardio is still part of the plan, just not part of this story.</p>
+                </div>
+                <div class="sp-change">
+                  <p class="sp-change-l sp-semi">COLOR</p>
+                  <p class="sp-change-b">Volt green, then golden yellow, then orange, then red. Midway I stripped color out and built in grayscale, so hierarchy had to work without it. Red came back only for actions and status.</p>
+                  <div class="sp-swatches">
+                    ${[1, 2, 3, 4].map(n => `<div class="sp-swatch"><img src="${img(`swatch-${n}.svg`)}" alt=""></div>`).join('')}
+                  </div>
+                </div>
+                <div class="sp-change">
+                  <p class="sp-change-l sp-semi">LOGO</p>
+                  <p class="sp-change-b">A reticle and a bar-catching cradle both read as “location” or “weights.” The final Duo mark is two figures side by side: a lifter and the spotter who has their back.</p>
+                  <div class="sp-marks">
+                    <div class="sp-mark" style="background:#ff4733"><img src="${img('mark-white.svg')}" alt="Spottr Duo mark on red"></div>
+                    <div class="sp-mark" style="background:#efede3"><img src="${img('mark-dark.svg')}" alt="Spottr Duo mark on light"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="sp-sec sp-cream sp-ds" style="padding-bottom:140px">
+            <p class="sp-label">07 · DESIGN SYSTEM</p>
+            <div class="sp-inner">
+              <div class="sp-head sp-center">
+                <h2 class="sp-h2 sp-display">Built from parts</h2>
+                <p class="sp-lede">Every screen comes from a documented component library on shared color and spacing tokens, and the prototype runs on real logic.</p>
+              </div>
+              <div class="sp-ds-stats">
+                <div class="sp-ds-stat"><p class="sp-ds-n sp-display">30</p><p class="sp-ds-l">hi-fi screens</p></div>
+                <div class="sp-ds-stat"><p class="sp-ds-n sp-display">4</p><p class="sp-ds-l">flows</p></div>
+                <div class="sp-ds-stat"><p class="sp-ds-n sp-display">92</p><p class="sp-ds-l">components in use</p></div>
+                <div class="sp-ds-stat"><p class="sp-ds-n sp-display">7</p><p class="sp-ds-l">documentation pages</p></div>
+              </div>
+              <img class="sp-ds-img" src="${img('components.png')}" alt="Spottr components, from elements to assemblies">
+              <p class="sp-ds-cap">Headers keep fixed 44pt side zones so titles never shift. Set counts and progress dots run on Figma variables, so logging and skipping sets behave like the real app.</p>
+            </div>
+          </section>
+
+          <section class="sp-sec sp-reflect" style="padding-bottom:109px">
+            <p class="sp-label">08 · REFLECTION</p>
+            <div class="sp-inner">
+              <h2 class="sp-h2 sp-display">What I learned</h2>
+              <div class="sp-cols">
+                <div>
+                  <p class="sp-col-t sp-semi">Worked</p>
+                  ${li('Focusing on one side of the app let the recovery idea carry the story.')}
+                  ${li('Designing in grayscale first made the hierarchy honest.')}
+                  ${li('A variable-driven prototype made testing feel like the real app.')}
+                </div>
+                <div>
+                  <p class="sp-col-t sp-semi">Next</p>
+                  ${li('Usability test the core loop with five lifters.')}
+                  ${li('Dark mode with glass surfaces for workout screens.')}
+                  ${li('Designing the cardio side: GPS, scheduled, preset, and custom runs.')}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="sp-sec sp-dark sp-end">
+            <div class="sp-end-inner">
+              <h2 class="sp-end-h sp-display">See it move</h2>
+              <p class="sp-end-b">The prototype runs the full push day. The full case study covers research, every flow, and the decisions behind them.</p>
+              <div class="sp-btns">
+                <span class="sp-btn sp-btn-fill">Try the prototype</span>
+                <span class="sp-btn sp-btn-line">Read the full case study</span>
+              </div>
+              <p class="sp-sign">Sean Mapuke · Spottr · 2026</p>
+            </div>
+          </section>
+        </div>`;
+    }
+
     function startLenis() {
       if (typeof Lenis === 'undefined' || reducedMotion) return;
       lenis = new Lenis({ wrapper: caseScroll, content: caseContent, duration: 1.25, smoothWheel: true });
@@ -856,7 +1349,9 @@
       const p = projects[i];
       if (!p.hasCase) return;
       caseEl.style.setProperty('--accent', p.accent || '');
-      caseContent.innerHTML = p.id === 'pluralsight' ? pluralsightCaseHTML(p) : caseHTML(p);
+      caseContent.innerHTML = p.id === 'pluralsight' ? pluralsightCaseHTML(p)
+        : p.id === 'spottr' ? spottrCaseHTML(p)
+        : caseHTML(p);
       caseScroll.scrollTop = 0;
       caseEl.classList.add('open');
       caseOpen = true;
