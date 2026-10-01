@@ -24,7 +24,7 @@
       content: '';
       position: fixed;
       inset: 0;
-      background: url('hero.webp') center center / cover no-repeat;
+      background: url('desktop/wallpaper.webp') center center / cover no-repeat;
       filter: brightness(0.55);
       z-index: -1;
     }
@@ -439,15 +439,9 @@
       <!-- Volume icon → creative projects -->
       <div class="folder-item" style="left:5%;top:10%;cursor:pointer;" onclick="window.location.href='index.html#creative'">
         <div class="folder-thumb" style="background:none;box-shadow:none;border:none;backdrop-filter:none;display:flex;align-items:center;justify-content:center;">
-          <img src="Volume.ico" style="width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
+          <img src="desktop/volume.ico" style="width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.5));">
         </div>
         <div class="folder-label">FUN STUFF</div>
-      </div>
-
-      <div class="folder-item" data-project="proj1" style="left:12%;top:18%;" onclick="openProject('proj1')">
-        <img src="Thesis.png" style="width:64px;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.4);display:block;margin-bottom:2px;">
-        <div class="folder-label">Digital Divide</div>
-        <div class="folder-sublabel">UX Research · 2025</div>
       </div>
 
       <div class="folder-item" data-project="proj2" style="left:62%;top:12%;" onclick="openProject('proj2')">
@@ -497,33 +491,33 @@
   <!-- Dock -->
   <div class="dock">
     <div class="dock-icon" onclick="appError('figma')">
-      <img src="figma.webp" width="44" height="44" style="border-radius:10px;">
+      <img src="desktop/figma.webp" width="44" height="44" style="border-radius:10px;">
       <div class="dock-icon-label">Figma</div>
     </div>
     <div class="dock-icon" onclick="appError('photoshop')">
-      <img src="Adobe_Photoshop_CC_icon.svg" width="44" height="44" style="border-radius:10px;">
+      <img src="desktop/photoshop.svg" width="44" height="44" style="border-radius:10px;">
       <div class="dock-icon-label">Photoshop</div>
     </div>
     <div class="dock-icon" onclick="appError('davinci')">
-      <img src="DaVinci_Resolve_Studio.png" width="44" height="44" style="border-radius:10px;">
+      <img src="desktop/davinci-resolve.png" width="44" height="44" style="border-radius:10px;">
       <div class="dock-icon-label">DaVinci Resolve</div>
     </div>
     <div class="dock-divider"></div>
     <div class="dock-icon" onclick="openNotes()">
-      <img src="notes.png" width="44" height="44" style="border-radius:10px;">
+      <img src="desktop/notes.png" width="44" height="44" style="border-radius:10px;">
       <div class="dock-icon-label">Notes</div>
     </div>
     <div class="dock-icon" onclick="openPhotos()">
-      <img src="photos.png" width="44" height="44" style="border-radius:10px;">
+      <img src="desktop/photos.png" width="44" height="44" style="border-radius:10px;">
       <div class="dock-icon-label">Photos</div>
     </div>
     <div class="dock-icon" onclick="window.location='mailto:seanmapuke1@gmail.com'">
-      <img src="Apple_Mail.png" width="44" height="44" style="border-radius:10px;">
+      <img src="desktop/mail.png" width="44" height="44" style="border-radius:10px;">
       <div class="dock-icon-label">Mail</div>
     </div>
     <div class="dock-divider"></div>
     <div class="dock-icon" onclick="openTrash()">
-      <img src="trash.png" width="44" height="44" style="border-radius:10px; object-fit:cover;">
+      <img src="desktop/trash.png" width="44" height="44" style="border-radius:10px; object-fit:cover;">
       <div class="dock-icon-label">Trash</div>
     </div>
   </div>
@@ -534,14 +528,6 @@
 
     // ── Project data ──
     const projects = {
-      proj1: {
-        title: 'Bridging the Digital Divide',
-        tag: 'UX Research · 2025',
-        desc: 'An investigation into how UX design can reduce cognitive load and usability barriers for adults aged 60+. Ten participants from North Texas completed structured usability sessions across websites, mobile apps, and device settings. Findings revealed recurring issues, including small touch targets, cluttered layouts, and unclear iconography, and proposed design strategies centered on simplified navigation, larger UI elements, contextual guidance, and voice interaction. Submitted as an undergraduate thesis at the University of North Texas, December 2025.',
-        meta: [{ label: 'Role', val: 'Researcher' }, { label: 'Year', val: '2025' }, { label: 'Type', val: 'UX Research' }],
-        pdf: 'Thesis.pdf',
-        cover: 'Thesis.png'
-      },
       proj2: { title: 'Coming Soon', tag: 'TBD', desc: 'Something is in the works.', meta: [] },
       proj3: { title: 'Coming Soon', tag: 'TBD', desc: 'Something is in the works.', meta: [] },
       proj4: { title: 'Coming Soon', tag: 'TBD', desc: 'Something is in the works.', meta: [] },
@@ -576,18 +562,9 @@
         <div class="wc-eyebrow">${p.tag}</div>
         <div class="wc-title">${p.title}</div>
         <div class="wc-rule"></div>
-        ${p.pdf
-          ? `<div style="width:100%;aspect-ratio:16/9;border-radius:6px;overflow:hidden;margin-bottom:24px;border:0.5px solid rgba(255,255,255,0.07);">
-               <img src="${p.cover}" style="width:100%;height:100%;object-fit:cover;object-position:top;">
-             </div>`
-          : `<div class="wc-img-placeholder"><span class="wc-img-label">Cover Image</span></div>`
-        }
+        <div class="wc-img-placeholder"><span class="wc-img-label">Cover Image</span></div>
         <p class="wc-body">${p.desc}</p>
         <div class="wc-meta-grid">${metaHTML}</div>
-        ${p.pdf ? `<a href="${p.pdf}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:10px 18px;background:#0071e3;color:#fff;border-radius:6px;text-decoration:none;font-size:13px;font-weight:500;font-family:-apple-system,BlinkMacSystemFont,sans-serif;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Read Thesis (PDF)
-        </a>` : ''}
       `;
 
       winContent.scrollTop = 0;
@@ -913,32 +890,32 @@
         <div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:4px;">PROOF OF LIFE</div>
         <div style="font-size:11px;color:#aaa;margin-bottom:14px;">9 photos · ongoing</div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;" id="photos-grid">
-          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;overflow:hidden;">
+            <img src="desktop/proof-of-life/01.jpg" alt="Watching Man City on TV" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;overflow:hidden;">
+            <img src="desktop/proof-of-life/02.jpg" alt="Ribs on the grill" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;overflow:hidden;">
+            <img src="desktop/proof-of-life/03.jpg" alt="Office coffee machine" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="photo-slot" style="aspect-ratio:1;background:#e0e0e0;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;overflow:hidden;">
+            <img src="desktop/proof-of-life/04.jpg" alt="World Cup watch party at the Ford Center" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;overflow:hidden;">
+            <img src="desktop/proof-of-life/05.jpg" alt="Sausage with red beans" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="photo-slot" style="aspect-ratio:1;background:#e4e4e4;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;overflow:hidden;">
+            <img src="desktop/proof-of-life/06.jpg" alt="Restaurant interior" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;overflow:hidden;">
+            <img src="desktop/proof-of-life/07.jpg" alt="Desk covered in welcome-back sticky notes" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="photo-slot" style="aspect-ratio:1;background:#e2e2e2;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;overflow:hidden;">
+            <img src="desktop/proof-of-life/08.jpg" alt="Record store listening bar" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
-          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <div class="photo-slot" style="aspect-ratio:1;background:#e8e8e8;border-radius:3px;overflow:hidden;">
+            <img src="desktop/proof-of-life/09.jpg" alt="FaceTime selfie" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block;">
           </div>
         </div>
       </div>
@@ -1142,19 +1119,19 @@
   <script>
     const appErrors = {
       figma: {
-        icon: '<img src="figma.webp" width="52" height="52" style="border-radius:10px;">',
+        icon: '<img src="desktop/figma.webp" width="52" height="52" style="border-radius:10px;">',
         title: 'Figma',
         msg: 'A component tried to center itself and achieved enlightenment. Your unsaved work is gone.',
         btn: 'ok fine'
       },
       photoshop: {
-        icon: '<img src="Adobe_Photoshop_CC_icon.svg" width="52" height="52" style="border-radius:10px;">',
+        icon: '<img src="desktop/photoshop.svg" width="52" height="52" style="border-radius:10px;">',
         title: 'Adobe Photoshop',
         msg: 'Photoshop has used 847% of your RAM. Would you like to subscribe to Creative Cloud to make this worse?',
         btn: 'please no'
       },
       davinci: {
-        icon: '<img src="DaVinci_Resolve_Studio.png" width="52" height="52" style="border-radius:10px;">',
+        icon: '<img src="desktop/davinci-resolve.png" width="52" height="52" style="border-radius:10px;">',
         title: 'DaVinci Resolve',
         msg: 'No proxy media detected. Render estimated: 3 business decades.',
         btn: 'i accept my fate'

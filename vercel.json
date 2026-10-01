@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/projects", "destination": "/work", "permanent": true },
+    { "source": "/Thesis.pdf", "destination": "/unt/thesis.pdf", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/work/:slug", "destination": "/work.html" }
+  ]
+}

@@ -1,0 +1,178 @@
+@font-face {
+  font-family: 'Artific Trial';
+  src: url('fonts/artific-black.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --color-bg: #f3f2f2;
+  --color-surface: #eae9e9;
+  --color-text: #201e1d;
+  --color-accent: #000;
+  --header-h: 64px;
+  --gutter: clamp(70px, 8vw, 110px);
+  --rule: color-mix(in srgb, var(--color-text) 12%, transparent);
+}
+
+html {
+  background: var(--color-bg);
+  scrollbar-color: color-mix(in srgb, var(--color-text) 55%, transparent) var(--color-surface);
+}
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-surface); }
+::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--color-text) 55%, transparent); border-radius: 5px; }
+
+body {
+  color: var(--color-text);
+  font-family: 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { opacity: 0.75; }
+
+.mono {
+  font: 400 9px/1.4 ui-monospace, Menlo, monospace;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.muted { color: color-mix(in srgb, var(--color-text) 50%, transparent); }
+
+/* ── Header (same as Work) ── */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 clamp(18px, 3vw, 40px);
+  background: var(--color-bg);
+  z-index: 30;
+}
+.header-title { font-weight: 800; font-size: 18px; letter-spacing: -0.01em; color: inherit; }
+.header-nav { margin-left: auto; display: flex; gap: 24px; align-items: center; }
+.header-nav .is-current { text-decoration: underline; text-underline-offset: 5px; }
+.header-back { margin-left: 16px; }
+
+/* ── Page layout (same grid as the Work slabs) ── */
+.page { padding-top: var(--header-h); }
+.pg-row {
+  display: grid;
+  grid-template-columns: var(--gutter) 1fr 1fr;
+  padding: clamp(48px, 9vh, 96px) clamp(24px, 3vw, 44px) 0 0;
+}
+.pg-text { grid-column: 2; max-width: 620px; }
+.pg-wide { grid-column: 2 / -1; max-width: none; }
+.pg-aside { grid-column: 3; padding-left: clamp(24px, 4vw, 64px); padding-top: 34px; }
+
+.pg-eyebrow { color: var(--accent, var(--color-accent)); margin-bottom: 20px; }
+.pg-title {
+  font-family: 'Artific Trial', 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+}
+.pg-body { margin-top: 26px; display: flex; flex-direction: column; gap: 16px; }
+.pg-body p {
+  font-size: clamp(15px, 1.15vw, 17px);
+  line-height: 1.62;
+  max-width: 52ch;
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+  text-wrap: pretty;
+}
+
+/* ── Lists (experience, education) ── */
+.pg-list { border-top: 1px solid var(--rule); }
+.pg-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.pg-item-main { font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; }
+.pg-item-main span { font-weight: 400; color: color-mix(in srgb, var(--color-text) 60%, transparent); }
+.pg-item .mono { text-align: right; flex-shrink: 0; max-width: 50%; }
+.pg-cols { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 5vw, 72px); }
+.pg-cols .pg-item { flex-direction: column; gap: 8px; }
+.pg-cols .pg-item .mono { text-align: left; max-width: none; }
+
+/* ── Meta (label + value pairs) ── */
+.pg-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.pg-meta-val { font-size: 14px; margin-top: 6px; }
+
+/* ── About: things I can do ── */
+.ab-cando {
+  list-style: none;
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  font-size: 14px;
+}
+.ab-cando li { display: flex; align-items: center; gap: 10px; }
+.ab-cando li::before {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--color-text);
+  flex-shrink: 0;
+}
+.ab-cando li.is-no { color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.ab-cando li.is-no::before { background: none; border: 1px solid currentColor; }
+
+/* ── Contact ── */
+.ct-status { margin-top: 28px; display: flex; align-items: center; gap: 10px; }
+.ct-dot { width: 7px; height: 7px; border-radius: 50%; background: #28c840; box-shadow: 0 0 0 4px color-mix(in srgb, #28c840 20%, transparent); }
+.ct-links { border-top: 1px solid var(--rule); }
+.ct-link {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: clamp(20px, 3vh, 30px) 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--color-text);
+}
+.ct-link:hover { opacity: 1; }
+.ct-link-val {
+  font-family: 'Artific Trial', 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: clamp(22px, 3vw, 40px);
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+.ct-arrow { font-size: 22px; transition: transform 0.25s; }
+.ct-link:hover .ct-arrow { transform: translate(3px, -3px); }
+.ct-link:hover .ct-link-val { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
+
+/* ── Footer (same as the Work page's last slab) ── */
+.pg-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin: clamp(64px, 12vh, 120px) clamp(24px, 3vw, 44px) 0 var(--gutter);
+  padding: 16px 0 32px;
+}
+
+@media (max-width: 820px) {
+  .pg-row { grid-template-columns: 1fr; padding: 40px 18px 0; }
+  .pg-text, .pg-wide, .pg-aside { grid-column: 1; }
+  .pg-aside { padding: 36px 0 0; }
+  .pg-cols { grid-template-columns: 1fr; }
+  .pg-item { flex-direction: column; gap: 8px; }
+  .pg-item .mono { text-align: left; max-width: none; }
+  .ct-link { grid-template-columns: 1fr auto; gap: 6px 16px; }
+  .ct-link .mono { grid-column: 1 / -1; }
+  .pg-footer { margin: 64px 18px 0; }
+  .header-back { display: none; }
+  .header-nav { gap: 16px; }
+}

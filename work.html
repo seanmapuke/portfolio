@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects</title>
+  <base href="/">
+  <title>Work</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap" rel="stylesheet">
@@ -13,21 +14,21 @@
 
     @font-face {
       font-family: 'Artific Trial';
-      src: url('ArtificTrial-Regular.woff') format('woff');
+      src: url('fonts/artific-regular.woff') format('woff');
       font-weight: 400;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: 'Artific Trial';
-      src: url('ArtificTrial-Black.woff2') format('woff2');
+      src: url('fonts/artific-black.otf') format('opentype');
       font-weight: 700;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
       font-family: 'Advercase Demo';
-      src: url('Advercase-Font-Demo-Regular.otf') format('opentype');
+      src: url('fonts/advercase-regular.otf') format('opentype');
       font-weight: 400;
       font-style: normal;
       font-display: swap;
@@ -88,6 +89,8 @@
       gap: 24px;
       align-items: center;
     }
+    .header-nav .is-current { text-decoration: underline; text-underline-offset: 5px; }
+    .header-back { margin-left: 16px; }
 
     /* ════════════════════════════════════
        RAIL
@@ -509,16 +512,37 @@
        SPOTTR CASE STUDY
     ════════════════════════════════════ */
     @font-face {
-      font-family: 'Spottr Display';
-      src: url('Advercase-Font-Demo-Bold.otf') format('opentype');
+      font-family: 'Case Display';
+      src: url('fonts/advercase-bold.otf') format('opentype');
       font-weight: 700;
       font-style: normal;
       font-display: swap;
     }
     @font-face {
-      font-family: 'Spottr Text';
-      src: url('ArtificTrial-Regular.woff') format('woff');
+      font-family: 'Case Text';
+      src: url('fonts/artific-regular.woff') format('woff');
       font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Case Text';
+      src: url('fonts/artific-medium.otf') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Case Text';
+      src: url('fonts/artific-semibold.otf') format('opentype');
+      font-weight: 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Case Text';
+      src: url('fonts/artific-superbold.otf') format('opentype');
+      font-weight: 700;
       font-style: normal;
       font-display: swap;
     }
@@ -532,14 +556,16 @@
       --sp-ink: #0f0f0f;
       --sp-gray: #6b6b6b;
       --sp-paper: #efede3;
-      font-family: 'Spottr Text', 'Artific Trial', 'Archivo', sans-serif;
+      font-family: 'Case Text', 'Artific Trial', 'Archivo', sans-serif;
       font-weight: 400;
       color: var(--sp-ink);
     }
-    .sp-case p, .sp-case h1, .sp-case h2, .sp-case h3 { margin: 0; font-weight: inherit; }
+    :where(.sp-case) :where(p, h1, h2, h3) { margin: 0; font-weight: inherit; }
     .sp-case img { display: block; }
     .sp-semi { font-weight: 600; }
-    .sp-display { font-family: 'Spottr Display', 'Advercase Demo', serif; font-weight: 700; }
+    .sp-case .sp-eyebrow, .sp-case .sp-provided-label, .sp-case .sp-label, .sp-table .sp-th,
+    .sp-case .sp-pair-lbl, .sp-case .sp-loopstrip-l { font-weight: 500; }
+    .sp-display { font-family: 'Case Display', 'Advercase Demo', serif; font-weight: 700; }
 
     .sp-sec {
       position: relative;
@@ -711,6 +737,91 @@
       .sp-sec { padding-top: 80px; padding-bottom: 80px; }
       .sp-shot { width: 100%; max-width: 329px; height: auto; aspect-ratio: 329 / 522; }
     }
+
+    /* ════════════════════════════════════
+       UNT CASE STUDY
+    ════════════════════════════════════ */
+    .ut-case { --ut-green: #01853e; font-family: 'Case Text', 'Artific Trial', 'Archivo', sans-serif; font-weight: 400; color: #000; line-height: normal; }
+    :where(.ut-case) :where(p, h2, ul) { margin: 0; font-weight: inherit; }
+    .ut-case img { display: block; }
+    .ut-display { font-family: 'Case Display', 'Advercase Demo', serif; font-weight: 700; color: var(--ut-green); }
+    .ut-h2 { font-size: clamp(40px, 4.45vw, 64px); line-height: normal; }
+    .ut-body { font-size: clamp(17px, 1.39vw, 20px); }
+    .ut-sec { background: #fff; padding: 0 clamp(24px, 9.72vw, 140px); }
+    .ut-inner { max-width: 1160px; margin: 0 auto; }
+
+    .ut-intro { background: var(--ut-green); padding-top: 60px; padding-bottom: 110px; }
+    .ut-stack-top { position: relative; z-index: 1; }
+    .ut-stack-top .ut-intro { min-height: 100vh; min-height: 100dvh; display: flex; align-items: center; }
+    .ut-stack-top .ut-intro .ut-inner { width: 100%; }
+    .ut-intro .ut-inner { display: flex; align-items: center; justify-content: space-between; gap: 6vw; }
+    .ut-intro-main { max-width: 865px; display: flex; flex-direction: column; gap: 45px; }
+    .ut-eyebrow { min-height: 49px; color: #05280f; font-size: clamp(18px, 2vw, 29px); letter-spacing: 0.11em; }
+    .ut-intro-lede { color: #fff; font-size: clamp(24px, 2.85vw, 41px); }
+    .ut-provided { width: 173px; height: 306px; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px; font-size: 20px; }
+    .ut-provided-label { color: #05280f; }
+    .ut-provided-list { color: #fff; font-weight: 500; display: flex; flex-direction: column; row-gap: 1lh; }
+
+    .ut-fails { min-height: 957px; padding-top: 110px; padding-bottom: 110px; display: flex; align-items: center; }
+    .ut-fails .ut-inner { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 48px; }
+    .ut-col { display: flex; flex-direction: column; gap: 50px; max-width: 568px; }
+    .ut-fails .ut-body { max-width: 455px; min-height: 274px; }
+    .ut-art-fails { width: 440px; flex-shrink: 0; }
+    .ut-art-fails img, .ut-art-method img, .ut-art-synth img { width: 100%; height: auto; }
+
+    .ut-strats { padding-bottom: 105px; }
+    .ut-strats .ut-inner { display: grid; grid-template-columns: 592px 1fr; align-items: start; }
+    .ut-strat-art { position: relative; width: 440px; height: 440px; margin: 150px 0 0 10px; }
+    .ut-strat-art > div { position: absolute; width: 45.45%; height: 45.45%; }
+    .ut-strat-art img { position: absolute; inset: -0.75%; width: 101.5%; height: 101.5%; }
+    .ut-strats .ut-col { margin-top: 117px; }
+    .ut-strats .ut-body { min-height: 199px; }
+
+    .ut-method { padding-top: 90px; padding-bottom: 150px; }
+    .ut-method .ut-inner { display: grid; grid-template-columns: 700px 480px; align-items: start; }
+    .ut-method .ut-h2 { max-width: 568px; }
+    .ut-method .ut-body { max-width: 480px; margin-top: 36px; }
+    .ut-list { margin-top: 22px; max-width: 560px; padding-left: 27px; font-size: 18px; font-weight: 500; line-height: 1.7; list-style: disc; }
+    .ut-art-method { width: 480px; margin-top: 100px; }
+
+    .ut-synth { padding-top: 90px; padding-bottom: 133px; }
+    .ut-synth .ut-inner { display: grid; grid-template-columns: 592px 1fr; align-items: start; }
+    .ut-art-synth { width: 470px; margin: 60px 0 0 10px; }
+    .ut-synth .ut-col { gap: 21px; }
+
+    .ut-work { padding-top: 90px; padding-bottom: 108px; }
+    .ut-work .ut-h2 { max-width: 760px; }
+    .ut-points { margin-top: 123px; display: grid; grid-template-columns: 620px 1fr; row-gap: 88px; }
+    .ut-point { max-width: 500px; }
+    .ut-point-n { font-size: 14px; }
+    .ut-point-t { margin-top: 7px; font-size: 24px; font-weight: 700; white-space: nowrap; }
+    .ut-point-b { margin-top: 8px; font-size: 17px; color: #6b6b6b; }
+
+    .ut-end { background: #302e2b; padding-top: 126px; padding-bottom: 106px; }
+    .ut-end-inner { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+    .ut-end-h { color: #34b45c; font-size: clamp(40px, 3.6vw, 52px); }
+    .ut-end-b { color: #efede3; font-size: 18px; }
+    .ut-btns { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .ut-case .ut-btn { padding: 14px 26px; border-radius: 999px; font-size: 15px; font-weight: 600; white-space: nowrap; }
+    .ut-case .ut-btn-fill { background: var(--ut-green); color: #fff; }
+    .ut-case .ut-btn-line { border: 1.5px solid rgba(239,237,227,0.5); color: #efede3; }
+    .ut-sign { color: #efede3; opacity: 0.75; font-size: 12px; }
+
+    @media (max-width: 1100px) {
+      .ut-intro .ut-inner, .ut-fails .ut-inner { flex-direction: column; align-items: flex-start; }
+      .ut-provided { height: auto; width: auto; }
+      .ut-fails { min-height: 0; }
+      .ut-fails .ut-body, .ut-strats .ut-body { min-height: 0; }
+      .ut-strats .ut-inner, .ut-method .ut-inner, .ut-synth .ut-inner, .ut-points { grid-template-columns: 1fr; }
+      .ut-strats .ut-col, .ut-synth .ut-col { order: -1; margin-top: 0; }
+      .ut-strats { padding-top: 90px; }
+      .ut-strat-art, .ut-art-synth { margin: 48px 0 0; }
+      .ut-art-method { margin-top: 48px; }
+      .ut-art-fails, .ut-strat-art, .ut-art-method, .ut-art-synth { width: 100%; max-width: 440px; }
+      .ut-strat-art { height: auto; aspect-ratio: 1; }
+      .ut-points { row-gap: 48px; margin-top: 64px; }
+      .ut-point-t { white-space: normal; }
+    }
   </style>
 </head>
 <body>
@@ -718,7 +829,10 @@
   <div class="header">
     <a class="header-title" href="index.html">Sean Mapuke</a>
     <div class="header-nav">
-      <a class="mono" href="index.html">← Back to the room</a>
+      <a class="mono is-current" href="/work">Work</a>
+      <a class="mono" href="about.html">About</a>
+      <a class="mono" href="contact.html">Contact</a>
+      <a class="mono header-back" href="index.html">← Back to the room</a>
     </div>
   </div>
 
@@ -750,14 +864,29 @@
           { label: 'Team', val: 'Content Strategy' },
           { label: 'Year', val: 'May 2026 – Aug 2026' }
         ],
-        logo: 'Pluralsight logo.png',
-        cover: 'pluralsight cover .JPG',
+        logo: 'pluralsight/logo.png',
+        cover: 'pluralsight/cover.jpg',
         accent: '#ff1575',
         hasCase: true
       },
       {
+        id: 'spottr',
+        eyebrow: '02 / Personal Project',
+        title: 'Spottr.',
+        desc: 'Conversations with lifters, a survey, and a review of competing apps kept surfacing the same failure: routines break when people have to decide something, not when they log it. The design answers each decision point with ranked routines based on recovery, pre-answered quick workouts, and pre-filled sets.',
+        meta: [
+          { label: 'Role', val: 'Product Designer' },
+          { label: 'Year', val: '2026' },
+          { label: 'Type', val: 'Personal iOS app' }
+        ],
+        logo: 'spottr/logo.svg',
+        cover: 'spottr/cover.jpg',
+        accent: '#FF4632',
+        hasCase: true
+      },
+      {
         id: 'digital-divide',
-        eyebrow: '02 / University of North Texas',
+        eyebrow: '03 / University of North Texas',
         title: 'Bridging the Digital Divide',
         desc: 'Ten participants from North Texas ran structured usability sessions across websites, mobile apps, and device settings. Recurring failures, including small touch targets, cluttered layouts, and unclear iconography, pointed to four strategies: simplified navigation, larger UI elements, contextual guidance, and voice interaction.',
         problem: 'Older adults are increasingly expected to navigate websites, apps, and device settings that were never designed with them in mind. Small touch targets, cluttered layouts, and unclear iconography turn routine tasks into obstacles: a usability gap mainstream UX research largely overlooks.',
@@ -767,24 +896,10 @@
           { label: 'Year', val: '2025' },
           { label: 'Type', val: 'Undergraduate thesis' }
         ],
-        cta: { href: 'Thesis.pdf', text: 'Read Thesis (PDF)' },
-        logo: 'UNT logo.png',
+        cta: { href: 'unt/thesis.pdf', text: 'Read Thesis (PDF)' },
+        logo: 'unt/logo.png',
+        cover: 'unt/cover.jpg',
         accent: '#00843d',
-        hasCase: true
-      },
-      {
-        id: 'spottr',
-        eyebrow: '03 / Personal Project',
-        title: 'Spottr.',
-        desc: 'Conversations with lifters, a survey, and a review of competing apps kept surfacing the same failure: routines break when people have to decide something, not when they log it. The design answers each decision point with ranked routines based on recovery, pre-answered quick workouts, and pre-filled sets.',
-        meta: [
-          { label: 'Role', val: 'Product Designer' },
-          { label: 'Year', val: '2026' },
-          { label: 'Type', val: 'Personal iOS app' }
-        ],
-        logo: 'spottr logo.svg',
-        cover: 'spottr/cover.jpg',
-        accent: '#FF4632',
         hasCase: true
       }
     ];
@@ -810,7 +925,7 @@
       const footerHTML = !p.meta ? `
         <div class="pj-footer">
           <div class="mono muted">Location: my actual room</div>
-          <a class="mono" href="creativeprojects.html#contact-resume">Contact ↗</a>
+          <a class="mono" href="contact.html">Contact ↗</a>
         </div>` : '';
 
       slab.innerHTML = `
@@ -892,6 +1007,7 @@
     const caseContent  = document.getElementById('case-content');
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let caseOpen = false;
+    let pushedCase = false;
     let lenis = null;
     let rafId = null;
 
@@ -1028,7 +1144,7 @@
               <h2 class="ps-heading">Building context through collaboration</h2>
               <p class="ps-body">Building context quickly during a short internship initially felt like a roadblock, but I soon realized my unfamiliarity was my greatest asset. A fresh perspective allowed me to spot interface inconsistencies the team had naturally grown accustomed to. However, identifying the friction was only half the work. I needed to step outside my immediate team to understand the technical and strategic reasons behind it. I made relationship-building a priority, initiating outreach to senior designers to understand the corporate design system and partnering with colleagues to integrate accessibility research. By actively engaging with disciplines ranging from rotating engineers to the VP of Architecture, I ensured the work remained aligned with the organization's bigger picture.</p>
             </div>
-            <div class="ps-section-media ps-collab-media"><img src="collaboration.JPG" alt=""></div>
+            <div class="ps-section-media ps-collab-media"><img src="pluralsight/collaboration.jpg" alt=""></div>
           </section>
 
           <section class="ps-section">
@@ -1205,7 +1321,7 @@
                     <div class="sp-pair-row">
                       <div class="sp-pair-col"><div class="sp-pair-wire"><img src="${img('wire-3.png')}" alt=""></div><p class="sp-pair-lbl">Wireframe</p></div>
                       <p class="sp-pair-arrow sp-display">→</p>
-                      <div class="sp-pair-col"><div class="sp-pair-final"><img src="${img('pair-home-final.png')}" alt=""></div><p class="sp-pair-lbl">Final</p></div>
+                      <div class="sp-pair-col"><div class="sp-pair-final"><img src="${img('loop-1.png')}" alt=""></div><p class="sp-pair-lbl">Final</p></div>
                     </div>
                     <p class="sp-pair-cap"><b>Home.</b> Two competing wireframe layouts became one Rest Summary built around readiness and the muscle map.</p>
                   </div>
@@ -1332,6 +1448,124 @@
         </div>`;
     }
 
+    function untCaseHTML(p) {
+      const strat = (n, left, top) =>
+        `<div style="left:${left};top:${top}"><img src="unt/strategy-${n}.svg" alt=""></div>`;
+      const point = (n, t, b) => `
+        <div class="ut-point">
+          <p class="ut-point-n ut-display">${n}</p>
+          <p class="ut-point-t">${t}</p>
+          <p class="ut-point-b">${b}</p>
+        </div>`;
+      return `
+        <div class="case-stack">
+          <section class="case-hero has-cover ps-cover">
+            <div class="case-hero-bg" style="background-image:url('${encodeURI(p.cover)}')"></div>
+            <div class="case-hero-fade"></div>
+            <div class="mono case-eyebrow">${p.eyebrow}</div>
+            <h1 class="case-title">${p.title}</h1>
+            <div class="mono case-scrollcue">Scroll ↓</div>
+          </section>
+        <div class="ut-case ut-stack-top">
+          <section class="ut-sec ut-intro">
+            <div class="ut-inner">
+              <div class="ut-intro-main">
+                <p class="ut-eyebrow">UNIVERSITY OF NORTH TEXAS</p>
+                <p class="ut-intro-lede">A mixed-methods UX study of how older adults use everyday technology. Ten structured usability sessions across web, mobile, and device settings turned recurring accessibility barriers into four concrete, buildable design strategies.</p>
+              </div>
+              <div class="ut-provided">
+                <p class="ut-provided-label">I provided</p>
+                <div class="ut-provided-list">
+                  <p>UX RESEARCH</p>
+                  <p>USABILITY TESTING</p>
+                  <p>ACCESSIBILITY</p>
+                  <p>DESIGN STRATEGY</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        </div>
+        <div class="ut-case">
+
+          <section class="ut-sec ut-fails">
+            <div class="ut-inner">
+              <div class="ut-col">
+                <h2 class="ut-h2 ut-display">Where everyday tech fails older adults</h2>
+                <p class="ut-body">Ten older adults ran structured usability sessions across websites, mobile apps, and device settings, with real tasks observed rather than self-reported. Three barriers surfaced again and again: touch targets too small to hit, cluttered layouts that hid the primary action, and unlabeled icons that didn’t read as controls.</p>
+              </div>
+              <div class="ut-art-fails"><img src="unt/where-it-fails.svg" alt=""></div>
+            </div>
+          </section>
+
+          <section class="ut-sec ut-strats">
+            <div class="ut-inner">
+              <div class="ut-strat-art">
+                ${strat(1, '0.91%', '0.91%')}
+                ${strat(2, '53.64%', '0.91%')}
+                ${strat(3, '0.91%', '53.64%')}
+                ${strat(4, '53.64%', '53.64%')}
+              </div>
+              <div class="ut-col">
+                <h2 class="ut-h2 ut-display">Four strategies teams can build on</h2>
+                <p class="ut-body">The findings translated into four prioritized, implementable recommendations: simplified navigation, larger UI elements, contextual guidance, and voice interaction. Each maps to a specific observed failure, giving product teams a concrete starting point for accessible design, not just a critique.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="ut-sec ut-method">
+            <div class="ut-inner">
+              <div>
+                <h2 class="ut-h2 ut-display">How the study was run</h2>
+                <p class="ut-body">The study was built to watch real behavior, not collect opinions. Every session was planned and moderated end to end, from recruiting participants to synthesizing the results.</p>
+                <ul class="ut-list">
+                  <li>10 older adults recruited from the target population</li>
+                  <li>Structured, task-based usability sessions</li>
+                  <li>Three real contexts: websites, mobile apps, device settings</li>
+                  <li>Task breakdowns logged, not just opinions</li>
+                  <li>Recurring friction clustered into themes, then prioritized</li>
+                </ul>
+              </div>
+              <div class="ut-art-method"><img src="unt/method.svg" alt=""></div>
+            </div>
+          </section>
+
+          <section class="ut-sec ut-synth">
+            <div class="ut-inner">
+              <div class="ut-art-synth"><img src="unt/synthesis.svg" alt=""></div>
+              <div class="ut-col">
+                <h2 class="ut-h2 ut-display">Turning observation into direction</h2>
+                <p class="ut-body">Raw session notes are not insight on their own. The friction was coded into recurring themes, weighted by how often and how severely each blocked a task, and mapped to a concrete design response. What came out is a short, defensible set of priorities a team can act on, not a list of complaints.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="ut-sec ut-work">
+            <div class="ut-inner">
+              <h2 class="ut-h2 ut-display">What the work involved</h2>
+              <div class="ut-points">
+                ${point('01', 'Real users, real tasks', 'Sessions were run with ten older adults on real tasks, not proxies or assumptions.')}
+                ${point('02', 'Designed for range', 'Motor, vision, and cognitive differences were treated as the default case, not an edge case.')}
+                ${point('03', 'Signal from noise', 'Recurring friction was weighted and prioritized into a short set of directions.')}
+                ${point('04', 'Made to be used', 'Findings were handed over as recommendations a product team could build from.')}
+              </div>
+            </div>
+          </section>
+
+          <section class="ut-sec ut-end">
+            <div class="ut-end-inner">
+              <h2 class="ut-end-h ut-display">Go deeper</h2>
+              <p class="ut-end-b">The full thesis covers the method, every finding, and the research behind the recommendations.</p>
+              <div class="ut-btns">
+                <a class="ut-btn ut-btn-fill" href="${p.cta.href}" target="_blank" rel="noopener">Read the full thesis</a>
+                <a class="ut-btn ut-btn-line" href="${p.cta.href}" download>Download PDF</a>
+              </div>
+              <p class="ut-sign">Sean Mapuke · Bridging the Digital Divide · 2025</p>
+            </div>
+          </section>
+        </div>`;
+    }
+
     function startLenis() {
       if (typeof Lenis === 'undefined' || reducedMotion) return;
       lenis = new Lenis({ wrapper: caseScroll, content: caseContent, duration: 1.25, smoothWheel: true });
@@ -1349,12 +1583,16 @@
       caseEl.style.setProperty('--accent', p.accent || '');
       caseContent.innerHTML = p.id === 'pluralsight' ? pluralsightCaseHTML(p)
         : p.id === 'spottr' ? spottrCaseHTML(p)
+        : p.id === 'digital-divide' ? untCaseHTML(p)
         : caseHTML(p);
       caseScroll.scrollTop = 0;
       caseEl.classList.add('open');
       caseOpen = true;
       startLenis();
-      if (pushHash) history.pushState({ project: p.id }, '', '#' + p.id);
+      if (pushHash) {
+        history.pushState({ project: p.id }, '', '/work/' + p.id);
+        pushedCase = true;
+      }
       document.title = p.title;
     }
 
@@ -1363,23 +1601,37 @@
       caseEl.classList.remove('open');
       caseOpen = false;
       stopLenis();
-      document.title = 'Projects';
-      if (!viaHistory && location.hash) history.back();
+      document.title = 'Work';
+      // A case opened by direct link has no history entry behind it, so back() would leave the site.
+      if (!viaHistory) {
+        if (pushedCase) history.back();
+        else history.replaceState(null, '', '/work');
+      }
+      pushedCase = false;
     }
 
     document.getElementById('case-close').addEventListener('click', () => closeCase());
     document.addEventListener('keydown', e => { if (caseOpen && e.key === 'Escape') closeCase(); });
 
+    function caseIdFromUrl() {
+      const m = location.pathname.match(/^\/work\/([^/]+)\/?$/);
+      return m ? decodeURIComponent(m[1]) : location.hash.slice(1);
+    }
+
     window.addEventListener('popstate', () => {
-      const id = location.hash.slice(1);
-      const idx = projects.findIndex(p => p.id === id);
+      const idx = projects.findIndex(p => p.id === caseIdFromUrl());
       if (idx >= 0) openCase(idx, false);
       else closeCase(true);
     });
 
-    const initialId = location.hash.slice(1);
+    const initialId = caseIdFromUrl();
     const initialIdx = projects.findIndex(p => p.id === initialId);
-    if (initialIdx >= 0) openCase(initialIdx, false);
+    if (initialIdx >= 0) {
+      openCase(initialIdx, false);
+      if (location.hash) history.replaceState(null, '', '/work/' + initialId);
+    } else if (location.pathname !== '/work') {
+      history.replaceState(null, '', '/work');
+    }
   </script>
 </body>
 </html>

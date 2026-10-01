@@ -3,316 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Contact · Sean Mapuke</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
-  <style>
-    /* ── CONTACT PAGE OVERRIDES ── */
-    body { background: #f0ede8; }
-
-    nav {
-      background: rgba(240,237,232,0.95);
-      border-bottom: 0.5px solid rgba(0,0,0,0.07);
-    }
-
-    .ct-page {
-      min-height: 100vh;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-    }
-
-    /* ── TOP RULE ── */
-    .ct-top {
-      padding: 140px 64px 0;
-    }
-    .ct-eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.28);
-      margin-bottom: 20px;
-    }
-    .ct-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(64px, 10vw, 140px);
-      font-weight: 400;
-      color: #0d0c0b;
-      letter-spacing: 0.03em;
-      line-height: 0.88;
-      margin: 0 0 64px;
-    }
-    .ct-rule { width: 100%; height: 0.5px; background: rgba(0,0,0,0.12); }
-
-    /* ── MAIN GRID ── */
-    .ct-body {
-      padding: 0 64px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      border-bottom: 0.5px solid rgba(0,0,0,0.1);
-    }
-    .ct-left {
-      padding: 64px 64px 64px 0;
-      border-right: 0.5px solid rgba(0,0,0,0.1);
-    }
-    .ct-right {
-      padding: 64px 0 64px 64px;
-    }
-
-    /* ── LINKS ── */
-    .ct-link-row {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      margin-bottom: 40px;
-    }
-    .ct-link-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
-      border-bottom: 0.5px solid rgba(0,0,0,0.07);
-      text-decoration: none;
-      gap: 12px;
-      transition: all 0.25s;
-    }
-    .ct-link-item:hover { padding-left: 8px; }
-    .ct-link-item:hover .ct-link-arrow { transform: translateX(4px); opacity: 1; }
-    .ct-link-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.52rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.3);
-      min-width: 80px;
-    }
-    .ct-link-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(16px, 1.6vw, 22px);
-      font-weight: 300;
-      color: #0d0c0b;
-      letter-spacing: 0.01em;
-      flex: 1;
-    }
-    .ct-link-arrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: rgba(0,0,0,0.2);
-      opacity: 0;
-      transition: transform 0.25s, opacity 0.25s;
-    }
-
-    /* ── AVAILABILITY BADGE ── */
-    .ct-avail {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border: 0.5px solid rgba(0,0,0,0.12);
-      width: fit-content;
-    }
-    .ct-avail-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: #4a7c59;
-      animation: availPulse 2.4s ease-in-out infinite;
-    }
-    @keyframes availPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-    .ct-avail-text {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.4);
-    }
-
-    /* ── RIGHT COLUMN — blurb ── */
-    .ct-blurb {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(16px, 1.5vw, 21px);
-      font-weight: 300;
-      font-style: italic;
-      color: rgba(0,0,0,0.5);
-      line-height: 1.7;
-      margin-bottom: 48px;
-      max-width: 380px;
-    }
-    .ct-location-block {
-      margin-top: auto;
-    }
-    .ct-location-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.2);
-      margin-bottom: 10px;
-    }
-    .ct-location-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(28px, 3vw, 42px);
-      font-weight: 300;
-      color: #0d0c0b;
-      letter-spacing: -0.01em;
-      line-height: 1;
-    }
-    .ct-timezone {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.5rem;
-      color: rgba(0,0,0,0.22);
-      letter-spacing: 0.1em;
-      margin-top: 6px;
-    }
-
-    /* ── BOTTOM BAR ── */
-    .ct-bottom {
-      padding: 28px 64px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .ct-bottom-copy {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.48rem;
-      letter-spacing: 0.14em;
-      color: rgba(0,0,0,0.2);
-    }
-    .ct-bottom-nav {
-      display: flex;
-      gap: 24px;
-    }
-    .ct-bottom-nav a {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.48rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.28);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .ct-bottom-nav a:hover { color: #0d0c0b; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .ct-top { padding: 120px 28px 0; }
-      .ct-body { grid-template-columns: 1fr; padding: 0 28px; }
-      .ct-left { padding: 40px 0; border-right: none; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
-      .ct-right { padding: 40px 0; }
-      .ct-bottom { padding: 24px 28px; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="pages.css">
 </head>
 <body>
-  <div id="cursor"></div>
 
-  <nav>
-    <a class="nav-logo" href="index.html">Sean</a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="projects.html">Projects</a>
-      <a href="contact.html" class="active">Contact</a>
-    </div>
-  </nav>
+  <header class="header">
+    <a class="header-title" href="index.html">Sean Mapuke</a>
+    <nav class="header-nav">
+      <a class="mono" href="/work">Work</a>
+      <a class="mono" href="about.html">About</a>
+      <a class="mono is-current" href="contact.html">Contact</a>
+      <a class="mono header-back" href="index.html">← Back to the room</a>
+    </nav>
+  </header>
 
-  <div class="ct-page">
+  <main class="page">
+    <section class="pg-row">
+      <div class="pg-text">
+        <div class="mono pg-eyebrow">Contact</div>
+        <h1 class="pg-title">Get in touch.</h1>
+        <div class="pg-body">
+          <p>Open to freelance, collaboration, and anything worth building. Reach out and I'll get back to you.</p>
+        </div>
+        <div class="mono ct-status"><span class="ct-dot"></span>Available for projects</div>
+      </div>
+      <aside class="pg-aside">
+        <div class="pg-meta">
+          <div>
+            <div class="mono muted">Based in</div>
+            <div class="pg-meta-val">Dallas, TX</div>
+          </div>
+          <div>
+            <div class="mono muted">Local time</div>
+            <div class="pg-meta-val" id="ct-time">Central Time</div>
+          </div>
+        </div>
+      </aside>
+    </section>
 
-    <!-- Title -->
-    <div class="ct-top">
-      <div class="ct-eyebrow">Get in Touch</div>
-      <h1 class="ct-title">Contact</h1>
-      <div class="ct-rule"></div>
-    </div>
-
-    <!-- Body -->
-    <div class="ct-body">
-
-      <!-- Left: links -->
-      <div class="ct-left">
-        <div class="ct-link-row">
-          <a class="ct-link-item" href="mailto:seanmapuke1@gmail.com">
-            <span class="ct-link-label">Email</span>
+    <section class="pg-row">
+      <div class="pg-text pg-wide">
+        <div class="ct-links">
+          <a class="ct-link" href="mailto:seanmapuke1@gmail.com">
+            <span class="mono muted">Email</span>
             <span class="ct-link-val">seanmapuke1@gmail.com</span>
-            <span class="ct-link-arrow">→</span>
+            <span class="ct-arrow">↗</span>
           </a>
-          <a class="ct-link-item" href="https://github.com/seanmapuke" target="_blank">
-            <span class="ct-link-label">GitHub</span>
-            <span class="ct-link-val">seanmapuke</span>
-            <span class="ct-link-arrow">→</span>
-          </a>
-          <a class="ct-link-item" href="https://linkedin.com/in/seanmapuke" target="_blank">
-            <span class="ct-link-label">LinkedIn</span>
+          <a class="ct-link" href="https://www.linkedin.com/in/seanmapuke/" target="_blank" rel="noopener">
+            <span class="mono muted">LinkedIn</span>
             <span class="ct-link-val">in/seanmapuke</span>
-            <span class="ct-link-arrow">→</span>
+            <span class="ct-arrow">↗</span>
           </a>
-          <a class="ct-link-item" href="https://mnyfces.com" target="_blank">
-            <span class="ct-link-label">Web</span>
+          <a class="ct-link" href="https://github.com/seanmapuke" target="_blank" rel="noopener">
+            <span class="mono muted">GitHub</span>
+            <span class="ct-link-val">seanmapuke</span>
+            <span class="ct-arrow">↗</span>
+          </a>
+          <a class="ct-link" href="https://mnyfces.com" target="_blank" rel="noopener">
+            <span class="mono muted">Web</span>
             <span class="ct-link-val">mnyfces.com</span>
-            <span class="ct-link-arrow">→</span>
+            <span class="ct-arrow">↗</span>
           </a>
         </div>
-
-        <div class="ct-avail">
-          <div class="ct-avail-dot"></div>
-          <span class="ct-avail-text">Available for projects</span>
-        </div>
       </div>
+    </section>
 
-      <!-- Right: blurb + location -->
-      <div class="ct-right">
-        <p class="ct-blurb">Open to freelance, collaboration, and anything worth building. Reach out and I'll get back to you.</p>
+    <footer class="pg-footer">
+      <div class="mono muted">Location: my actual room</div>
+      <a class="mono" href="about.html">About ↗</a>
+    </footer>
+  </main>
 
-        <div class="ct-location-block">
-          <div class="ct-location-label">Based in</div>
-          <div class="ct-location-val">Dallas, TX</div>
-          <div class="ct-timezone" id="ct-time">· CDT</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Bottom -->
-    <div class="ct-bottom">
-      <span class="ct-bottom-copy">© 2024 Sean Mapuke</span>
-      <nav class="ct-bottom-nav">
-        <a href="index.html">Home</a>
-        <a href="projects.html">Projects</a>
-      </nav>
-    </div>
-
-  </div>
-
-  <script src="main.js"></script>
   <script>
-    // Live clock
-    function updateTime() {
-      const now = new Date().toLocaleTimeString('en-US', {
-        timeZone: 'America/Chicago',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      });
-      const el = document.getElementById('ct-time');
-      if (el) el.textContent = `· ${now} CDT`;
-    }
-    updateTime();
-    setInterval(updateTime, 30000);
-
-    // Stagger links in
-    document.querySelectorAll('.ct-link-item').forEach((el, i) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(8px)';
-      el.style.transition = `opacity 0.5s ${0.1 + i * 0.08}s, transform 0.5s ${0.1 + i * 0.08}s, padding 0.25s`;
-      setTimeout(() => {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
-      }, 80);
-    });
+    const timeEl = document.getElementById('ct-time');
+    const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
+    const tick = () => { timeEl.textContent = fmt.format(new Date()); };
+    tick();
+    setInterval(tick, 30000);
   </script>
 </body>
 </html>
