@@ -90,7 +90,6 @@
       align-items: center;
     }
     .header-nav .is-current { text-decoration: underline; text-underline-offset: 5px; }
-    .header-back { margin-left: 16px; }
 
     /* ════════════════════════════════════
        RAIL
@@ -636,6 +635,20 @@
     .sp-box-t { font-size: 16px; line-height: 1.35; }
     .sp-box-b { font-size: 14px; line-height: 1.5; color: var(--sp-gray); }
 
+    /* persona */
+    .sp-profile { background: #f6f1e8; border-radius: 16px; padding: 32px; display: flex; align-items: center; gap: 40px; }
+    .sp-portrait { width: 220px; height: 260px; flex-shrink: 0; border-radius: 16px; overflow: hidden; }
+    .sp-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 79% 0; }
+    .sp-pinfo { display: flex; flex-direction: column; gap: 14px; max-width: 836px; }
+    .sp-pname { color: var(--sp-ink); font-size: 44px; line-height: 1; }
+    .sp-ptag { font-size: 18px; line-height: 1.35; }
+    .sp-pbio { font-size: 15px; line-height: 1.5; color: var(--sp-gray); max-width: 700px; }
+    .sp-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .sp-chip { background: #fff; border: 1px solid var(--sp-rule); border-radius: 999px; padding: 8px 14px; font-size: 12px; font-weight: 500; }
+    .sp-need { background: #f6f1e8; border-radius: 12px; padding: 26px 28px; display: flex; flex-direction: column; gap: 10px; }
+    .sp-need-t { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.45; }
+    .sp-pnote { font-size: 13px; line-height: 1.5; color: var(--sp-gray); max-width: 780px; }
+
     /* 05 process */
     .sp-process .sp-inner { gap: 56px; }
     .sp-block { display: flex; flex-direction: column; gap: 16px; }
@@ -727,6 +740,7 @@
       .sp-step, .sp-step.sp-flip { flex-direction: column; align-items: flex-start; }
       .sp-step.sp-flip .sp-shot { order: -1; }
       .sp-pairs, .sp-feeds, .sp-changes { grid-template-columns: 1fr; }
+      .sp-profile { flex-direction: column; align-items: flex-start; }
       .sp-table-wrap { overflow-x: auto; }
       .sp-table { min-width: 680px; grid-template-columns: 160px repeat(4, 1fr); }
       .sp-head.sp-right { align-items: flex-start; text-align: left; }
@@ -832,7 +846,6 @@
       <a class="mono is-current" href="/work">Work</a>
       <a class="mono" href="about.html">About</a>
       <a class="mono" href="contact.html">Contact</a>
-      <a class="mono header-back" href="index.html">← Back to the room</a>
     </div>
   </div>
 
@@ -1286,8 +1299,44 @@
             </div>
           </section>
 
+          <section class="sp-sec" style="padding-bottom:135px">
+            <p class="sp-label">03 · PERSONA</p>
+            <div class="sp-inner">
+              <div class="sp-head sp-center">
+                <h2 class="sp-h2 sp-display">Who it’s for</h2>
+                <p class="sp-lede">Jordan is a composite of the newer lifters I talked to and surveyed. Motivation is not the problem. The decisions are.</p>
+              </div>
+              <div class="sp-profile">
+                <div class="sp-portrait"><img src="${img('persona.jpg')}" alt="Jordan, composite persona"></div>
+                <div class="sp-pinfo">
+                  <p class="sp-kicker sp-semi">COMPOSITE PERSONA</p>
+                  <p class="sp-pname sp-display">Jordan</p>
+                  <p class="sp-ptag sp-semi">A newer lifter who keeps almost starting</p>
+                  <p class="sp-pbio">Jordan has been lifting for a few months. Standing in the gym with 15 to 45 minutes and only some of the equipment free, Jordan has to pick a focus, guess whether sore muscles are ready, and fit it all into the time left. Some days the picking takes longer than the workout, and the day gets skipped.</p>
+                  <div class="sp-chips">
+                    <span class="sp-chip">Newer lifter</span>
+                    <span class="sp-chip">3 to 4 days a week, when it goes well</span>
+                    <span class="sp-chip">15 to 45 minutes a session</span>
+                    <span class="sp-chip">Full gym or dumbbells at home</span>
+                  </div>
+                </div>
+              </div>
+              <div class="sp-boxes">
+                ${box('GOALS', 'Train consistently without it becoming a project.', 'Start within a minute of arriving.<br>Get a workout that fits the time and equipment on hand.<br>Feel like the plan is theirs, not an app’s orders.')}
+                ${box('FRUSTRATIONS', 'Too many small decisions before the first set.', 'Can’t tell if a sore muscle is recovered.<br>Apps log what happened but don’t say what to do now.<br>Jargon and dense screens mid-set.')}
+                ${box('BEHAVIORS', 'Glances more than reads.', 'Checks the phone between sets, with sweaty hands.<br>Skips the session when the plan isn’t clear.<br>Trusts a suggestion that explains itself.')}
+                ${box('WHAT SPOTTR DOES', 'Answers the question before it stalls the workout.', 'Home reads recovery and suggests a focus.<br>Setup pre-selects time, focus, and equipment.<br>One exercise per screen, one button, a reason for every pick.')}
+              </div>
+              <div class="sp-need">
+                <p class="sp-kicker sp-semi">WHAT JORDAN NEEDS</p>
+                <p class="sp-need-t">A workout for right now, with a reason attached, that takes seconds to start and respects the time and equipment on hand.</p>
+              </div>
+              <p class="sp-pnote">Jordan is a composite, not a real person. The details come from informal conversations with lifters, the survey responses behind the problem reframe, and a review of existing apps. It is a working model for design decisions, not validated research.</p>
+            </div>
+          </section>
+
           <section class="sp-sec sp-process" style="padding-bottom:42px">
-            <p class="sp-label">03 · PROCESS</p>
+            <p class="sp-label">04 · PROCESS</p>
             <div class="sp-inner">
               <div class="sp-head">
                 <h2 class="sp-h2 sp-display">From flow to wireframes</h2>
@@ -1331,7 +1380,7 @@
           </section>
 
           <section class="sp-sec sp-dark sp-loop" style="padding-bottom:129px">
-            <p class="sp-label">04 · THE CORE LOOP</p>
+            <p class="sp-label">05 · THE CORE LOOP</p>
             <div class="sp-inner">
               <div class="sp-head">
                 <h2 class="sp-h2 sp-display">One push day, start to finish</h2>
@@ -1351,7 +1400,7 @@
           </section>
 
           <section class="sp-sec sp-cream">
-            <p class="sp-label">05 · AROUND THE LOOP</p>
+            <p class="sp-label">06 · AROUND THE LOOP</p>
             <div class="sp-inner">
               <div class="sp-head sp-center">
                 <h2 class="sp-h2 sp-display">What feeds it</h2>
@@ -1366,7 +1415,7 @@
           </section>
 
           <section class="sp-sec">
-            <p class="sp-label">06 · ITERATION</p>
+            <p class="sp-label">07 · ITERATION</p>
             <div class="sp-inner">
               <div class="sp-head sp-right">
                 <h2 class="sp-h2 sp-display">What changed along the way</h2>
@@ -1397,7 +1446,7 @@
           </section>
 
           <section class="sp-sec sp-cream sp-ds" style="padding-bottom:140px">
-            <p class="sp-label">07 · DESIGN SYSTEM</p>
+            <p class="sp-label">08 · DESIGN SYSTEM</p>
             <div class="sp-inner">
               <div class="sp-head sp-center">
                 <h2 class="sp-h2 sp-display">Built from parts</h2>
@@ -1415,7 +1464,7 @@
           </section>
 
           <section class="sp-sec sp-reflect" style="padding-bottom:109px">
-            <p class="sp-label">08 · REFLECTION</p>
+            <p class="sp-label">09 · REFLECTION</p>
             <div class="sp-inner">
               <h2 class="sp-h2 sp-display">What I learned</h2>
               <div class="sp-cols">
