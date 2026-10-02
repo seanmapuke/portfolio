@@ -5,6 +5,6 @@
     { "source": "/Thesis.pdf", "destination": "/unt/thesis.pdf", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/work/:slug", "destination": "/work.html" }
+    { "source": "/work/:slug", "destination": "/work" }
   ]
 }
