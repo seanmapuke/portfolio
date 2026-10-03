@@ -67,7 +67,7 @@ a:hover { opacity: 0.75; }
 .ab-hero { position: relative; height: 636px; padding: 120px var(--side) 0; }
 .ab-text { max-width: min(600px, calc(100vw - 560px - 2 * var(--side))); }
 .ab-hero .pg-label { font-weight: 700; }
-.ab-hero .pg-title { font-size: clamp(44px, 4.6vw, 66px); }
+.ab-hero .pg-title { font-size: clamp(44px, 4.6vw, 66px); font-weight: 700; }
 .ab-lede { margin-top: 17px; font-size: clamp(18px, 1.53vw, 22px); }
 .ab-body { margin-top: 14px; font-size: 16px; }
 .ab-portrait { position: absolute; right: 0; top: 0; width: 560px; height: 636px; object-fit: cover; }

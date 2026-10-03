@@ -173,8 +173,7 @@ if (spClose) {
   spClose.addEventListener('click', () => {
     spotifyPanel.classList.remove('visible');
     spotifyOpen = false;
-    clearInterval(spotifyPollInterval);
-    spotifyPollInterval = null;
+    startPolling();
   });
 }
 
@@ -199,18 +198,34 @@ async function toggleSpotify() {
   if (spotifyOpen) {
     spotifyPanel.classList.remove('visible');
     spotifyOpen = false;
+    startPolling();
     return;
   }
   spotifyPanel.classList.add('visible');
   spotifyOpen = true;
+  startPolling();
 
-  // If the background prefetch already has data, the panel opens with
-  // content already sitting in the DOM — nothing to wait on.
-  if (!hasLoadedOnce) {
-    setSpContent(skeletonHTML());
-    await fetchNowPlaying(true);
-  }
+  // The background poll usually has data already; show the skeleton only if not.
+  if (!hasLoadedOnce) setSpContent(skeletonHTML());
+  await fetchNowPlaying(true);
 }
+
+// Fast while the panel is open, slow while closed (the token is shared by every visitor).
+const POLL_OPEN_MS   = 1500;
+const POLL_CLOSED_MS = 15000;
+let fetchInFlight = false;
+
+function startPolling() {
+  clearInterval(spotifyPollInterval);
+  if (document.hidden) { spotifyPollInterval = null; return; }
+  spotifyPollInterval = setInterval(() => fetchNowPlaying(true), spotifyOpen ? POLL_OPEN_MS : POLL_CLOSED_MS);
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { clearInterval(spotifyPollInterval); spotifyPollInterval = null; return; }
+  fetchNowPlaying(true);
+  startPolling();
+});
 
 async function getAccessToken() {
   const now = Date.now();
@@ -252,8 +267,12 @@ function skeletonHTML() {
 
 async function fetchNowPlaying(silent = false) {
   const content = document.getElementById('sp-content');
-  if (!content) return;
+  if (!content || fetchInFlight) return;
+  fetchInFlight = true;
+  try { await fetchNowPlayingInner(silent); } finally { fetchInFlight = false; }
+}
 
+async function fetchNowPlayingInner(silent) {
   if (DEMO_MODE) {
     if (!hasLoadedOnce) {
       hasLoadedOnce  = true;
@@ -270,19 +289,13 @@ async function fetchNowPlaying(silent = false) {
     });
     if (res.status === 204 || res.status === 404) {
       hasLoadedOnce = true;
-      if (currentTrackId !== null) {
-        currentTrackId = null;
-        setSpContent(`<div class="sp-idle">Nothing playing right now.</div>`);
-      }
+      showIdle();
       return;
     }
     const data = await res.json();
     if (!data?.item) {
       hasLoadedOnce = true;
-      if (currentTrackId !== null) {
-        currentTrackId = null;
-        setSpContent(`<div class="sp-idle">Nothing playing right now.</div>`);
-      }
+      showIdle();
       return;
     }
 
@@ -303,11 +316,81 @@ async function fetchNowPlaying(silent = false) {
   }
 }
 
-// Prefetch immediately on page load, then keep polling in the background
-// regardless of whether the panel is open — so by the time it's clicked,
-// the data (and album art) is already sitting in the DOM and warmed in cache.
+/* ── Idle: show the playlist when nothing is playing ── */
+const PLAYLIST_ID  = '39M6p4ekVA1uh1smT8lU7K';
+const PLAYLIST_URL = 'https://open.spotify.com/playlist/39M6p4ekVA1uh1smT8lU7K?si=86a6dcfe42bb42a7';
+const PLAYLIST_TTL_MS = 60000;
+let playlistCache = null;
+let playlistFetchedAt = 0;
+let lastIdleHTML = '';
+
+const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const fmtDuration = (ms) => { const s = Math.round(ms / 1000); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+
+async function getPlaylist() {
+  if (playlistCache && Date.now() - playlistFetchedAt < PLAYLIST_TTL_MS) return playlistCache;
+  const token  = await getAccessToken();
+  const fields = 'name,images,items.total,items.items(item(name,duration_ms,artists(name)))';
+  const res = await fetch(`https://api.spotify.com/v1/playlists/${PLAYLIST_ID}?fields=${encodeURIComponent(fields)}`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  if (!res.ok) throw new Error('playlist ' + res.status);
+  const d = await res.json();
+  playlistCache = {
+    name:   d.name,
+    cover:  d.images?.[1]?.url || d.images?.[0]?.url,
+    total:  d.items.total,
+    tracks: d.items.items.map(x => x.item).filter(Boolean).slice(0, 4).map(t => ({
+      name:   t.name,
+      artist: t.artists.map(a => a.name).join(', '),
+      dur:    fmtDuration(t.duration_ms)
+    }))
+  };
+  playlistFetchedAt = Date.now();
+  return playlistCache;
+}
+
+async function showIdle() {
+  const wasIdle = currentTrackId === 'idle';
+  if (wasIdle && Date.now() - playlistFetchedAt < PLAYLIST_TTL_MS) return;
+  currentTrackId = 'idle';
+  const label = `<div class="sp-pl-label">NOT PLAYING RIGHT NOW. HERE’S SOME SONGS I LIKE.</div>`;
+  const open  = `<a class="sp-pl-open" href="${PLAYLIST_URL}" target="_blank" rel="noopener">OPEN FULL PLAYLIST <svg class="sp-pl-arrow" viewBox="0 0 12 8" aria-hidden="true"><path d="M0 4h10.5M7.5 1l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1"/></svg></a>`;
+  let pl;
+  try { pl = await getPlaylist(); } catch {
+    if (!wasIdle) setSpContent(`<div class="sp-pl">${label}${open}</div>`);
+    return;
+  }
+  if (currentTrackId !== 'idle') return;
+  const tracks = pl.tracks.map((t, i) => `
+    <div class="sp-pl-track">
+      <span class="sp-pl-num">${String(i + 1).padStart(2, '0')}</span>
+      <div class="sp-pl-t"><span class="sp-pl-song">${esc(t.name)}</span><span class="sp-pl-artist">${esc(t.artist)}</span></div>
+      <span class="sp-pl-dur">${t.dur}</span>
+    </div>`).join('');
+  const html = `
+    <div class="sp-pl">
+      ${label}
+      <a class="sp-pl-head" href="${PLAYLIST_URL}" target="_blank" rel="noopener">
+        <div class="sp-pl-art">${pl.cover ? `<img src="${esc(pl.cover)}" alt="" onload="this.classList.add('loaded')">` : ''}</div>
+        <div class="sp-pl-info">
+          <span class="sp-pl-name">${esc(pl.name)}</span>
+          <span class="sp-pl-meta">${pl.total} tracks · updated weekly</span>
+        </div>
+      </a>
+      <div class="sp-pl-rule"></div>
+      <div class="sp-pl-tracks">${tracks}</div>
+      ${open}
+    </div>`;
+  // Re-render only when switching into idle or when the playlist itself changed
+  if (wasIdle && html === lastIdleHTML) return;
+  lastIdleHTML = html;
+  setSpContent(html);
+}
+
+// Prefetch on load so the panel opens with data already in place, then keep polling.
 fetchNowPlaying(true);
-spotifyPollInterval = setInterval(() => fetchNowPlaying(true), 4000);
+startPolling();
 
 /* Exact line data extracted from the Figma waveform SVG (8:112)
    Each entry: [x, y1, y2] — 42 lines, stroke-width 5, 10px spacing */
