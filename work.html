@@ -426,8 +426,33 @@
     .case-hero.ps-cover .case-title { font-family: 'Artific Trial', 'Archivo', sans-serif; font-weight: 700; }
     .case-stack .ps-hero { position: relative; z-index: 1; }
 
-    .ps-case-end { background: #fff; }
-    .ps-case-end button { font-family: 'Artific Trial', 'Archivo', sans-serif; font-weight: 700; }
+    .ps-end {
+      background: #302e2b;
+      min-height: 360px;
+      padding: 106px clamp(24px, 9vw, 140px) 105px;
+      display: flex; flex-direction: column; align-items: center; gap: 32px;
+      text-align: center;
+    }
+    .ps-end-h {
+      font-family: 'Case Display', 'Advercase Demo', serif;
+      font-weight: 700;
+      font-size: clamp(40px, 3.6vw, 52px);
+      line-height: normal;
+      letter-spacing: -0.02em;
+      color: #ff1575;
+    }
+    .ps-end-btn {
+      padding: 14px 26px;
+      border-radius: 999px;
+      background: #ff1575;
+      color: #fff;
+      font-family: 'Case Text', 'Artific Trial', 'Archivo', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: opacity 0.25s;
+    }
+    .ps-end-btn:hover { opacity: 0.85; }
 
     .ps-case { font-family: 'Artific Trial', 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif; color: #1a0510; }
 
@@ -1135,8 +1160,9 @@
             <div class="ps-section-media ps-art-600"><img src="pluralsight/team-sprint.svg" alt=""></div>
           </section>
         </div>
-        <section class="case-end ps-case-end">
-          <button onclick="closeCase()">← Back to Gallery</button>
+        <section class="ps-end">
+          <h2 class="ps-end-h">Thanks for reading</h2>
+          <button class="ps-end-btn" onclick="closeCase()">← Go back</button>
         </section>`;
     }
 
