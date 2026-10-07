@@ -252,7 +252,57 @@ function setSpContent(html) {
   // Wrap in a fade-in shell so every swap (skeleton → player, track → track)
   // eases in at a fixed height instead of popping/jumping.
   content.innerHTML = `<div class="sp-fade-in">${html}</div>`;
+  requestAnimationFrame(() => cycleTruncated(content));
 }
+
+// Song titles that don't fit scroll continuously, like a ticker: the text
+// is doubled with a gap so the loop is seamless. Titles that fit stay put.
+const MARQUEE_SEL = '.sp-song, .sp-pl-song';
+const MARQUEE_PX_PER_S = 28;
+const MARQUEE_GAP = 32;
+function cycleTruncated(root) {
+  root.querySelectorAll(MARQUEE_SEL).forEach(el => {
+    if (el.dataset.text === undefined) el.dataset.text = el.textContent;
+    const text = el.dataset.text;
+    el.classList.remove('sp-cycling');
+    el.textContent = text;
+    const pad = parseFloat(getComputedStyle(el).paddingRight) || 0;
+    if (el.scrollWidth - pad <= el.clientWidth - pad + 1) return;
+    el.innerHTML = '';
+    const track = document.createElement('span');
+    track.className = 'sp-mq';
+    for (let i = 0; i < 2; i++) {
+      const copy = document.createElement('span');
+      copy.textContent = text;
+      if (i) copy.setAttribute('aria-hidden', 'true');
+      track.appendChild(copy);
+    }
+    el.appendChild(track);
+    // The strip moves by exactly half its width (one copy + gap), so the
+    // seam is exact no matter how the text is measured or rounded.
+    const loop = track.getBoundingClientRect().width / 2;
+    el.style.setProperty('--sp-pad', `${pad}px`);
+    el.style.setProperty('--sp-gap', `${MARQUEE_GAP}px`);
+    el.style.setProperty('--sp-dur', `${(loop / MARQUEE_PX_PER_S).toFixed(2)}s`);
+    el.classList.add('sp-cycling');
+  });
+}
+// Re-measure once web fonts finish loading so the overflow check and speed
+// use the real font, not the fallback.
+if (document.fonts) {
+  document.fonts.ready.then(() => {
+    const content = document.getElementById('sp-content');
+    if (content) cycleTruncated(content);
+  });
+}
+let marqueeResize;
+window.addEventListener('resize', () => {
+  clearTimeout(marqueeResize);
+  marqueeResize = setTimeout(() => {
+    const content = document.getElementById('sp-content');
+    if (content) cycleTruncated(content);
+  }, 150);
+});
 
 function skeletonHTML() {
   return `
@@ -354,7 +404,7 @@ async function showIdle() {
   const wasIdle = currentTrackId === 'idle';
   if (wasIdle && Date.now() - playlistFetchedAt < PLAYLIST_TTL_MS) return;
   currentTrackId = 'idle';
-  const label = `<div class="sp-pl-label">NOT PLAYING RIGHT NOW. HERE’S SOME SONGS I LIKE.</div>`;
+  const label = `<div class="sp-pl-label">NOT PLAYING ANYTHING RIGHT NOW.</div>`;
   const open  = `<a class="sp-pl-open" href="${PLAYLIST_URL}" target="_blank" rel="noopener">OPEN FULL PLAYLIST <svg class="sp-pl-arrow" viewBox="0 0 12 8" aria-hidden="true"><path d="M0 4h10.5M7.5 1l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1"/></svg></a>`;
   let pl;
   try { pl = await getPlaylist(); } catch {

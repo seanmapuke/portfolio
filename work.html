@@ -807,23 +807,41 @@
     .ut-provided-label { color: #05280f; }
     .ut-provided-list { color: #fff; font-weight: 500; display: flex; flex-direction: column; row-gap: 1lh; }
 
-    .ut-fails { min-height: 957px; padding-top: 110px; padding-bottom: 110px; display: flex; align-items: center; }
-    .ut-fails .ut-inner { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 48px; }
+    .ut-fails { min-height: 762px; padding-top: 110px; padding-bottom: 107px; display: flex; align-items: center; }
+    .ut-fails .ut-inner { width: 100%; display: flex; align-items: flex-end; justify-content: space-between; gap: 48px; }
     .ut-col { display: flex; flex-direction: column; gap: 50px; max-width: 568px; }
-    .ut-fails .ut-body { max-width: 455px; min-height: 274px; }
+    .ut-fails .ut-body { max-width: 455px; }
     .ut-art { width: 480px; flex-shrink: 0; }
     .ut-art img { display: block; width: 100%; height: auto; }
 
-    .ut-strats { min-height: 695px; padding-top: 110px; padding-bottom: 110px; display: flex; align-items: center; }
-    .ut-strats .ut-inner { width: 100%; display: grid; grid-template-columns: 592px 1fr; align-items: center; }
+    .ut-numbers { padding-top: 90px; padding-bottom: 70px; }
+    .ut-numbers-h { font-size: 40px; }
+    .ut-stats { margin-top: 49px; display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 24px; row-gap: 32px; }
+    .ut-stat { display: flex; flex-direction: column; gap: 6px; }
+    .ut-stat-n { font-size: 40px; }
+    /* The Advercase trial has no % glyph; Georgia bold sits closest */
+    .ut-pct { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; font-size: 0.95em; margin-left: 0.02em; }
+    .ut-stat-b { font-size: 15px; color: #6b6b6b; }
+    .ut-quotes { margin-top: 64px; display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 24px; }
+    .ut-quote { display: flex; flex-direction: column; gap: 12px; }
+    .ut-quote-q { font-size: 20px; font-weight: 500; }
+    .ut-quote-who { font-size: 14px; color: #6b6b6b; }
 
-    .ut-method { min-height: 760px; padding-top: 90px; padding-bottom: 90px; display: flex; align-items: center; }
-    .ut-method .ut-inner { width: 100%; display: grid; grid-template-columns: 680px 480px; align-items: center; }
+    .ut-strats { padding-top: 117px; padding-bottom: 71px; }
+    .ut-strats-top { display: grid; grid-template-columns: 592px 1fr; align-items: center; }
+    .ut-strat-grid { margin-top: 92px; display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 16px; row-gap: 36px; }
+    .ut-strat-grid .ut-point { max-width: none; }
+    .ut-strat-grid .ut-point-t { font-weight: 600; white-space: normal; }
+
+    .ut-method { padding-top: 90px; padding-bottom: 30px; }
+    .ut-method .ut-inner { display: grid; grid-template-columns: 680px 480px; align-items: start; }
+    .ut-method .ut-art { margin-top: 124px; }
     .ut-method .ut-h2 { max-width: 568px; }
     .ut-method .ut-body { max-width: 480px; margin-top: 36px; }
-    .ut-list { margin-top: 22px; max-width: 560px; padding-left: 27px; font-size: 18px; font-weight: 500; line-height: 1.7; list-style: disc; }
+    .ut-list { margin-top: 19px; max-width: 560px; padding-left: 0; font-size: 18px; font-weight: 500; line-height: normal; list-style: none; }
+    .ut-list li + li { margin-top: 22px; }
 
-    .ut-synth { min-height: 640px; padding-top: 90px; padding-bottom: 90px; display: flex; align-items: center; }
+    .ut-synth { min-height: 654px; padding-top: 90px; padding-bottom: 90px; display: flex; align-items: center; }
     .ut-synth .ut-inner { width: 100%; display: grid; grid-template-columns: 592px 1fr; align-items: center; }
     .ut-synth .ut-col { gap: 21px; }
 
@@ -850,10 +868,14 @@
       .ut-provided { height: auto; width: auto; }
       .ut-fails { min-height: 0; }
       .ut-fails .ut-body { min-height: 0; }
-      .ut-strats, .ut-method, .ut-synth { min-height: 0; }
-      .ut-strats .ut-inner, .ut-method .ut-inner, .ut-synth .ut-inner, .ut-points { grid-template-columns: 1fr; }
-      .ut-strats .ut-col, .ut-synth .ut-col { order: -1; }
-      .ut-art { width: 100%; max-width: 480px; margin-top: 48px; }
+      .ut-synth { min-height: 0; }
+      .ut-strats { padding-top: 90px; }
+      .ut-strats-top, .ut-method .ut-inner, .ut-synth .ut-inner, .ut-points, .ut-strat-grid { grid-template-columns: 1fr; }
+      .ut-strats-top .ut-col, .ut-synth .ut-col { order: -1; }
+      .ut-art, .ut-method .ut-art { width: 100%; max-width: 480px; margin-top: 48px; }
+      .ut-strat-grid { margin-top: 64px; }
+      .ut-stats { grid-template-columns: repeat(2, 1fr); }
+      .ut-quotes { grid-template-columns: 1fr; row-gap: 32px; }
       .ut-points { row-gap: 48px; margin-top: 64px; }
       .ut-point-t { white-space: normal; }
     }
@@ -1479,6 +1501,16 @@
     }
 
     function untCaseHTML(p) {
+      const stat = (n, b) => `
+        <div class="ut-stat">
+          <p class="ut-stat-n ut-display">${n}</p>
+          <p class="ut-stat-b">${b}</p>
+        </div>`;
+      const quote = (q, who) => `
+        <div class="ut-quote">
+          <p class="ut-quote-q">${q}</p>
+          <p class="ut-quote-who">${who}</p>
+        </div>`;
       const point = (n, t, b) => `
         <div class="ut-point">
           <p class="ut-point-n ut-display">${n}</p>
@@ -1499,7 +1531,7 @@
             <div class="ut-inner">
               <div class="ut-intro-main">
                 <p class="ut-eyebrow">UNIVERSITY OF NORTH TEXAS</p>
-                <p class="ut-intro-lede">A mixed-methods UX study of how older adults use everyday technology. Ten structured usability sessions across web, mobile, and device settings turned recurring accessibility barriers into four concrete, buildable design strategies.</p>
+                <p class="ut-intro-lede">A mixed-methods UX study of how adults aged 60 and over use everyday technology. Ten participants aged 61 to 85 worked through six everyday tasks on their own devices, bracketed by pre- and post-task interviews. Their recurring barriers became seven design strategies for reducing cognitive load.</p>
               </div>
               <div class="ut-provided">
                 <p class="ut-provided-label">I provided</p>
@@ -1520,18 +1552,48 @@
             <div class="ut-inner">
               <div class="ut-col">
                 <h2 class="ut-h2 ut-display">Where everyday tech fails older adults</h2>
-                <p class="ut-body">Ten older adults ran structured usability sessions across websites, mobile apps, and device settings, with real tasks observed rather than self-reported. Three barriers surfaced again and again: touch targets too small to hit, cluttered layouts that hid the primary action, and unlabeled icons that didn’t read as controls.</p>
+                <p class="ut-body">Ten adults aged 61 to 85 worked through six everyday tasks on their own devices while I timed each one and logged every error. Every task was completed, but the cost shows in the spread. Three patterns ran underneath all of it: touch targets too small to hit reliably, cluttered layouts and pop-ups that buried the primary action, and ambiguous icons sitting behind deeply nested menus.</p>
               </div>
               <div class="ut-art ut-art-fails"><img src="unt/older-adult-at-home.svg" alt=""></div>
             </div>
           </section>
 
+          <section class="ut-sec ut-numbers">
+            <div class="ut-inner">
+              <h2 class="ut-numbers-h ut-display">What the sessions measured</h2>
+              <div class="ut-stats">
+                ${stat('146s', 'average to find a library’s opening hours, ranging from 45 to 360')}
+                ${stat('114s', 'average to send a message, with autocorrect and wrong-field errors')}
+                ${stat('35s', 'average to open the Calendar app, the fastest task of the six')}
+                ${stat('80<span class="ut-pct">%</span>', 'success rate on the recipe search, derailed by ads and auto-play video')}
+                ${stat('3 of 10', 'had ever used a built-in accessibility feature before the session')}
+                ${stat('60<span class="ut-pct">%</span>', 'attempted the optional accessibility task at all')}
+              </div>
+              <div class="ut-quotes">
+                ${quote('“ended up clicking the wrong thing because the buttons are tiny”', 'P01, 61')}
+                ${quote('“Why do they hide the simple stuff?”', 'P09, 81')}
+                ${quote('“I would have given up at home”', 'P03, 68')}
+              </div>
+            </div>
+          </section>
+
           <section class="ut-sec ut-strats">
             <div class="ut-inner">
-              <div class="ut-art"><img src="unt/designing-for-access.svg" alt=""></div>
-              <div class="ut-col">
-                <h2 class="ut-h2 ut-display">Four strategies teams can build on</h2>
-                <p class="ut-body">The findings translated into four prioritized, implementable recommendations: simplified navigation, larger UI elements, contextual guidance, and voice interaction. Each maps to a specific observed failure, giving product teams a concrete starting point for accessible design, not just a critique.</p>
+              <div class="ut-strats-top">
+                <div class="ut-art"><img src="unt/designing-for-access.svg" alt=""></div>
+                <div class="ut-col">
+                  <h2 class="ut-h2 ut-display">Seven strategies teams can build on</h2>
+                  <p class="ut-body">The findings translated into seven implementable strategies, each mapped to a specific observed failure. Together they give product teams a concrete starting point for accessible design, not just a critique.</p>
+                </div>
+              </div>
+              <div class="ut-strat-grid">
+                ${point('01', 'Prioritise clarity and simplicity', 'Minimise visual clutter, use high contrast, and rely on large, clearly labelled buttons. Progressive disclosure shows the essentials first.')}
+                ${point('02', 'Optimise navigation structures', 'Shallow hierarchies and consistent control placement help older users build reliable mental models. Critical functions never hide behind ambiguous icons.')}
+                ${point('03', 'Support multimodal input', 'Voice commands, search bars, and hardware shortcuts spread effort across modalities. They stay optional and arrive with brief guidance.')}
+                ${point('04', 'Enhance discoverability of accessibility features', 'Short prompts introduce magnifiers, high-contrast modes, and screen readers. One-step activation, plain-language descriptions, easy to switch off.')}
+                ${point('05', 'Reduce external distractions', 'Limit advertisements, avoid auto-play media, and keep pop-ups off core content. Ads that must appear sit somewhere that needs no precise tap.')}
+                ${point('06', 'Foster trust and safety', 'Signal secure connections, explain permission requests plainly, and teach users to spot scams. No dark patterns that echo a fraudster’s tactics.')}
+                ${point('07', 'Co-design with older adults', 'Workshops and iterative testing surface barriers that heuristic evaluation misses, and validate the solutions before they ship.')}
               </div>
             </div>
           </section>
@@ -1540,13 +1602,14 @@
             <div class="ut-inner">
               <div>
                 <h2 class="ut-h2 ut-display">How the study was run</h2>
-                <p class="ut-body">The study was built to watch real behavior, not collect opinions. Every session was planned and moderated end to end, from recruiting participants to synthesizing the results.</p>
+                <p class="ut-body">The study was built to watch real behavior, not collect opinions. Sessions ran 45 to 60 minutes, in participants’ homes, in community settings, or over Zoom, and each was planned and moderated end to end, from recruiting through synthesis.</p>
                 <ul class="ut-list">
-                  <li>10 older adults recruited from the target population</li>
-                  <li>Structured, task-based usability sessions</li>
-                  <li>Three real contexts: websites, mobile apps, device settings</li>
-                  <li>Task breakdowns logged, not just opinions</li>
-                  <li>Recurring friction clustered into themes, then prioritized</li>
+                  <li>10 adults aged 61 to 85, mean age 69, six women and four men, recruited across North Texas</li>
+                  <li>Informed consent before every session; video recorded only with the participant’s permission</li>
+                  <li>Six everyday tasks: find a library’s hours, adjust a device setting, send a message, open the Calendar app, search for a recipe, try an accessibility feature</li>
+                  <li>Their own devices wherever possible, with a simplified loaner on hand</li>
+                  <li>Completion status, time on task, and error type logged, not just opinions</li>
+                  <li>Pre- and post-task interviews coded with Braun and Clarke reflexive thematic analysis</li>
                 </ul>
               </div>
               <div class="ut-art"><img src="unt/moderated-session.svg" alt=""></div>
@@ -1558,7 +1621,7 @@
               <div class="ut-art"><img src="unt/moving-forward.svg" alt=""></div>
               <div class="ut-col">
                 <h2 class="ut-h2 ut-display">Turning observation into direction</h2>
-                <p class="ut-body">Raw session notes are not insight on their own. The friction was coded into recurring themes, weighted by how often and how severely each blocked a task, and mapped to a concrete design response. What came out is a short, defensible set of priorities a team can act on, not a list of complaints.</p>
+                <p class="ut-body">Raw session notes are not insight on their own. Task times, success rates, and error counts were summarized with descriptive statistics, then interview transcripts and field notes were coded and refined into six themes using Braun and Clarke’s reflexive thematic analysis, with representative quotations anchoring each one. What came out is a short, defensible set of priorities a team can act on, not a list of complaints.</p>
               </div>
             </div>
           </section>
@@ -1568,8 +1631,8 @@
               <h2 class="ut-h2 ut-display">What the work involved</h2>
               <div class="ut-points">
                 ${point('01', 'Real users, real tasks', 'Sessions were run with ten older adults on real tasks, not proxies or assumptions.')}
-                ${point('02', 'Designed for range', 'Motor, vision, and cognitive differences were treated as the default case, not an edge case.')}
-                ${point('03', 'Signal from noise', 'Recurring friction was weighted and prioritized into a short set of directions.')}
+                ${point('02', 'Designed for range', 'Participants ranged from daily online bankers to two who used basic flip phones, so the barriers span vision, dexterity, and working memory.')}
+                ${point('03', 'Signal from noise', 'Recurring friction was coded across ten sessions and refined into six themes, each tied to a design response.')}
                 ${point('04', 'Made to be used', 'Findings were handed over as recommendations a product team could build from.')}
               </div>
             </div>
@@ -1583,7 +1646,7 @@
                 <a class="ut-btn ut-btn-fill" href="${p.cta.href}" target="_blank" rel="noopener">Read the full thesis</a>
                 <a class="ut-btn ut-btn-line" href="${p.cta.href}" download>Download PDF</a>
               </div>
-              <p class="ut-sign">Sean Mapuke · Bridging the Digital Divide · 2025</p>
+              <p class="ut-sign">Sean Mapuke · Bridging the Digital Divide · December 2025</p>
             </div>
           </section>
         </div>`;

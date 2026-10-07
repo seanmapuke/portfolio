@@ -338,14 +338,14 @@ body.day-mode .dot-label::after {
 }
 .sp-song {
   font-family: 'Inter', sans-serif;
-  font-size: 0.82rem; font-weight: 600;
+  font-size: 13px; font-weight: 700;
   color: #ffffff; line-height: 1.25;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   padding-right: 20px;
 }
 .sp-artist {
   font-family: 'Inter', sans-serif;
-  font-size: 0.7rem; font-weight: 400;
+  font-size: 11px; font-weight: 400;
   color: rgba(255,255,255,0.55);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   margin-top: 1px;
@@ -380,7 +380,7 @@ body.day-mode .dot-label::after {
 /* Idle: nothing playing, so show the playlist instead */
 .sp-pl { display: flex; flex-direction: column; gap: 8px; width: 100%; }
 .sp-pl-label {
-  font-family: 'DM Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 7.5px; line-height: 1.6; letter-spacing: 0.06em;
   color: rgba(255,255,255,0.45);
   padding-right: 20px;
@@ -398,11 +398,11 @@ body.day-mode .dot-label::after {
 .sp-pl-track { display: flex; align-items: center; gap: 8px; padding: 4px; border-radius: 5px; }
 .sp-pl-num, .sp-pl-dur { font-family: 'DM Mono', monospace; font-size: 9px; line-height: 1.4; color: rgba(255,255,255,0.3); flex-shrink: 0; }
 .sp-pl-t { flex: 1; min-width: 0; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; font-weight: 400; line-height: 1.3; }
-.sp-pl-t span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-pl-t > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sp-pl-song { font-size: 11px; color: rgba(255,255,255,0.88); }
 .sp-pl-artist { font-size: 9.5px; color: rgba(255,255,255,0.45); }
 .sp-pl-open {
-  font-family: 'DM Mono', monospace;
+  font-family: 'Inter', sans-serif;
   font-size: 9px; line-height: 1.6; letter-spacing: 0.06em;
   color: rgba(255,255,255,0.45);
   text-decoration: none;
@@ -410,6 +410,29 @@ body.day-mode .dot-label::after {
 }
 .sp-pl-open:hover { color: rgba(255,255,255,0.85); opacity: 1; }
 .sp-pl-arrow { width: 1.3em; height: 0.85em; vertical-align: -0.02em; margin-left: 2px; }
+
+/* Truncated song titles scroll continuously (see cycleTruncated) */
+.sp-mq { display: inline-flex; }
+.sp-mq > span { flex-shrink: 0; padding-right: var(--sp-gap, 32px); }
+.sp-cycling {
+  text-overflow: clip !important;
+  /* Soft fade on both edges; the right one stops at the padding edge
+     to keep clear of the × button */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - var(--sp-pad, 0px) - 14px), transparent calc(100% - var(--sp-pad, 0px)));
+          mask-image: linear-gradient(to right, transparent 0, #000 12px, #000 calc(100% - var(--sp-pad, 0px) - 14px), transparent calc(100% - var(--sp-pad, 0px)));
+}
+.sp-cycling > .sp-mq {
+  will-change: transform;
+  animation: spMarquee var(--sp-dur, 8s) linear infinite;
+}
+@keyframes spMarquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sp-cycling { -webkit-mask-image: none; mask-image: none; }
+  .sp-cycling > .sp-mq { animation: none; }
+}
 
 /* Skeleton shown only if the panel is opened before the background
    prefetch has resolved even once */
