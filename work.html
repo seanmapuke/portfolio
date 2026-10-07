@@ -497,19 +497,21 @@
 
     .ps-collab { align-items: flex-start; }
     .ps-collab-media {
-      max-width: 449px;
-      margin-top: clamp(24px, 20vw, 361px);
+      max-width: 520px;
+      margin-top: clamp(24px, 17.7vw, 255px);
     }
     @media (max-width: 900px) {
       .ps-collab-media { margin-top: 0; }
     }
 
-    .ps-grid12 { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; width: 100%; }
-    .ps-col-mid8 { grid-column: 3 / span 8; display: flex; flex-direction: column; gap: clamp(24px, 4vh, 50px); text-align: left; }
-    .ps-col-mid8 .ps-body, .ps-col-mid8 .ps-heading { max-width: none; }
-    @media (max-width: 900px) {
-      .ps-col-mid8 { grid-column: 1 / -1; }
-    }
+    .ps-art-520 { max-width: 520px; }
+    .ps-art-560 { max-width: 560px; }
+    .ps-art-600 { max-width: 600px; }
+    .ps-section-center .ps-art-600 { margin-top: clamp(24px, 4vh, 50px); }
+    .ps-narrow .ps-section-text { max-width: 728px; }
+    .ps-narrow .ps-heading { white-space: normal; }
+    .ps-bugs .ps-section-text { max-width: 612px; }
+    .ps-bugs .ps-body { max-width: none; }
 
     /* ════════════════════════════════════
        SPOTTR CASE STUDY
@@ -784,27 +786,20 @@
     .ut-fails .ut-inner { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 48px; }
     .ut-col { display: flex; flex-direction: column; gap: 50px; max-width: 568px; }
     .ut-fails .ut-body { max-width: 455px; min-height: 274px; }
-    .ut-art-fails { width: 440px; flex-shrink: 0; }
-    .ut-art-fails img, .ut-art-method img, .ut-art-synth img { width: 100%; height: auto; }
+    .ut-art { width: 480px; flex-shrink: 0; }
+    .ut-art img { display: block; width: 100%; height: auto; }
 
-    .ut-strats { padding-bottom: 105px; }
-    .ut-strats .ut-inner { display: grid; grid-template-columns: 592px 1fr; align-items: start; }
-    .ut-strat-art { position: relative; width: 440px; height: 440px; margin: 150px 0 0 10px; }
-    .ut-strat-art > div { position: absolute; width: 45.45%; height: 45.45%; }
-    .ut-strat-art img { position: absolute; inset: -0.75%; width: 101.5%; height: 101.5%; }
-    .ut-strats .ut-col { margin-top: 117px; }
-    .ut-strats .ut-body { min-height: 199px; }
+    .ut-strats { min-height: 695px; padding-top: 110px; padding-bottom: 110px; display: flex; align-items: center; }
+    .ut-strats .ut-inner { width: 100%; display: grid; grid-template-columns: 592px 1fr; align-items: center; }
 
-    .ut-method { padding-top: 90px; padding-bottom: 150px; }
-    .ut-method .ut-inner { display: grid; grid-template-columns: 700px 480px; align-items: start; }
+    .ut-method { min-height: 760px; padding-top: 90px; padding-bottom: 90px; display: flex; align-items: center; }
+    .ut-method .ut-inner { width: 100%; display: grid; grid-template-columns: 680px 480px; align-items: center; }
     .ut-method .ut-h2 { max-width: 568px; }
     .ut-method .ut-body { max-width: 480px; margin-top: 36px; }
     .ut-list { margin-top: 22px; max-width: 560px; padding-left: 27px; font-size: 18px; font-weight: 500; line-height: 1.7; list-style: disc; }
-    .ut-art-method { width: 480px; margin-top: 100px; }
 
-    .ut-synth { padding-top: 90px; padding-bottom: 133px; }
-    .ut-synth .ut-inner { display: grid; grid-template-columns: 592px 1fr; align-items: start; }
-    .ut-art-synth { width: 470px; margin: 60px 0 0 10px; }
+    .ut-synth { min-height: 640px; padding-top: 90px; padding-bottom: 90px; display: flex; align-items: center; }
+    .ut-synth .ut-inner { width: 100%; display: grid; grid-template-columns: 592px 1fr; align-items: center; }
     .ut-synth .ut-col { gap: 21px; }
 
     .ut-work { padding-top: 90px; padding-bottom: 108px; }
@@ -829,14 +824,11 @@
       .ut-intro .ut-inner, .ut-fails .ut-inner { flex-direction: column; align-items: flex-start; }
       .ut-provided { height: auto; width: auto; }
       .ut-fails { min-height: 0; }
-      .ut-fails .ut-body, .ut-strats .ut-body { min-height: 0; }
+      .ut-fails .ut-body { min-height: 0; }
+      .ut-strats, .ut-method, .ut-synth { min-height: 0; }
       .ut-strats .ut-inner, .ut-method .ut-inner, .ut-synth .ut-inner, .ut-points { grid-template-columns: 1fr; }
-      .ut-strats .ut-col, .ut-synth .ut-col { order: -1; margin-top: 0; }
-      .ut-strats { padding-top: 90px; }
-      .ut-strat-art, .ut-art-synth { margin: 48px 0 0; }
-      .ut-art-method { margin-top: 48px; }
-      .ut-art-fails, .ut-strat-art, .ut-art-method, .ut-art-synth { width: 100%; max-width: 440px; }
-      .ut-strat-art { height: auto; aspect-ratio: 1; }
+      .ut-strats .ut-col, .ut-synth .ut-col { order: -1; }
+      .ut-art { width: 100%; max-width: 480px; margin-top: 48px; }
       .ut-points { row-gap: 48px; margin-top: 64px; }
       .ut-point-t { white-space: normal; }
     }
@@ -1097,38 +1089,7 @@
               <h2 class="ps-heading">Making sense of a fragmented ecosystem</h2>
               <p class="ps-body">The authoring suite consisted of four distinct tools, with a fifth still in beta, all built by a small, tight-knit team of creative technologists. Because the team was developing different tools in parallel, the suite had become visually and functionally inconsistent. On top of that, these tools marked the company's first in-house introduction of AI features, so there were no existing UI patterns or design system standards to govern these new interfaces. The challenge was to bring cohesion to the ecosystem without stifling the team's ongoing development.</p>
             </div>
-            <div class="ps-section-media"><svg viewBox="0 0 566 453" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="">
-              <rect x="44" y="58" width="375" height="315" fill="#1a0510"/>
-              <circle cx="63" cy="77" r="4" fill="#ff1575"/>
-              <circle cx="76" cy="77" r="4" fill="#726069"/>
-              <circle cx="89" cy="77" r="4" fill="#726069"/>
-              <g fill="#ffffff">
-                <rect x="59" y="95" width="8" height="3" rx="1.5" fill="#01853e"/>
-                <rect x="75" y="95" width="161" height="3" rx="1.5" opacity="0.5"/>
-                <rect x="75" y="108" width="192" height="3" rx="1.5" opacity="0.3"/>
-                <rect x="75" y="121" width="110" height="3" rx="1.5" opacity="0.3"/>
-                <rect x="59" y="134" width="8" height="3" rx="1.5" fill="#01853e"/>
-                <rect x="75" y="134" width="100" height="3" rx="1.5" opacity="0.5"/>
-                <rect x="75" y="147" width="173" height="3" rx="1.5" fill="#ff1575" opacity="1"/>
-                <rect x="75" y="160" width="76" height="3" rx="1.5" opacity="0.4"/>
-                <rect x="59" y="177" width="8" height="3" rx="1.5" fill="#01853e"/>
-                <rect x="75" y="173" width="9" height="10" rx="1.5" opacity="0.5"/>
-              </g>
-              <rect x="256" y="206" width="114" height="9" rx="3" fill="#1a0510"/>
-              <rect x="256" y="221" width="148" height="2" fill="#dcd9db"/>
-              <rect x="469" y="206" width="32" height="32" rx="7" fill="none" stroke="#ff8ab4" stroke-width="2"/>
-              <rect x="480" y="217" width="11" height="11" rx="2" fill="#ff1575"/>
-              <rect x="256" y="252" width="245" height="86" fill="none" stroke="#e2e0e1" stroke-width="1.5"/>
-              <line x1="374" y1="253" x2="374" y2="337" stroke="#e2e0e1" stroke-width="1.5"/>
-              <rect x="385" y="252" width="116" height="86" fill="#f5e9ec"/>
-              <rect x="266" y="321" width="98" height="2" fill="#cbc7c9"/>
-              <rect x="266" y="327" width="70" height="2" fill="#cbc7c9"/>
-              <rect x="393" y="306" width="10" height="23" fill="#1a0510"/>
-              <rect x="406" y="290" width="10" height="39" fill="#1a0510"/>
-              <rect x="419" y="275" width="10" height="54" fill="#ff1575"/>
-              <rect x="256" y="352" width="165" height="23" rx="3" fill="#1a0510"/>
-              <rect x="429" y="352" width="73" height="25" rx="3" fill="none" stroke="#1a0510" stroke-width="1.5"/>
-            </svg></div>
+            <div class="ps-section-media ps-art-560"><img src="pluralsight/fragmented-ecosystem.svg" alt=""></div>
           </section>
 
           <section class="ps-section bg-pink reverse">
@@ -1136,24 +1097,7 @@
               <h2 class="ps-heading">Establishing a single source of truth</h2>
               <p class="ps-body">As the sole driver of this audit, I needed to establish a rigorous, objective baseline before evaluating. I developed a User Journey Framework detailing requirements for AI UX best practices, design system adherence, and ecosystem cohesion. I presented this to the team, and leadership formally adopted it as our operating standard. From there, I created a 22-criterion weighted audit scorecard, heavily prioritizing AI autonomy and cross-tool consistency to enable precise, side-by-side comparisons of the entire suite. To keep findings actionable, I organized them into a six-category taxonomy with a four-level priority system, so engineering and design could triage by impact instead of sorting through a flat list.</p>
             </div>
-            <div class="ps-section-media"><svg viewBox="0 0 474 379" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="">
-              <g fill="none" stroke="#908086" stroke-width="1.4">
-                <line x1="0" y1="189" x2="474" y2="189"/>
-                <rect x="59.5" y="162" width="53" height="54"/>
-                <rect x="127" y="162" width="53" height="54"/>
-                <rect x="294" y="162" width="53" height="54"/>
-                <rect x="361" y="162" width="53" height="53.5"/>
-                <line x1="86.5" y1="216" x2="86.5" y2="242"/>
-                <line x1="153.5" y1="216" x2="153.5" y2="242"/>
-                <line x1="320.5" y1="216" x2="320.5" y2="242"/>
-                <line x1="387.5" y1="216" x2="387.5" y2="242"/>
-              </g>
-              <rect x="210.5" y="162" width="53" height="54" fill="#ff1575"/>
-              <g stroke="#ff1575" stroke-width="2">
-                <line x1="237" y1="109" x2="237" y2="136"/>
-                <line x1="237" y1="243" x2="237" y2="269"/>
-              </g>
-            </svg></div>
+            <div class="ps-section-media ps-art-520"><img src="pluralsight/single-source-of-truth.svg" alt=""></div>
           </section>
 
           <section class="ps-section ps-collab">
@@ -1164,23 +1108,22 @@
             <div class="ps-section-media ps-collab-media"><img src="pluralsight/collaboration.jpg" alt=""></div>
           </section>
 
-          <section class="ps-section">
-            <div class="ps-grid12">
-              <div class="ps-col-mid8">
+          <section class="ps-section bg-pink ps-section-center ps-narrow">
+            <div class="ps-section-text">
                 <h2 class="ps-heading">Designing for reality, not just aesthetics</h2>
                 <p class="ps-body">Good UX has to actually be buildable. Working alongside a small team of creative technologists, I realized my job wasn't just to point out interface flaws, but to help connect the dots between their parallel projects. I took a solution-first approach by taking the time to learn the underlying technical architecture. For example, I set up the full-stack local environment for a new beta tool myself so I could run a hands-on QA audit. Because I understood how the tools were built under the hood, I could ensure every UX recommendation and AI pattern I proposed was actually feasible for the engineering team to execute.</p>
-              </div>
             </div>
           </section>
 
-          <section class="ps-section ps-section-center">
+          <section class="ps-section reverse ps-bugs">
             <div class="ps-section-text">
               <h2 class="ps-heading">Looking past the bugs</h2>
               <p class="ps-body">Not every finding was a bug. While testing one tool’s AI-generated summaries, I noticed that AI-written content wasn’t held to the same editorial standards as the hand-written interface copy around it. I confirmed the gap existed in no current guideline or research doc and flagged it as a policy issue rather than a QA ticket. The audit also exposed a process problem: content reviews were scattered across chat threads and spreadsheets. I pitched a unified production tracker that would follow each piece of content through the pipeline by reference number and notify the right person when action was needed. The concept gained enough traction that a designer picked it up and carried it forward.</p>
             </div>
+            <div class="ps-section-media ps-art-560"><img src="pluralsight/looking-past-the-bugs.svg" alt=""></div>
           </section>
 
-          <section class="ps-section ps-section-center">
+          <section class="ps-section bg-pink ps-section-center">
             <div class="ps-section-text">
               <h2 class="ps-heading">Turning findings into a lasting framework</h2>
               <div class="ps-body ps-body-long">
@@ -1189,6 +1132,7 @@
                 <p>Looking back, the most rewarding part of this project was its permanence. My strategic roadmap did not just sit in a folder when my internship ended. It became the operational foundation for the team, directly resulting in the launch of a recurring bi-weekly UX sprint to tackle the issues I identified. The experience taught me that successful design is not just about delivering a polished artifact. It is about equipping a team with the clarity and direction they need to keep building long after you step away.</p>
               </div>
             </div>
+            <div class="ps-section-media ps-art-600"><img src="pluralsight/team-sprint.svg" alt=""></div>
           </section>
         </div>
         <section class="case-end ps-case-end">
@@ -1509,8 +1453,6 @@
     }
 
     function untCaseHTML(p) {
-      const strat = (n, left, top) =>
-        `<div style="left:${left};top:${top}"><img src="unt/strategy-${n}.svg" alt=""></div>`;
       const point = (n, t, b) => `
         <div class="ut-point">
           <p class="ut-point-n ut-display">${n}</p>
@@ -1554,18 +1496,13 @@
                 <h2 class="ut-h2 ut-display">Where everyday tech fails older adults</h2>
                 <p class="ut-body">Ten older adults ran structured usability sessions across websites, mobile apps, and device settings, with real tasks observed rather than self-reported. Three barriers surfaced again and again: touch targets too small to hit, cluttered layouts that hid the primary action, and unlabeled icons that didn’t read as controls.</p>
               </div>
-              <div class="ut-art-fails"><img src="unt/where-it-fails.svg" alt=""></div>
+              <div class="ut-art ut-art-fails"><img src="unt/older-adult-at-home.svg" alt=""></div>
             </div>
           </section>
 
           <section class="ut-sec ut-strats">
             <div class="ut-inner">
-              <div class="ut-strat-art">
-                ${strat(1, '0.91%', '0.91%')}
-                ${strat(2, '53.64%', '0.91%')}
-                ${strat(3, '0.91%', '53.64%')}
-                ${strat(4, '53.64%', '53.64%')}
-              </div>
+              <div class="ut-art"><img src="unt/designing-for-access.svg" alt=""></div>
               <div class="ut-col">
                 <h2 class="ut-h2 ut-display">Four strategies teams can build on</h2>
                 <p class="ut-body">The findings translated into four prioritized, implementable recommendations: simplified navigation, larger UI elements, contextual guidance, and voice interaction. Each maps to a specific observed failure, giving product teams a concrete starting point for accessible design, not just a critique.</p>
@@ -1586,13 +1523,13 @@
                   <li>Recurring friction clustered into themes, then prioritized</li>
                 </ul>
               </div>
-              <div class="ut-art-method"><img src="unt/method.svg" alt=""></div>
+              <div class="ut-art"><img src="unt/moderated-session.svg" alt=""></div>
             </div>
           </section>
 
           <section class="ut-sec ut-synth">
             <div class="ut-inner">
-              <div class="ut-art-synth"><img src="unt/synthesis.svg" alt=""></div>
+              <div class="ut-art"><img src="unt/moving-forward.svg" alt=""></div>
               <div class="ut-col">
                 <h2 class="ut-h2 ut-display">Turning observation into direction</h2>
                 <p class="ut-body">Raw session notes are not insight on their own. The friction was coded into recurring themes, weighted by how often and how severely each blocked a task, and mapped to a concrete design response. What came out is a short, defensible set of priorities a team can act on, not a list of complaints.</p>
