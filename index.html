@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-nav="solid">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,10 +12,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Bebas+Neue&family=IBM+Plex+Sans:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/nav.css">
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
+  <script src="/nav.js"></script>
 
   <div id="cursor"></div>
 
@@ -23,24 +25,10 @@
     <div id="loader-name">Sean Mapuke</div>
   </div>
 
-  <nav class="nav-home">
-  <div class="nav-links">
-    <a href="about.html">About</a>
-    <a href="/work">Work</a>
-    <a href="contact.html">Contact</a>
-  </div>
-</nav>
 
   <section class="s-room">
     <div class="room-img-wrap">
       <img id="room-img" src="room/nighttime.webp" alt="Sean's Room" />
-
-      <!-- Corner tag: location / date / time -->
-      <div class="corner-tag" id="corner-tag">
-        <div class="corner-tag-line" id="ct-location">Location: My Actual Room</div>
-        <div class="corner-tag-line" id="ct-date"></div>
-        <div class="corner-tag-line" id="ct-time-live"></div>
-      </div>
 
       <div class="room-vignette"></div>
 
@@ -83,26 +71,5 @@
   </div>
 
   <script src="main.js" defer></script>
-  <script>
-    // Corner tag — live date & time
-    function updateCornerTag() {
-      const now = new Date();
-      const dateEl = document.getElementById('ct-date');
-      const timeEl = document.getElementById('ct-time-live');
-      if (dateEl) {
-        const d = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-        dateEl.textContent = 'Date: ' + d;
-      }
-      if (timeEl) {
-        const t = now.toLocaleTimeString('en-US', {
-          timeZone: 'America/Chicago',
-          hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-        });
-        timeEl.textContent = 'Time: ' + t;
-      }
-    }
-    updateCornerTag();
-    setInterval(updateCornerTag, 1000);
-  </script>
 </body>
 </html>

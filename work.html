@@ -66,35 +66,6 @@
     .muted { color: color-mix(in srgb, var(--color-text) 50%, transparent); }
 
     /* ════════════════════════════════════
-       HEADER
-    ════════════════════════════════════ */
-    .header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: var(--header-h);
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      padding: 0 clamp(18px, 3vw, 40px);
-      background: var(--color-bg);
-      z-index: 30;
-    }
-    .header-title {
-      font-weight: 800;
-      font-size: 18px;
-      letter-spacing: -0.01em;
-      color: inherit;
-      text-decoration: none;
-    }
-    .header-nav {
-      margin-left: auto;
-      display: flex;
-      gap: 24px;
-      align-items: center;
-    }
-    .header-nav .is-current { text-decoration: underline; text-underline-offset: 5px; }
-
-    /* ════════════════════════════════════
        RAIL
     ════════════════════════════════════ */
     .rail {
@@ -224,7 +195,6 @@
       .pj-slab h2 { font-size: 32px !important; max-width: none !important; }
       .pj-slab p { font-size: 14px !important; max-width: none !important; }
       .pj-meta { grid-template-columns: 1fr 1fr !important; }
-      .header-nav { display: none !important; }
     }
 
     /* ════════════════════════════════════
@@ -253,21 +223,20 @@
     .case-scroll::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--color-text) 55%, transparent); border-radius: 5px; }
     .case-scroll::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--color-text) 75%, transparent); }
 
-    .case-close {
-      position: fixed;
-      top: 22px; right: 22px;
-      width: 42px; height: 42px;
-      border-radius: 50%;
-      background: var(--color-surface);
-      color: var(--color-text);
-      font-size: 15px;
-      z-index: 5100;
-      display: flex; align-items: center; justify-content: center;
-      transition: transform 0.25s, background 0.25s;
-    }
-    .case-close:hover { transform: rotate(90deg); background: color-mix(in srgb, var(--color-text) 12%, var(--color-surface)); }
 
     .case-stack { position: relative; }
+
+    /* Small "Back to gallery" link at the end of each case study */
+    .case-back {
+      margin-top: 6px;
+      background: none; border: 0; padding: 4px 0;
+      font: inherit; font-size: 13px;
+      color: #efede3; opacity: 0.6;
+      cursor: pointer;
+      text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(239,237,227,0.35);
+      transition: opacity 0.2s;
+    }
+    .case-back:hover { opacity: 1; }
     .case-hero {
       position: sticky;
       top: 0;
@@ -880,19 +849,13 @@
       .ut-point-t { white-space: normal; }
     }
   </style>
+  <link rel="stylesheet" href="/nav.css">
   <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
   <script defer src="/_vercel/insights/script.js"></script>
 </head>
 <body>
+  <script src="/nav.js"></script>
 
-  <div class="header">
-    <a class="header-title" href="index.html">Sean Mapuke</a>
-    <div class="header-nav">
-      <a class="mono is-current" href="/work">Work</a>
-      <a class="mono" href="about.html">About</a>
-      <a class="mono" href="contact.html">Contact</a>
-    </div>
-  </div>
 
   <div class="rail" id="rail">
     <div class="rail-track" id="rail-track"></div>
@@ -901,7 +864,6 @@
   <div class="sc" id="sc"></div>
 
   <div class="case" id="case">
-    <button class="case-close" id="case-close" aria-label="Close project">✕</button>
     <div class="case-scroll" id="case-scroll">
       <div id="case-content"></div>
     </div>
@@ -1497,6 +1459,7 @@
                 <a class="sp-btn sp-btn-fill" href="https://www.figma.com/proto/xUGLEw2MhSzThMS4PTJ9rx/spottr?node-id=596-2769&p=f&viewport=143%2C218%2C0.11&t=m5D7EdH0Tkol1dGL-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=596%3A2769&page-id=55%3A83" target="_blank" rel="noopener">Try the prototype</a>
               </div>
               <p class="sp-sign">Sean Mapuke · Spottr · 2026</p>
+              <button class="case-back" type="button" onclick="closeCase()">← Back to gallery</button>
             </div>
           </section>
         </div>`;
@@ -1649,6 +1612,7 @@
                 <a class="ut-btn ut-btn-line" href="${p.cta.href}" download>Download PDF</a>
               </div>
               <p class="ut-sign">Sean Mapuke · Bridging the Digital Divide · December 2025</p>
+              <button class="case-back" type="button" onclick="closeCase()">← Back to gallery</button>
             </div>
           </section>
         </div>`;
@@ -1682,6 +1646,8 @@
         pushedCase = true;
       }
       document.title = p.title;
+      window.siteNavSetScrolled?.(false);
+      queueNavTone();
     }
 
     function closeCase(viaHistory = false) {
@@ -1696,9 +1662,32 @@
         else history.replaceState(null, '', '/work');
       }
       pushedCase = false;
+      window.siteNavSetScrolled?.(document.getElementById('sc').scrollTop > 40);
+      queueNavTone();
     }
 
-    document.getElementById('case-close').addEventListener('click', () => closeCase());
+
+    // Nav bar goes plain white while a cover photo sits behind it (the blend turns muddy over photos)
+    let navToneRaf = 0;
+    function updateNavTone() {
+      navToneRaf = 0;
+      // Skip the nav's own layers (the menu backdrop may still be fading out)
+      const under = caseOpen ? document.elementsFromPoint(window.innerWidth / 2, 36).find(el => !el.closest('.sn-bar, .sn-scrim, .sn-drawer')) : null;
+      if (under && under.closest('.case-hero.has-cover')) document.documentElement.dataset.nav = 'solid';
+      else delete document.documentElement.dataset.nav;
+    }
+    const queueNavTone = () => { if (!navToneRaf) navToneRaf = requestAnimationFrame(updateNavTone); };
+    caseScroll.addEventListener('scroll', queueNavTone, { passive: true });
+    caseEl.addEventListener('transitionend', queueNavTone);
+
+    // Lets the site menu (nav.js) open a case study without reloading the page
+    window.siteNavOpenCase = (id) => {
+      const i = projects.findIndex(p => p.id === id && p.hasCase);
+      if (i < 0) return false;
+      if (caseOpen) stopLenis();
+      openCase(i);
+      return true;
+    };
     document.addEventListener('keydown', e => { if (caseOpen && e.key === 'Escape') closeCase(); });
 
     function caseIdFromUrl() {
