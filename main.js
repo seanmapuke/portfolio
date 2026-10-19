@@ -380,19 +380,31 @@ const fmtDuration = (ms) => { const s = Math.round(ms / 1000); return `${Math.fl
 async function getPlaylist() {
   if (playlistCache && Date.now() - playlistFetchedAt < PLAYLIST_TTL_MS) return playlistCache;
   const token  = await getAccessToken();
-  const fields = 'name,images,items.total,items.items(item(name,duration_ms,artists(name)))';
-  const res = await fetch(`https://api.spotify.com/v1/playlists/${PLAYLIST_ID}?fields=${encodeURIComponent(fields)}`, {
-    headers: { 'Authorization': `Bearer ${token}` }
-  });
+  const auth   = { headers: { 'Authorization': `Bearer ${token}` } };
+  const fields = 'name,images,items.total,items.next,items.items(item(name,duration_ms,artists(name),album(images)))';
+  const res = await fetch(`https://api.spotify.com/v1/playlists/${PLAYLIST_ID}?fields=${encodeURIComponent(fields)}`, auth);
   if (!res.ok) throw new Error('playlist ' + res.status);
   const d = await res.json();
+  // Spotify returns 100 tracks per page; follow the next links for the rest
+  const items = [...d.items.items];
+  let next = d.items.next;
+  while (next) {
+    try {
+      const r = await fetch(next, auth);
+      if (!r.ok) break;
+      const page = await r.json();
+      items.push(...(page.items || []));
+      next = page.next;
+    } catch { break; }   // keep what we have rather than failing the whole panel
+  }
   playlistCache = {
     name:   d.name,
     cover:  d.images?.[1]?.url || d.images?.[0]?.url,
     total:  d.items.total,
-    tracks: d.items.items.map(x => x.item).filter(Boolean).slice(0, 4).map(t => ({
+    tracks: items.map(x => x.item).filter(Boolean).map(t => ({
       name:   t.name,
       artist: t.artists.map(a => a.name).join(', '),
+      art:    t.album?.images?.at(-1)?.url,   // smallest size Spotify offers (64px)
       dur:    fmtDuration(t.duration_ms)
     }))
   };
@@ -415,6 +427,7 @@ async function showIdle() {
   const tracks = pl.tracks.map((t, i) => `
     <div class="sp-pl-track">
       <span class="sp-pl-num">${String(i + 1).padStart(2, '0')}</span>
+      <span class="sp-pl-thumb">${t.art ? `<img src="${esc(t.art)}" alt="" loading="lazy" onload="this.classList.add('loaded')">` : ''}</span>
       <div class="sp-pl-t"><span class="sp-pl-song">${esc(t.name)}</span><span class="sp-pl-artist">${esc(t.artist)}</span></div>
       <span class="sp-pl-dur">${t.dur}</span>
     </div>`).join('');

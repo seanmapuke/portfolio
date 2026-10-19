@@ -61,9 +61,12 @@
   // Capture phase catches inner scrollers too (Work gallery, case studies).
   const SCROLL_HIDE_PX = 40;
   const setScrolled = on => root.classList.toggle('sn-scrolled', !!on);
+  // Only page-sized scrollers count, so small lists (e.g. the Spotify playlist) don't hide it.
   document.addEventListener('scroll', e => {
     const el = e.target === document ? document.scrollingElement : e.target;
-    if (el && !el.closest?.('.sn-drawer')) setScrolled(el.scrollTop > SCROLL_HIDE_PX);
+    if (!el || el.closest?.('.sn-drawer')) return;
+    const pageSized = el === document.scrollingElement || el.clientHeight >= window.innerHeight * 0.6;
+    if (pageSized) setScrolled(el.scrollTop > SCROLL_HIDE_PX);
   }, { capture: true, passive: true });
   window.siteNavSetScrolled = setScrolled;   // for pages that swap scrollers (Work's case overlay)
 
